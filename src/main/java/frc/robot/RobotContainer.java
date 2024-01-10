@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,6 +75,7 @@ public class RobotContainer {
                                 m_robotDrive::getRobotRelativeSpeeds,
                                 m_robotDrive::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
+                                () -> DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red)),
                                 m_robotDrive
                 );
 
