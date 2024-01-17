@@ -20,9 +20,12 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OrientToTarget;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.FilteredButton;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,8 +43,10 @@ public class RobotContainer {
         private final SendableChooser<Command> autoChooser;
 
         // Initialize subsystems
-        public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+        private final static DriveSubsystem m_robotDrive = new DriveSubsystem();
         private final static CameraSubsystem m_cameraSubsytem = new CameraSubsystem();
+        private final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+        private final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
         // initialize the controllers
         // the one on the left
@@ -58,6 +63,7 @@ public class RobotContainer {
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("OrientToTarget", new OrientToTarget(m_robotDrive, m_cameraSubsytem));
+                NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
