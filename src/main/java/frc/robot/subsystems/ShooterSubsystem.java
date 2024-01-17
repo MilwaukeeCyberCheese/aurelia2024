@@ -19,6 +19,10 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterPID.setSetpoint(speed);
     }
 
+    public boolean atSpeed(){
+        return shooterPID.atSetpoint();
+    }
+
     public void periodic(){
         log();
         Constants.ShooterConstants.kShooterMotor.set(shooterPID.calculate(Constants.ShooterConstants.kShooterEncoder.getVelocity()));
