@@ -277,4 +277,11 @@ public final class Constants {
     public static final class PoseConstants {
 
     }
+
+public static final class ShooterConstants {
+        public static final int kShooterCanId = 9;
+        public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId, CANSparkMax.MotorType.kBrushless);
+        public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
+        public static final double kTolerance = 50;
+}
 }
