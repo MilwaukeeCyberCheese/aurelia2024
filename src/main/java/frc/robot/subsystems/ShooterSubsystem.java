@@ -31,5 +31,6 @@ public class ShooterSubsystem extends SubsystemBase {
     public void log(){
         SmartDashboard.putNumber("Shooter Set Speed", speed);
         SmartDashboard.putNumber("Shooter Actual Speed", Constants.ShooterConstants.kShooterEncoder.getVelocity());
+        SmartDashboard.putBoolean("At Speed", atSpeed());
     }
 }
