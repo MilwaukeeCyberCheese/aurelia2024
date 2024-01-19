@@ -21,7 +21,9 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
+import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
+import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -63,7 +65,7 @@ public class RobotContainer {
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("OrientToTarget", new OrientToTarget(m_robotDrive, m_cameraSubsytem));
-                NamedCommands.registerCommand("Intake", new IntakeCommand(m_intakeSubsystem));
+                NamedCommands.registerCommand("Intake", new IntakeFromGround(m_intakeSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -103,7 +105,7 @@ public class RobotContainer {
         private void configureButtonBindings() {
                 // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
-                                m_rightJoystick::getButtonSeven).whileTrue(m_robotDrive.runOnce( () -> m_robotDrive.setX()));
+                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
                 // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
