@@ -295,6 +295,17 @@ public final class Constants {
                 public static final int kIntakeCanId = 10;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
+
+                public static final int kPivotCanId = 11;
+                public static final CANSparkMax kPivotMotor = new CANSparkMax(kPivotCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kPivotEncoder = kPivotMotor.getEncoder();
+
+                public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final double kPivotConversionFactor = 360;
+                public static final double kPivotStowPosition = 0;
+                public static final double kPivotGroundPosition = 90;
+
                 public static final double kIntakeSpeed = 0.5;
         }
 }

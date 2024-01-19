@@ -1,24 +1,24 @@
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCommand extends Command {
+public class StowCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
 
-    public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+    public StowCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setSpeed(Constants.IntakeConstants.kIntakeSpeed);
+        m_intakeSubsystem.setPivotPosition(Constants.IntakeConstants.kPivotStowPosition);
     }
 
     @Override
-    public void end(boolean interrupted) {
-        m_intakeSubsystem.setSpeed(0);
+    public boolean isFinished(){
+        return m_intakeSubsystem.atPosition();
     }
 }
