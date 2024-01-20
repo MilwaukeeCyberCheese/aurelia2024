@@ -39,7 +39,9 @@ public class IntakeSubsystem extends SubsystemBase{
         this.angle = angle;
     }
 
-    
+    public boolean atPosition(){
+        return Math.abs(Constants.IntakeConstants.kPivotEncoder.getPosition() - angle) < Constants.IntakeConstants.kTolerance;
+    }
 
     public void log(){
         SmartDashboard.putNumber("Intake Speed", speed);

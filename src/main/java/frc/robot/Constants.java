@@ -290,6 +290,7 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
                 public static final double kShooterConversionFactor = 4;
+                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
                 public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kTolerance = 50;
         }
@@ -307,6 +308,7 @@ public final class Constants {
 
                 public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kPivotConversionFactor = 360;
+                public static final double kTolerance = 2;
                 public static final double kPivotStowPosition = 0;
                 public static final double kPivotGroundPosition = 90;
 
