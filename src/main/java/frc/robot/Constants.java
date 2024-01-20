@@ -303,7 +303,7 @@ public final class Constants {
                 public static final CANSparkMax kPivotMotor = new CANSparkMax(kPivotCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kPivotEncoder = kPivotMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-                public static final SparkPIDController m_pidController = kPivotMotor.getPIDController();
+                public static final SparkPIDController kPivotController = kPivotMotor.getPIDController();
 
                 public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kPivotConversionFactor = 360;
@@ -323,7 +323,7 @@ public final class Constants {
                 public static final RelativeEncoder kLiftEncoder = kLiftMotor.getEncoder();
                 public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 //TODO: find conversion factor
-                public static final double kLiftConversionFactor = 360;
+                public static final double kLiftConversionFactor = 360 / (2 * Math.PI);
                 public static final double kTolerance = 50;
         }
 }

@@ -15,10 +15,10 @@ public class IntakeSubsystem extends SubsystemBase{
         Constants.IntakeConstants.kIntakeMotor.setInverted(true);
 
         //setup PID
-        Constants.IntakeConstants.m_pidController.setP(Constants.IntakeConstants.kPivotPIDConstants.kP);
-        Constants.IntakeConstants.m_pidController.setI(Constants.IntakeConstants.kPivotPIDConstants.kI);
-        Constants.IntakeConstants.m_pidController.setD(Constants.IntakeConstants.kPivotPIDConstants.kD);
-        Constants.IntakeConstants.m_pidController.setFeedbackDevice(Constants.IntakeConstants.kPivotEncoder);
+        Constants.IntakeConstants.kPivotController.setP(Constants.IntakeConstants.kPivotPIDConstants.kP);
+        Constants.IntakeConstants.kPivotController.setI(Constants.IntakeConstants.kPivotPIDConstants.kI);
+        Constants.IntakeConstants.kPivotController.setD(Constants.IntakeConstants.kPivotPIDConstants.kD);
+        Constants.IntakeConstants.kPivotController.setFeedbackDevice(Constants.IntakeConstants.kPivotEncoder);
         
 
         //Converts to degrees
@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void periodic(){
         log();
-        Constants.IntakeConstants.m_pidController.setReference(angle, CANSparkMax.ControlType.kPosition);
+        Constants.IntakeConstants.kPivotController.setReference(angle, CANSparkMax.ControlType.kPosition);
     }
 
     public void setSpeed(double speed){
