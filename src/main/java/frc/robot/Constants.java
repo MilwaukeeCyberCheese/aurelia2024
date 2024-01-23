@@ -359,5 +359,7 @@ public final class Constants {
 
                 //TODO: find position
                 public static final DoubleSupplier kAmpPosition = () -> 0;
+
+                public static final double kManualModifier = 2;
         }
 }

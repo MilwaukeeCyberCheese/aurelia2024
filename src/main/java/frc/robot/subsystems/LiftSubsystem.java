@@ -32,6 +32,10 @@ public class LiftSubsystem extends SubsystemBase{
         this.position = position;
     }
 
+    public double getPosition(){
+        return position;
+    }
+
     public boolean atPosition(){
         return Math.abs(Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
     }
