@@ -16,6 +16,7 @@ import com.revrobotics.SparkPIDController;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -285,25 +286,52 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 9;
-                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
+                public static final int kLeftShooterCanId = 9;
+                public static final boolean kLeftInverted = false; // TODO
+                public static final CANSparkMax kLeftShooterMotor = new CANSparkMax(kLeftShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
+                public static final RelativeEncoder kLeftShooterEncoder = kLeftShooterMotor.getEncoder();
+                public static final SparkPIDController kLeftShooterController = kLeftShooterMotor.getPIDController();
+
+                public static final int kRightShooterCanId = 10;
+                public static final boolean kRightInverted = false; // TODO
+                public static final CANSparkMax kRightShooterMotor = new CANSparkMax(kRightShooterCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
+                public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
+
                 public static final double kShooterConversionFactor = 4;
-                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
+
                 public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kTolerance = 50;
+                public static final double kShooterTolerance = 50;
+
+                public static final int kWristCanId = 11;
+                public static final boolean kWristInverted = false;
+                public static final CANSparkMax kWristMotor = new CANSparkMax(kWristCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final AbsoluteEncoder kWristEncoder = kWristMotor
+                                .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+                public static final SparkPIDController kWristController = kWristMotor.getPIDController();
+
+                public static final double kWristConversionFactor = 360;
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final double kWristTolerance = 2;
+
+                //TODO: find actual values
+                public static final DoubleSupplier kStowAngle = () -> 0;
+                public static final DoubleSupplier kAmpAngle = () -> 0;
         }
 
         public static final class IntakeConstants {
-                public static final int kIntakeCanId = 10;
+                public static final int kIntakeCanId = 12;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
 
-                public static final int kPivotCanId = 11;
+                public static final int kPivotCanId = 13;
                 public static final CANSparkMax kPivotMotor = new CANSparkMax(kPivotCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kPivotEncoder = kPivotMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+                public static final AbsoluteEncoder kPivotEncoder = kPivotMotor
+                                .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kPivotController = kPivotMotor.getPIDController();
 
                 public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
@@ -315,17 +343,21 @@ public final class Constants {
                 public static final double kIntakeSpeed = 0.5;
         }
 
-        public static final class IndexerConstants{
-                public static final int kIndexerCanId = 12;
-                public static final CANSparkMax kIndexerMotor = new CANSparkMax(kIndexerCanId,
-                                CANSparkMax.MotorType.kBrushless);
-                public static final int kLiftCanId = 13;
+        public static final class LiftConstants {
+                public static final int kLiftCanId = 14;
                 public static final CANSparkMax kLiftMotor = new CANSparkMax(kLiftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kLiftEncoder = kLiftMotor.getEncoder();
+                public static final AbsoluteEncoder kLiftEncoder = kLiftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+                public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
                 public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                //TODO: find conversion factor
-                public static final double kLiftConversionFactor = 360 / (2 * Math.PI);
-                public static final double kTolerance = 50;
+                public static final boolean kInverted = false;
+
+                // TODO: find conversion factor
+                public static final double kLiftConversionFactor = 1;
+                //TODO: find tolerance
+                public static final double kTolerance = 0;
+
+                //TODO: find position
+                public static final DoubleSupplier kAmpPosition = () -> 0;
         }
 }

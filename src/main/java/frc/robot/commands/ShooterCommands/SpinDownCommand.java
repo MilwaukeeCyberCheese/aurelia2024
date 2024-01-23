@@ -18,10 +18,10 @@ public class SpinDownCommand extends Command{
     }
 
     public void execute(){
-        m_shooterSubsystem.setSpeed(0);
+        m_shooterSubsystem.setRPM(0);
     }
 
     public boolean isFinished(){
-        return m_shooterSubsystem.atSpeed();
+        return m_shooterSubsystem.atRPM();
     }
 }
