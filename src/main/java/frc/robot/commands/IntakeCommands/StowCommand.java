@@ -19,6 +19,6 @@ public class StowCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return m_intakeSubsystem.atPosition();
     }
 }
