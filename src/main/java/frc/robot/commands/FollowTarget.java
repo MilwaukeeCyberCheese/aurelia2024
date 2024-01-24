@@ -46,11 +46,12 @@ public class FollowTarget extends Command {
         if (target != null) {
             //set theta based on yaw
             thetaOutput = Math.toRadians(target.getYaw());
+            
 
             //calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.kCameraHeight,
-                    Constants.VisionConstants.kCubeHeight,
+                    Constants.VisionConstants.kCameraHeight, //TODO: replace with height of note
                     0,
                     Units.degreesToRadians(target.getPitch()));
 

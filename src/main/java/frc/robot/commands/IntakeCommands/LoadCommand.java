@@ -18,14 +18,6 @@ public class LoadCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        int[][] colors = {{Constants.Sensors.intakeColorSensor.getRed(), Constants.Sensors.intakeColorSensor.getGreen(), Constants.Sensors.intakeColorSensor.getBlue()}, Constants.IntakeConstants.kNoteColors};
-        
-        for(int[] color : colors){
-            if(Math.abs(color[0] - color[1]) > Constants.IntakeConstants.kColorTolerance){
-                return true;
-            }
-        }
-
-        return false;
+        return true; //TODO
     }
 }

@@ -10,23 +10,16 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -62,8 +55,8 @@ public final class Constants {
                  */
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
-                //TODO: figure out portpublic static final Port colorSensorPort = new I2C.Port(0)
-                public static final ColorSensorV3 intakeColorSensor = new ColorSensorV3(null);
+                //TODO: Limit switch for intake
+                
         }
 
         public static final class DriveConstants {
@@ -255,12 +248,6 @@ public final class Constants {
 
                 public static final double kCameraHeight = Units.inchesToMeters(14);
 
-                public static final double kConeHeight = Units.inchesToMeters(13);
-                public static final IntSupplier kConeIndex = () -> 0;
-
-                public static final double kCubeHeight = Units.inchesToMeters(5.5);
-                public static final IntSupplier kCubeIndex = () -> 1;
-
                 public static final Transform3d kRobotToLeftCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
                                 new Rotation3d(0, 0, 0));
                 public static final Transform3d kRobotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
@@ -320,10 +307,17 @@ public final class Constants {
                 public static final double kWristConversionFactor = 360;
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kWristTolerance = 2;
+                public static final double[] kWristLimits = {0, 140};
 
                 //TODO: find actual values
-                public static final DoubleSupplier kStowAngle = () -> 0;
-                public static final DoubleSupplier kAmpAngle = () -> 0;
+                public static final double kStowAngle = 0;
+                public static final double kAmpAngle = 0;
+
+                //TODO: find wait time
+                public static final double kShotWaitTime = 400;
+
+                //TODO: find amp RPM
+                public static final double kAmpRPM = 500;
         }
 
         public static final class IntakeConstants {
@@ -341,18 +335,13 @@ public final class Constants {
                 public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kPivotConversionFactor = 360;
                 public static final double kTolerance = 2;
-                public static final double kPivotStowPosition = 0;
+                public static final double kPivotLoadPosition = 0;
+                public static final double kPivotShootPosition = 0;
                 public static final double kPivotGroundPosition = 90;
 
                 //TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
                 public static final double kLoadSpeed = 0.2;
-
-                //TODO: find note color
-                public static final int[] kNoteColors = {255, 255, 255};
-
-                //TODO: find tolerance
-                public static final int kColorTolerance = 2;
         }
 
         public static final class LiftConstants {
@@ -369,9 +358,11 @@ public final class Constants {
                 //TODO: find tolerance
                 public static final double kTolerance = 0;
 
-                //TODO: find position
-                public static final DoubleSupplier kAmpPosition = () -> 0;
-
                 public static final double kManualModifier = 2;
+
+                //TODO: find positions
+                public static final double kLoadPosition = 0;
+                public static final double kShootPosition = 0;
+                public static final double kAmpPosition = 0;
         }
 }
