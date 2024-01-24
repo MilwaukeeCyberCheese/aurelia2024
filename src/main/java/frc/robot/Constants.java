@@ -344,7 +344,9 @@ public final class Constants {
                 public static final double kPivotStowPosition = 0;
                 public static final double kPivotGroundPosition = 90;
 
+                //TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
+                public static final double kLoadSpeed = 0.2;
 
                 //TODO: find note color
                 public static final int[] kNoteColors = {255, 255, 255};
