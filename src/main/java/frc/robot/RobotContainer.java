@@ -23,7 +23,6 @@ import frc.robot.commands.GyroReset;
 import frc.robot.commands.OrientToTarget;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeFromGround;
-import frc.robot.commands.LiftCommands.ManualLiftCommand;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -115,7 +114,7 @@ public class RobotContainer {
                 new Trigger(m_rightJoystick::getButtonThree).and(m_buttons::getTwoB)
                                 .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
                 // follow target on right joystick four
-                new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem));
+                new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem, () -> 0.5));
                 // reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));

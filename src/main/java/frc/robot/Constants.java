@@ -10,6 +10,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
@@ -60,6 +61,9 @@ public final class Constants {
                  * remember to invert this with the kGyroReversed
                  */
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+
+                //TODO: figure out portpublic static final Port colorSensorPort = new I2C.Port(0)
+                public static final ColorSensorV3 intakeColorSensor = new ColorSensorV3(null);
         }
 
         public static final class DriveConstants {
@@ -341,6 +345,12 @@ public final class Constants {
                 public static final double kPivotGroundPosition = 90;
 
                 public static final double kIntakeSpeed = 0.5;
+
+                //TODO: find note color
+                public static final int[] kNoteColors = {255, 255, 255};
+
+                //TODO: find tolerance
+                public static final int kColorTolerance = 2;
         }
 
         public static final class LiftConstants {

@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -14,6 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class FollowTarget extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
+    private final DoubleSupplier m_goalRange;
 
     /**
      * Point towards, and move towards, a detected
@@ -25,9 +28,10 @@ public class FollowTarget extends Command {
      * @param cameraSubsystem subsystem containing the cameras
      *                        {@link frc.robot.subsystems.CameraSubsystem link}
      */
-    public FollowTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem) {
+    public FollowTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
+        m_goalRange = goalRange;
         addRequirements(m_cameraSubsytem, m_driveSubsystem);
     }
 
@@ -51,7 +55,7 @@ public class FollowTarget extends Command {
                     Units.degreesToRadians(target.getPitch()));
 
             //set y based on range
-            yOutput = (range > 0.2) ? range - 0.5 : 0.0;
+            yOutput = (range > m_goalRange.getAsDouble()) ? range - m_goalRange.getAsDouble() : 0.0;
 
         }
 
