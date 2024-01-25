@@ -288,8 +288,9 @@ public final class Constants {
                 public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
                 public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 4;
+                public static final double kShooterConversionFactor = 4; // TODO
 
+                // TODO: find values
                 public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kShooterTolerance = 50;
 
@@ -301,6 +302,7 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
+                // TODO: find values
                 public static final double kWristConversionFactor = 360;
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kWristTolerance = 2;
@@ -377,5 +379,27 @@ public final class Constants {
                 public static final double kLoadPosition = 0;
                 public static final double kShootPosition = 0;
                 public static final double kAmpPosition = 0;
+        }
+
+        public class ClimberConstants {
+                public static final int kLeftCanId = 15;
+                public static final boolean kLeftInverted = false; // TODO
+                public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
+                public static final SparkPIDController kLeftController = kLeftMotor.getPIDController();
+
+                public static final int kRightCanId = 16;
+                public static final boolean kRightInverted = false; // TODO
+                public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
+                public static final SparkPIDController kRightController = kRightMotor.getPIDController();
+
+                public static final double kConversionFactor = 4; // TODO
+
+                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final double kTolerance = 50;
+
         }
 }
