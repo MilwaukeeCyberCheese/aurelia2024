@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class FollowTarget extends Command {
+public class FollowNote extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final CameraSubsystem m_cameraSubsytem;
     private final DoubleSupplier m_goalRange;
@@ -28,7 +28,7 @@ public class FollowTarget extends Command {
      * @param cameraSubsystem subsystem containing the cameras
      *                        {@link frc.robot.subsystems.CameraSubsystem link}
      */
-    public FollowTarget(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
+    public FollowNote(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_goalRange = goalRange;
@@ -38,6 +38,7 @@ public class FollowTarget extends Command {
     @Override
     public void execute() {
         double thetaOutput = 0;
+        //TODO: like everything here needs a revamp
         double yOutput = 0;
         double range = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();

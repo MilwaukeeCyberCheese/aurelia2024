@@ -26,6 +26,7 @@ public class SwitchPipeline extends Command {
 
     @Override
     public void initialize() {
+        //TODO: more vision, also needs to be revamped
         CameraSubsystem.switchIndex(m_pipelineIndex.getAsInt(), m_cameraNum.getAsInt());
     }
 

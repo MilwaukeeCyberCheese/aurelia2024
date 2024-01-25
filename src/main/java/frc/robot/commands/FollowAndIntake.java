@@ -8,9 +8,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class FollowAndIntake extends SequentialCommandGroup {
-public FollowAndIntake(IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem){
+    public FollowAndIntake(IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem,
+            CameraSubsystem cameraSubsystem) {
         addCommands(
-            Commands.race(new FollowTarget(driveSubsystem, cameraSubsystem, () -> 0), new IntakeFromGround(intakeSubsystem))
-        );
+                Commands.race(new FollowNote(driveSubsystem, cameraSubsystem, () -> 0),
+                        new IntakeFromGround(intakeSubsystem)));
     }
 }

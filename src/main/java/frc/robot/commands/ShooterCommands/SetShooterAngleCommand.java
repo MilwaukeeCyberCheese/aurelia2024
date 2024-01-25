@@ -12,9 +12,9 @@ public class SetShooterAngleCommand extends Command {
     /**
      * Set angle of the shooter
      * 
-     * @param angle angle to set the shooter to
-     * @param ShooterSubsystem subsystem for controlling the shooter
-     *                       {@link frc.robot.subsystems.ShooterSubsystem link}
+     * @param angle            angle to set the shooter to
+     * @param shooterSubsystem subsystem for controlling the shooter
+     *                         {@link frc.robot.subsystems.ShooterSubsystem link}
      */
     public SetShooterAngleCommand(DoubleSupplier angle, ShooterSubsystem shooterSubsystem) {
         m_angle = angle;
@@ -22,11 +22,13 @@ public class SetShooterAngleCommand extends Command {
         addRequirements(m_shooterSubsystem);
     }
 
-    public void execute(){
+    @Override
+    public void execute() {
         m_shooterSubsystem.setPosition(m_angle.getAsDouble());
     }
 
-    public boolean isFinished(){
+    @Override
+    public boolean isFinished() {
         return m_shooterSubsystem.atPosition();
     }
 }

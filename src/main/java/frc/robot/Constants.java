@@ -10,6 +10,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
@@ -32,6 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.subsystems.MAXSwerveModule;
 
@@ -56,6 +58,8 @@ public final class Constants {
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
                 //TODO: Limit switch for intake
+
+                public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
                 
         }
 
@@ -311,13 +315,18 @@ public final class Constants {
 
                 //TODO: find actual values
                 public static final double kStowAngle = 0;
+                public static final double kLoadAngle = 0;
                 public static final double kAmpAngle = 0;
+                public static final double kShootAngle = 0;
 
                 //TODO: find wait time
                 public static final double kShotWaitTime = 400;
 
-                //TODO: find amp RPM
+                //TODO: find RPMs
                 public static final double kAmpRPM = 500;
+                public static final double kLoadRPM = 20;
+
+                public static final double kRedNoteDetectionThreshold = 200;
         }
 
         public static final class IntakeConstants {
@@ -333,11 +342,16 @@ public final class Constants {
                 public static final SparkPIDController kPivotController = kPivotMotor.getPIDController();
 
                 public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kPivotConversionFactor = 360;
+                public static final double kPivotConversionFactor = 180 / Math.PI;
                 public static final double kTolerance = 2;
-                public static final double kPivotLoadPosition = 0;
-                public static final double kPivotShootPosition = 0;
-                public static final double kPivotGroundPosition = 90;
+
+                //TODO: determine positions
+                public static final double kPivotLoadPosition = 160;
+                public static final double kPivotShootPosition = 160;
+                public static final double kPivotGroundPosition = 0;
+
+                //TODO: determine limits
+                public static final double[] kPivotLimits = {0, 0};
 
                 //TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
@@ -353,12 +367,17 @@ public final class Constants {
                 public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final boolean kInverted = false;
 
-                // TODO: find conversion factor
+                // TODO: find conversion factor in inches
                 public static final double kLiftConversionFactor = 1;
+
                 //TODO: find tolerance
                 public static final double kTolerance = 0;
 
-                public static final double kManualModifier = 2;
+                //TODO: set lift limits
+                public static final double[] kLiftLimits = {0, 0};
+
+                //TODO: find manual modifier
+                public static final double kManualModifier = 1/100;
 
                 //TODO: find positions
                 public static final double kLoadPosition = 0;

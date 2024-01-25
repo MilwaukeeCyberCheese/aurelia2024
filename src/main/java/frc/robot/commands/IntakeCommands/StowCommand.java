@@ -7,6 +7,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class StowCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
 
+    /**
+     * Command to stow the intake
+     * 
+     * @param intakeSubsystem
+     */
     public StowCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

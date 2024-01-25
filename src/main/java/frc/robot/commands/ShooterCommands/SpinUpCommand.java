@@ -22,10 +22,12 @@ public class SpinUpCommand extends Command {
         addRequirements(m_shooterSubsystem);
     }
 
+    @Override
     public void execute() {
         m_shooterSubsystem.setRPM(m_rpm.getAsDouble());
     }
 
+    @Override
     public boolean isFinished() {
         return m_shooterSubsystem.atRPM();
     }

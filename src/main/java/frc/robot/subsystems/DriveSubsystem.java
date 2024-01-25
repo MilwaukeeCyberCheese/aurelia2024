@@ -293,7 +293,6 @@ public class DriveSubsystem extends SubsystemBase {
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
 
-
   /*
    * Get state of swerve modules
    * 

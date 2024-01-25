@@ -5,10 +5,7 @@
 package frc.robot;
 
 import java.util.Optional;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,11 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
-import frc.robot.commands.FollowTarget;
 import frc.robot.commands.GyroReset;
-import frc.robot.commands.OrientToTarget;
 import frc.robot.commands.WheelsX;
-import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -65,8 +59,7 @@ public class RobotContainer {
         public RobotContainer() {
 
                 // name commands for use in pathPlanner
-                NamedCommands.registerCommand("OrientToTarget", new OrientToTarget(m_robotDrive, m_cameraSubsytem));
-                NamedCommands.registerCommand("Intake", new IntakeFromGround(m_intakeSubsystem));
+
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -110,11 +103,6 @@ public class RobotContainer {
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
                 new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
-                // orient to target on right joystick three, or middle middle button
-                new Trigger(m_rightJoystick::getButtonThree).and(m_buttons::getTwoB)
-                                .whileTrue(new OrientToTarget(m_robotDrive, m_cameraSubsytem));
-                // follow target on right joystick four
-                new Trigger(m_rightJoystick::getButtonFour).whileTrue(new FollowTarget(m_robotDrive, m_cameraSubsytem, () -> 0.5));
                 // reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));

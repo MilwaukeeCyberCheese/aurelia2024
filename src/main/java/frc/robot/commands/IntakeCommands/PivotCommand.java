@@ -9,6 +9,12 @@ public class PivotCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
     private final DoubleSupplier m_position;
 
+    /**
+     * Command to set the position of the intake
+     * 
+     * @param position angle to set the intake to (0 is ground position)
+     * @param intakeSubsystem
+     */
     public PivotCommand(DoubleSupplier position, IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         m_position = position;

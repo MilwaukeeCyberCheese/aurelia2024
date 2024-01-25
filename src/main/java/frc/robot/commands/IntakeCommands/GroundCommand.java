@@ -7,6 +7,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class GroundCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
 
+    /**
+     * Command to make the intake go on the ground
+     * 
+     * @param intakeSubsystem
+     */
     public GroundCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

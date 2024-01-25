@@ -7,6 +7,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
 
+    /**
+     * Command to intake the note
+     * 
+     * @param intakeSubsystem
+     */
     public IntakeCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

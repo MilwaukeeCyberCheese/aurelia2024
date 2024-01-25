@@ -7,6 +7,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class OuttakeCommand extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
 
+    /**
+     * Command to spit the note back out
+     * 
+     * @param intakeSubsystem
+     */
     public OuttakeCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

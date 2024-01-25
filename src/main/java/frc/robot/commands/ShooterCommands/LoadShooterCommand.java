@@ -4,27 +4,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AmpShooter extends Command {
+public class LoadShooterCommand extends Command {
     private final ShooterSubsystem m_shooterSubsystem;
 
-    /**
-     * Run the shooter backwards
-     * 
-     * @param shooterSubsystem
-     */
-    public AmpShooter(ShooterSubsystem shooterSubsystem) {
+    public LoadShooterCommand(ShooterSubsystem shooterSubsystem) {
         m_shooterSubsystem = shooterSubsystem;
         addRequirements(m_shooterSubsystem);
     }
 
     @Override
-    public void execute(){
-        m_shooterSubsystem.setRPM(Constants.ShooterConstants.kAmpRPM);
+    public void execute() {
+        m_shooterSubsystem.setRPM(Constants.ShooterConstants.kLoadRPM);
     }
 
     @Override
     public boolean isFinished() {
-        return true; //TODO
+        return Constants.Sensors.shooterColorSensor.getRed() > Constants.ShooterConstants.kRedNoteDetectionThreshold;
     }
 
     @Override

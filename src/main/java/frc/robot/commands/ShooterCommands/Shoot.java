@@ -14,13 +14,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.WaitCommandMilli;
 
 public class Shoot extends SequentialCommandGroup {
-    public Shoot(DoubleSupplier rpm, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem,
-            LiftSubsystem liftSubsystem) {
-        addCommands(
-                Commands.parallel(new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition, liftSubsystem),
-                        new PivotCommand(() -> Constants.IntakeConstants.kPivotShootPosition, intakeSubsystem)),
-                new SpinUpCommand(rpm, shooterSubsystem), new LoadCommand(intakeSubsystem),
-                new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime),
-                new SpinDownCommand(shooterSubsystem));
-    }
+        public Shoot(DoubleSupplier rpm, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem,
+                        LiftSubsystem liftSubsystem) {
+                addCommands(
+                                Commands.parallel(
+                                                new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
+                                                                liftSubsystem),
+                                                new PivotCommand(() -> Constants.IntakeConstants.kPivotShootPosition,
+                                                                intakeSubsystem),
+                                                new SetShooterAngleCommand(() -> Constants.ShooterConstants.kShootAngle,
+                                                                shooterSubsystem)),
+                                new SpinUpCommand(rpm, shooterSubsystem),
+                                Commands.race(new LoadCommand(intakeSubsystem),
+                                                new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
+                                new SpinDownCommand(shooterSubsystem));
+        }
 }
