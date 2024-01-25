@@ -17,8 +17,9 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ShooterCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -40,10 +41,12 @@ public class RobotContainer {
 
         // Initialize subsystems
         private final static DriveSubsystem m_robotDrive = new DriveSubsystem();
-        private final static CameraSubsystem m_cameraSubsytem = new CameraSubsystem();
         private final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         private final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         private final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+        private final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
+        private final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
+
 
         // initialize the controllers
         // the one on the left

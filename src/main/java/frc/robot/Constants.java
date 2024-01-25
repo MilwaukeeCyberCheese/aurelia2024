@@ -14,7 +14,6 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-import java.io.IOException;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -57,10 +56,10 @@ public final class Constants {
                  */
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
-                //TODO: Limit switch for intake
+                // TODO: Limit switch for intake
 
                 public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-                
+
         }
 
         public static final class DriveConstants {
@@ -245,38 +244,32 @@ public final class Constants {
                 public static final double kFreeSpeedRpm = 5676;
         }
 
-        public static final class VisionConstants {
+        public static final class IntakeCamera {
 
-                public static final PhotonCamera kLefty = new PhotonCamera("lefty");
-                public static final PhotonCamera kRighty = new PhotonCamera("righty");
+                public static final PhotonCamera kIntakeCamera = new PhotonCamera("IntakeCamera");
 
                 public static final double kCameraHeight = Units.inchesToMeters(14);
 
-                public static final Transform3d kRobotToLeftCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
-                                new Rotation3d(0, 0, 0));
-                public static final Transform3d kRobotToRightCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+                public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
                                 new Rotation3d(0, 0, 0));
 
-                // this makes reading from a file work, it's kinda messy
-                public static final AprilTagFieldLayout kAprilTagFieldLayout;
+        }
 
-                static {
-                        try {
-                                kAprilTagFieldLayout = AprilTagFieldLayout
-                                                .loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-                        } catch (IOException e) {
-                                throw new RuntimeException("Welp that's strange");
-                        }
-                }
-
-                public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(
-                                kAprilTagFieldLayout,
-                                PoseStrategy.CLOSEST_TO_REFERENCE_POSE, kLefty, kRobotToLeftCam);
-                // TODO
+        public static final class ShooterCamera {
+                public static final PhotonCamera kShooterCamera = new PhotonCamera("ShooterCamera");
+                public static final double kCameraHeight = Units.inchesToMeters(14);
+                public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+                                new Rotation3d(0, 0, 0));
 
         }
 
         public static final class PoseConstants {
+                public static final AprilTagFieldLayout kTagLayout = AprilTagFields.kDefaultField
+                                .loadAprilTagLayoutField();
+                public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(
+                                kTagLayout,
+                                PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ShooterCamera.kShooterCamera,
+                                ShooterCamera.kRobotToCam);
 
         }
 
@@ -311,18 +304,18 @@ public final class Constants {
                 public static final double kWristConversionFactor = 360;
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kWristTolerance = 2;
-                public static final double[] kWristLimits = {0, 140};
+                public static final double[] kWristLimits = { 0, 140 };
 
-                //TODO: find actual values
+                // TODO: find actual values
                 public static final double kStowAngle = 0;
                 public static final double kLoadAngle = 0;
                 public static final double kAmpAngle = 0;
                 public static final double kShootAngle = 0;
 
-                //TODO: find wait time
+                // TODO: find wait time
                 public static final double kShotWaitTime = 400;
 
-                //TODO: find RPMs
+                // TODO: find RPMs
                 public static final double kAmpRPM = 500;
                 public static final double kLoadRPM = 20;
 
@@ -345,15 +338,15 @@ public final class Constants {
                 public static final double kPivotConversionFactor = 180 / Math.PI;
                 public static final double kTolerance = 2;
 
-                //TODO: determine positions
+                // TODO: determine positions
                 public static final double kPivotLoadPosition = 160;
                 public static final double kPivotShootPosition = 160;
                 public static final double kPivotGroundPosition = 0;
 
-                //TODO: determine limits
-                public static final double[] kPivotLimits = {0, 0};
+                // TODO: determine limits
+                public static final double[] kPivotLimits = { 0, 0 };
 
-                //TODO: determine speeds
+                // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
                 public static final double kLoadSpeed = 0.2;
         }
@@ -362,7 +355,8 @@ public final class Constants {
                 public static final int kLiftCanId = 14;
                 public static final CANSparkMax kLiftMotor = new CANSparkMax(kLiftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kLiftEncoder = kLiftMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+                public static final AbsoluteEncoder kLiftEncoder = kLiftMotor
+                                .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
                 public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final boolean kInverted = false;
@@ -370,16 +364,16 @@ public final class Constants {
                 // TODO: find conversion factor in inches
                 public static final double kLiftConversionFactor = 1;
 
-                //TODO: find tolerance
+                // TODO: find tolerance
                 public static final double kTolerance = 0;
 
-                //TODO: set lift limits
-                public static final double[] kLiftLimits = {0, 0};
+                // TODO: set lift limits
+                public static final double[] kLiftLimits = { 0, 0 };
 
-                //TODO: find manual modifier
-                public static final double kManualModifier = 1/100;
+                // TODO: find manual modifier
+                public static final double kManualModifier = 1 / 100;
 
-                //TODO: find positions
+                // TODO: find positions
                 public static final double kLoadPosition = 0;
                 public static final double kShootPosition = 0;
                 public static final double kAmpPosition = 0;

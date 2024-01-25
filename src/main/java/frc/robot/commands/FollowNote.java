@@ -10,12 +10,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ShooterCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class FollowNote extends Command {
     private final DriveSubsystem m_driveSubsystem;
-    private final CameraSubsystem m_cameraSubsytem;
+    private final ShooterCameraSubsystem m_cameraSubsytem;
     private final DoubleSupplier m_goalRange;
 
     /**
@@ -28,7 +28,7 @@ public class FollowNote extends Command {
      * @param cameraSubsystem subsystem containing the cameras
      *                        {@link frc.robot.subsystems.CameraSubsystem link}
      */
-    public FollowNote(DriveSubsystem driveSubsystem, CameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
+    public FollowNote(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_goalRange = goalRange;
@@ -51,8 +51,8 @@ public class FollowNote extends Command {
 
             //calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(
-                    Constants.VisionConstants.kCameraHeight,
-                    Constants.VisionConstants.kCameraHeight, //TODO: replace with height of note
+                    Constants.IntakeCamera.kCameraHeight,
+                    Constants.IntakeCamera.kCameraHeight, //TODO: replace with height of note
                     0,
                     Units.degreesToRadians(target.getPitch()));
 
