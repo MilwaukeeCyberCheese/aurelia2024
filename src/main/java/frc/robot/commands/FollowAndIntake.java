@@ -11,7 +11,7 @@ public class FollowAndIntake extends SequentialCommandGroup {
     public FollowAndIntake(IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem,
             ShooterCameraSubsystem shooterCameraSubsystem) {
         addCommands(
-                Commands.race(new FollowNote(driveSubsystem, shooterCameraSubsystem, () -> 0),
+                Commands.race(new FollowNote(driveSubsystem, shooterCameraSubsystem, () -> -1),
                         new IntakeFromGround(intakeSubsystem)));
     }
 }

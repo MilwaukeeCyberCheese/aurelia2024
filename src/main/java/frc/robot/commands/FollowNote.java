@@ -38,25 +38,24 @@ public class FollowNote extends Command {
     @Override
     public void execute() {
         double thetaOutput = 0;
-        //TODO: like everything here needs a revamp
+        // TODO: like everything here needs a revamp
         double yOutput = 0;
         double range = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
-        //check if target is present
+        // check if target is present
         if (target != null) {
-            //set theta based on yaw
+            // set theta based on yaw
             thetaOutput = Math.toRadians(target.getYaw());
-            
 
-            //calculate range
+            // calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(
-                    Constants.IntakeCamera.kCameraHeight,
-                    Constants.IntakeCamera.kCameraHeight, //TODO: replace with height of note
+                    Constants.VisionConstants.IntakeCamera.kCameraHeight,
+                    Constants.VisionConstants.Note.kNoteHeight,
                     0,
                     Units.degreesToRadians(target.getPitch()));
 
-            //set y based on range
+            // set y based on range
             yOutput = (range > m_goalRange.getAsDouble()) ? range - m_goalRange.getAsDouble() : 0.0;
 
         }

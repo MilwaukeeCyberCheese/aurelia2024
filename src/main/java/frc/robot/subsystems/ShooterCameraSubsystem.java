@@ -25,8 +25,17 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      */
     public static void switchIndex(int index, int camera) {
 
-        Constants.ShooterCamera.kShooterCamera.setPipelineIndex(index);
+        Constants.VisionConstants.ShooterCamera.kCamera.setPipelineIndex(index);
 
+    }
+
+    /**
+     * Whether the camera is in driver mode, or running the pipeline
+     * 
+     * @param mode
+     */
+    public static void setDriverMode(boolean mode) {
+        Constants.VisionConstants.ShooterCamera.kCamera.setDriverMode(mode);
     }
 
     /**
@@ -37,7 +46,7 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      */
     public PhotonTrackedTarget getTarget() {
 
-        var result = Constants.ShooterCamera.kShooterCamera.getLatestResult();
+        var result = Constants.VisionConstants.ShooterCamera.kCamera.getLatestResult();
         target = result.getBestTarget();
         return target;
 
@@ -56,10 +65,10 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      * update the odometry based on aprilTags
      */
     public void updateOdometry() {
-        Constants.PoseConstants.kPhotonPoseEstimator
+        Constants.VisionConstants.Pose.kPhotonPoseEstimator
                 .setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
 
-        var result = Constants.PoseConstants.kPhotonPoseEstimator.update();
+        var result = Constants.VisionConstants.Pose.kPhotonPoseEstimator.update();
 
         if (result.isPresent()) {
             EstimatedRobotPose estimate = result.get();

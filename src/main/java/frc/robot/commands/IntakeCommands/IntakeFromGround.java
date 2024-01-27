@@ -1,5 +1,6 @@
 package frc.robot.commands.IntakeCommands;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -10,8 +11,8 @@ public class IntakeFromGround extends SequentialCommandGroup {
      * @param intakeSubsystem
      */
     public IntakeFromGround(IntakeSubsystem intakeSubsystem) {
-        addCommands(
+        addCommands(Commands.parallel(
                 new GroundCommand(intakeSubsystem),
-                new IntakeCommand(intakeSubsystem));
+                new IntakeCommand(intakeSubsystem)));
     }
 }

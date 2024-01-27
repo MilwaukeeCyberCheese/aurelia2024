@@ -244,33 +244,39 @@ public final class Constants {
                 public static final double kFreeSpeedRpm = 5676;
         }
 
-        public static final class IntakeCamera {
+        public class VisionConstants {
+                public static final class Note{
+                        public static final double kNoteHeight = Units.inchesToMeters(2.0);
+                }
 
-                public static final PhotonCamera kIntakeCamera = new PhotonCamera("IntakeCamera");
+                public static final class IntakeCamera {
 
-                public static final double kCameraHeight = Units.inchesToMeters(14);
+                        public static final PhotonCamera kCamera = new PhotonCamera("IntakeCamera");
 
-                public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
-                                new Rotation3d(0, 0, 0));
+                        public static final double kCameraHeight = Units.inchesToMeters(14);
 
-        }
+                        public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
+                                        new Rotation3d(0, 0, 0));
 
-        public static final class ShooterCamera {
-                public static final PhotonCamera kShooterCamera = new PhotonCamera("ShooterCamera");
-                public static final double kCameraHeight = Units.inchesToMeters(14);
-                public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
-                                new Rotation3d(0, 0, 0));
+                }
 
-        }
+                public static final class ShooterCamera {
+                        public static final PhotonCamera kCamera = new PhotonCamera("ShooterCamera");
+                        public static final double kCameraHeight = Units.inchesToMeters(14);
+                        public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
+                                        new Rotation3d(0, 0, 0));
 
-        public static final class PoseConstants {
-                public static final AprilTagFieldLayout kTagLayout = AprilTagFields.kDefaultField
-                                .loadAprilTagLayoutField();
-                public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(
-                                kTagLayout,
-                                PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ShooterCamera.kShooterCamera,
-                                ShooterCamera.kRobotToCam);
+                }
 
+                public static final class Pose {
+                        public static final AprilTagFieldLayout kTagLayout = AprilTagFields.kDefaultField
+                                        .loadAprilTagLayoutField();
+                        public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(
+                                        kTagLayout,
+                                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ShooterCamera.kCamera,
+                                        ShooterCamera.kRobotToCam);
+
+                }
         }
 
         public static final class ShooterConstants {

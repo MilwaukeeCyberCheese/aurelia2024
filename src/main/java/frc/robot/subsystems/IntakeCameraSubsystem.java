@@ -22,8 +22,18 @@ public class IntakeCameraSubsystem extends SubsystemBase {
      * @param index pipeline to switch to
      */
     public static void switchIndex(int index) {
-        Constants.IntakeCamera.kIntakeCamera.setPipelineIndex(index);
+        Constants.VisionConstants.IntakeCamera.kCamera.setPipelineIndex(index);
     }
+
+ /**
+     * Whether the camera is in driver mode, or running the pipeline
+     * 
+     * @param mode
+     */
+    public static void setDriverMode(boolean mode) {
+        Constants.VisionConstants.IntakeCamera.kCamera.setDriverMode(mode);
+    }
+
 
     /**
      * Before using the target, ensure that it is present
@@ -33,7 +43,7 @@ public class IntakeCameraSubsystem extends SubsystemBase {
      */
     public PhotonTrackedTarget geTarget() {
 
-        var result = Constants.IntakeCamera.kIntakeCamera.getLatestResult();
+        var result = Constants.VisionConstants.IntakeCamera.kCamera.getLatestResult();
         target = result.getBestTarget();
         return target;
 
