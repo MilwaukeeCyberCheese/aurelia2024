@@ -132,7 +132,7 @@ public final class Constants {
                 // will result in a
                 // robot that drives faster).
                 // Currently 12T is installed on the robot
-                public static final int kDrivingMotorPinionTeeth = 12;
+                public static final int kDrivingMotorPinionTeeth = 13;
 
                 // Invert the turning encoder, since the output shaft rotates in the opposite
                 // direction of

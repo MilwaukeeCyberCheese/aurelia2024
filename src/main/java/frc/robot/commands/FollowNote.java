@@ -41,7 +41,7 @@ public class FollowNote extends Command {
         //TODO: like everything here needs a revamp
         double yOutput = 0;
         double range = 0;
-        PhotonTrackedTarget target = m_cameraSubsytem.getRightTarget();
+        PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
         //check if target is present
         if (target != null) {
