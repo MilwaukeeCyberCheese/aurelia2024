@@ -51,7 +51,7 @@ public class FollowNote extends Command {
             // calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.IntakeCamera.kCameraHeight,
-                    Constants.VisionConstants.Note.kNoteHeight,
+                    Constants.VisionConstants.Note.kHeight,
                     0,
                     Units.degreesToRadians(target.getPitch()));
 

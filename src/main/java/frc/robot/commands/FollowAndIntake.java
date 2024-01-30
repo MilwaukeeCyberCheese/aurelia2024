@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.subsystems.ShooterCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -11,6 +12,7 @@ public class FollowAndIntake extends SequentialCommandGroup {
     public FollowAndIntake(IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem,
             ShooterCameraSubsystem shooterCameraSubsystem) {
         addCommands(
+                new FollowNote(driveSubsystem, shooterCameraSubsystem, () -> Constants.IntakeConstants.kDeployRange),
                 Commands.race(new FollowNote(driveSubsystem, shooterCameraSubsystem, () -> -1),
                         new IntakeFromGround(intakeSubsystem)));
     }

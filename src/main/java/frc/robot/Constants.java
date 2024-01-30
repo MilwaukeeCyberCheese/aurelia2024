@@ -358,6 +358,9 @@ public final class Constants {
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
                 public static final double kLoadSpeed = 0.2;
+
+                //TODO: determine range
+                public static final double kDeployRange = 2;
         }
 
         public static final class LiftConstants {
