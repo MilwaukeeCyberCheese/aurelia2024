@@ -105,7 +105,6 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedDelivered;
     double ySpeedDelivered;
     double rotDelivered;
-    rot *= -1;
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
@@ -179,12 +178,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1,
-        chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+    //TODO: may need to invert some speeds
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
-        .toSwerveModuleStates(invertedChassisSpeeds);
+        .toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -206,12 +204,11 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered;
     double rotDelivered;
 
-    ChassisSpeeds invertedChassisSpeeds = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1,
-        chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+    //TODO: may need to invert some speeds
 
-    double ySpeed = invertedChassisSpeeds.vyMetersPerSecond;
-    double xSpeed = invertedChassisSpeeds.vxMetersPerSecond;
-    double rot = invertedChassisSpeeds.omegaRadiansPerSecond;
+    double ySpeed = chassisSpeeds.vyMetersPerSecond;
+    double xSpeed = chassisSpeeds.vxMetersPerSecond;
+    double rot = chassisSpeeds.omegaRadiansPerSecond;
 
     // Convert XY to polar for rate limiting
     double inputTranslationDir = Math.atan2(ySpeed, xSpeed);

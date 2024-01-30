@@ -78,9 +78,9 @@ public final class Constants {
                 public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
                 // Chassis configuration
-                public static final double kTrackWidth = Units.inchesToMeters(26.5);
+                public static final double kTrackWidth = Units.inchesToMeters(25.5);
                 // Distance between centers of right and left wheels on robot
-                public static final double kWheelBase = Units.inchesToMeters(26.5);
+                public static final double kWheelBase = Units.inchesToMeters(22);
                 // Distance between front and back wheels on robot
                 public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
@@ -216,6 +216,7 @@ public final class Constants {
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
+                //TODO: this will need to be tuned
                 public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3.0, 1.0, 0.0);
 
                 public static final PIDConstants kThetaPIDConstants = new PIDConstants(Math.PI, 0.0, 0.0);
@@ -246,7 +247,7 @@ public final class Constants {
 
         public class VisionConstants {
                 public static final class Note{
-                        public static final double kNoteHeight = Units.inchesToMeters(2.0);
+                        public static final double kHeight = Units.inchesToMeters(2.0);
                 }
 
                 public static final class IntakeCamera {
@@ -271,7 +272,7 @@ public final class Constants {
                 public static final class Pose {
                         public static final AprilTagFieldLayout kTagLayout = AprilTagFields.kDefaultField
                                         .loadAprilTagLayoutField();
-                        public static final PhotonPoseEstimator kPhotonPoseEstimator = new PhotonPoseEstimator(
+                        public static final PhotonPoseEstimator kPoseEstimator = new PhotonPoseEstimator(
                                         kTagLayout,
                                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ShooterCamera.kCamera,
                                         ShooterCamera.kRobotToCam);

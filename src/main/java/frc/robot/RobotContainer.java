@@ -67,6 +67,7 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 // set default command for drive
+                //TODO: inversion may be needed
                 m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),

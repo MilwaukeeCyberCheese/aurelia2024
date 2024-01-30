@@ -65,10 +65,10 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      * update the odometry based on aprilTags
      */
     public void updateOdometry() {
-        Constants.VisionConstants.Pose.kPhotonPoseEstimator
+        Constants.VisionConstants.Pose.kPoseEstimator
                 .setReferencePose(Constants.DriveConstants.m_odometry.getEstimatedPosition());
 
-        var result = Constants.VisionConstants.Pose.kPhotonPoseEstimator.update();
+        var result = Constants.VisionConstants.Pose.kPoseEstimator.update();
 
         if (result.isPresent()) {
             EstimatedRobotPose estimate = result.get();
