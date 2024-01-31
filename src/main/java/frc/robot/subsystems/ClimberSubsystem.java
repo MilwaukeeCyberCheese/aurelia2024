@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.CustomUtils;
 
 public class ClimberSubsystem extends SubsystemBase {
     private double leftPosition;
@@ -15,21 +16,11 @@ public class ClimberSubsystem extends SubsystemBase {
         Constants.ClimberConstants.kRightMotor.setInverted(Constants.ClimberConstants.kRightInverted);
 
         // setup PID
-        Constants.ClimberConstants.kLeftController
-                .setP(Constants.ClimberConstants.kPIDConstants.kP);
-        Constants.ClimberConstants.kLeftController
-                .setI(Constants.ClimberConstants.kPIDConstants.kI);
-        Constants.ClimberConstants.kLeftController
-                .setD(Constants.ClimberConstants.kPIDConstants.kD);
+        CustomUtils.setSparkPID(Constants.ClimberConstants.kLeftController, Constants.ClimberConstants.kPIDConstants);
         Constants.ClimberConstants.kLeftController
                 .setFeedbackDevice(Constants.ClimberConstants.kLeftEncoder);
 
-        Constants.ClimberConstants.kRightController
-                .setP(Constants.ClimberConstants.kPIDConstants.kP);
-        Constants.ClimberConstants.kRightController
-                .setI(Constants.ClimberConstants.kPIDConstants.kI);
-        Constants.ClimberConstants.kRightController
-                .setD(Constants.ClimberConstants.kPIDConstants.kD);
+        CustomUtils.setSparkPID(Constants.ClimberConstants.kRightController, Constants.ClimberConstants.kPIDConstants);
         Constants.ClimberConstants.kRightController
                 .setFeedbackDevice(Constants.ClimberConstants.kRightEncoder);
 

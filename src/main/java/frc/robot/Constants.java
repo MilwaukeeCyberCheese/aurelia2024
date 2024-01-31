@@ -216,7 +216,7 @@ public final class Constants {
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-                //TODO: this will need to be tuned
+                // TODO: this will need to be tuned
                 public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3.0, 1.0, 0.0);
 
                 public static final PIDConstants kThetaPIDConstants = new PIDConstants(Math.PI, 0.0, 0.0);
@@ -246,7 +246,7 @@ public final class Constants {
         }
 
         public class VisionConstants {
-                public static final class Note{
+                public static final class Note {
                         public static final double kHeight = Units.inchesToMeters(2.0);
                 }
 
@@ -310,16 +310,15 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 // TODO: find values
-                public static final double kWristConversionFactor = 360;
+                public static final double kWristConversionFactor = 180 / Math.PI;
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kWristTolerance = 2;
-                public static final double[] kWristLimits = { 0, 140 };
+                public static final double[] kWristLimits = { 0, 0 };
 
                 // TODO: find actual values
                 public static final double kStowAngle = 0;
                 public static final double kLoadAngle = 0;
                 public static final double kAmpAngle = 0;
-                public static final double kShootAngle = 0;
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
@@ -336,30 +335,30 @@ public final class Constants {
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
 
-                public static final int kPivotCanId = 13;
-                public static final CANSparkMax kPivotMotor = new CANSparkMax(kPivotCanId,
+                public static final int kintakeAngleCanId = 13;
+                public static final CANSparkMax kintakeAngleMotor = new CANSparkMax(kintakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kPivotEncoder = kPivotMotor
+                public static final AbsoluteEncoder kintakeAngleEncoder = kintakeAngleMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-                public static final SparkPIDController kPivotController = kPivotMotor.getPIDController();
+                public static final SparkPIDController kintakeAngleController = kintakeAngleMotor.getPIDController();
 
-                public static final PIDConstants kPivotPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kPivotConversionFactor = 180 / Math.PI;
+                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final double kintakeAngleConversionFactor = 180 / Math.PI;
                 public static final double kTolerance = 2;
 
                 // TODO: determine positions
-                public static final double kPivotLoadPosition = 160;
-                public static final double kPivotShootPosition = 160;
-                public static final double kPivotGroundPosition = 0;
+                public static final double kintakeAngleLoadPosition = 0;
+                public static final double kintakeAngleShootPosition = 0;
+                public static final double kintakeAngleGroundPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kPivotLimits = { 0, 0 };
+                public static final double[] kintakeAngleLimits = { 0, 200 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
                 public static final double kLoadSpeed = 0.2;
 
-                //TODO: determine range
+                // TODO: determine range
                 public static final double kDeployRange = 2;
         }
 
@@ -389,6 +388,9 @@ public final class Constants {
                 public static final double kLoadPosition = 0;
                 public static final double kShootPosition = 0;
                 public static final double kAmpPosition = 0;
+
+                public static final double kWristTolerance = 60;
+                public static final double kIntakeTolerance = 195;
         }
 
         public class ClimberConstants {

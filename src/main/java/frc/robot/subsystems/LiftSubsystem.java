@@ -7,43 +7,51 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class LiftSubsystem extends SubsystemBase{
-    private double position;
-    
-    public LiftSubsystem(){
-        //TODO
+public class LiftSubsystem extends SubsystemBase {
+    public double position;
+
+    public LiftSubsystem() {
+        // TODO
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
-        //setup PID
+        // setup PID
         Constants.LiftConstants.kLiftController.setP(Constants.LiftConstants.kLiftPIDConstants.kP);
         Constants.LiftConstants.kLiftController.setI(Constants.LiftConstants.kLiftPIDConstants.kI);
         Constants.LiftConstants.kLiftController.setD(Constants.LiftConstants.kLiftPIDConstants.kD);
         Constants.LiftConstants.kLiftController.setFeedbackDevice(Constants.LiftConstants.kLiftEncoder);
-        
+
         Constants.LiftConstants.kLiftEncoder.setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactor);
     }
 
-    public void periodic(){
+    public void periodic() {
         log();
         Constants.LiftConstants.kLiftController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
 
-    
     /**
      * Set the position of the lift
      * 
      * @param position (inches)
      */
-    public void setPosition(double position){
-        position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0], Constants.LiftConstants.kLiftLimits[1]);
-        this.position = position;
+    public void setPosition(double position) {
+        if ((Constants.ShooterConstants.kWristEncoder.getPosition() > Constants.LiftConstants.kWristTolerance &&
+                Constants.IntakeConstants.kintakeAngleEncoder
+                        .getPosition() < Constants.LiftConstants.kIntakeTolerance)
+                || this.position > 3/* TODO */) {
+
+            position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
+                    Constants.LiftConstants.kLiftLimits[1]);
+            this.position = position;
+            
+        }
+
     }
 
     /**
      * 
      * @return the position of the lift
      */
-    public double getPosition(){
+    public double getPosition() {
         return position;
     }
 
@@ -51,11 +59,12 @@ public class LiftSubsystem extends SubsystemBase{
      * 
      * @return whether the lift is at the commanded position
      */
-    public boolean atPosition(){
-        return Math.abs(Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
+    public boolean atPosition() {
+        return Math.abs(
+                Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
     }
 
-    public void log(){
+    public void log() {
         SmartDashboard.putNumber("Lift Position: ", position);
     }
 }

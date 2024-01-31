@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.CustomUtils;
 
 public class ShooterSubsystem extends SubsystemBase {
         private double leftRPM;
@@ -19,27 +20,19 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kWristMotor.setInverted(Constants.ShooterConstants.kWristInverted);
 
                 // setup PID
-                Constants.ShooterConstants.kLeftShooterController
-                                .setP(Constants.ShooterConstants.kShooterPIDConstants.kP);
-                Constants.ShooterConstants.kLeftShooterController
-                                .setI(Constants.ShooterConstants.kShooterPIDConstants.kI);
-                Constants.ShooterConstants.kLeftShooterController
-                                .setD(Constants.ShooterConstants.kShooterPIDConstants.kD);
+                CustomUtils.setSparkPID(Constants.ShooterConstants.kLeftShooterController,
+                                Constants.ShooterConstants.kShooterPIDConstants);
                 Constants.ShooterConstants.kLeftShooterController
                                 .setFeedbackDevice(Constants.ShooterConstants.kLeftShooterEncoder);
 
-                Constants.ShooterConstants.kRightShooterController
-                                .setP(Constants.ShooterConstants.kShooterPIDConstants.kP);
-                Constants.ShooterConstants.kRightShooterController
-                                .setI(Constants.ShooterConstants.kShooterPIDConstants.kI);
-                Constants.ShooterConstants.kRightShooterController
-                                .setD(Constants.ShooterConstants.kShooterPIDConstants.kD);
+                CustomUtils.setSparkPID(Constants.ShooterConstants.kRightShooterController,
+                                Constants.ShooterConstants.kShooterPIDConstants);
                 Constants.ShooterConstants.kRightShooterController
                                 .setFeedbackDevice(Constants.ShooterConstants.kRightShooterEncoder);
 
-                Constants.ShooterConstants.kWristController.setP(Constants.ShooterConstants.kWristPIDConstants.kP);
-                Constants.ShooterConstants.kWristController.setI(Constants.ShooterConstants.kWristPIDConstants.kI);
-                Constants.ShooterConstants.kWristController.setD(Constants.ShooterConstants.kWristPIDConstants.kD);
+                CustomUtils.setSparkPID(Constants.ShooterConstants.kWristController,
+                                Constants.ShooterConstants.kWristPIDConstants);
+
                 Constants.ShooterConstants.kWristController
                                 .setFeedbackDevice(Constants.ShooterConstants.kWristEncoder);
 

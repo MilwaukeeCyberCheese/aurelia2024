@@ -19,7 +19,7 @@ public class StowCommand extends Command {
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setPivotPosition(Constants.IntakeConstants.kPivotLoadPosition);
+        m_intakeSubsystem.setintakeAnglePosition(Constants.IntakeConstants.kintakeAngleLoadPosition);
     }
 
     @Override

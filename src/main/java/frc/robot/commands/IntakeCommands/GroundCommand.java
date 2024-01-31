@@ -19,7 +19,7 @@ public class GroundCommand extends Command {
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setPivotPosition(Constants.IntakeConstants.kPivotGroundPosition);
+        m_intakeSubsystem.setintakeAnglePosition(Constants.IntakeConstants.kintakeAngleGroundPosition);
     }
 
     @Override
