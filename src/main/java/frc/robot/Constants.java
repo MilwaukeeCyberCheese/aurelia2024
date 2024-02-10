@@ -332,15 +332,17 @@ public final class Constants {
 
         public static final class IntakeConstants {
                 public static final int kIntakeCanId = 12;
+                public static final boolean kIntakeInverted = false;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
 
-                public static final int kintakeAngleCanId = 13;
-                public static final CANSparkMax kintakeAngleMotor = new CANSparkMax(kintakeAngleCanId,
+                public static final int kIntakeAngleCanId = 13;
+                public static final boolean kIntakeAngleInverted = false;
+                public static final CANSparkMax kIntakeAngleMotor = new CANSparkMax(kIntakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kintakeAngleEncoder = kintakeAngleMotor
+                public static final AbsoluteEncoder kintakeAngleEncoder = kIntakeAngleMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-                public static final SparkPIDController kintakeAngleController = kintakeAngleMotor.getPIDController();
+                public static final SparkPIDController kintakeAngleController = kIntakeAngleMotor.getPIDController();
 
                 public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kintakeAngleConversionFactor = 180 / Math.PI;
