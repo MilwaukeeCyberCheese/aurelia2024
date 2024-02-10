@@ -300,6 +300,7 @@ public final class Constants {
                 // TODO: find values
                 public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kShooterTolerance = 50;
+                public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 11;
                 public static final boolean kWristInverted = false;
@@ -314,6 +315,7 @@ public final class Constants {
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
                 public static final double kWristTolerance = 2;
                 public static final double[] kWristLimits = { 0, 0 };
+                public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
                 public static final double kStowAngle = 0;
@@ -336,6 +338,8 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
 
                 public static final int kintakeAngleCanId = 13;
+                public static final CANSparkMax.IdleMode kIntakeAngleIdleMode = CANSparkMax.IdleMode.kBrake;
+                public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kCoast;
                 public static final CANSparkMax kintakeAngleMotor = new CANSparkMax(kintakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kintakeAngleEncoder = kintakeAngleMotor
@@ -370,6 +374,7 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
                 public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
                 // TODO: find conversion factor in inches
@@ -396,6 +401,7 @@ public final class Constants {
         public class ClimberConstants {
                 public static final int kLeftCanId = 15;
                 public static final boolean kLeftInverted = false; // TODO
+                public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
@@ -403,6 +409,7 @@ public final class Constants {
 
                 public static final int kRightCanId = 16;
                 public static final boolean kRightInverted = false; // TODO
+                public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
