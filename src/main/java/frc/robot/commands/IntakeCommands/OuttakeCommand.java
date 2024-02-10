@@ -22,6 +22,8 @@ public class OuttakeCommand extends Command {
         m_intakeSubsystem.setSpeed(-Constants.IntakeConstants.kIntakeSpeed);
     }
 
+    //TODO: add is finished
+
     @Override
     public void end(boolean interrupted) {
         m_intakeSubsystem.setSpeed(0);

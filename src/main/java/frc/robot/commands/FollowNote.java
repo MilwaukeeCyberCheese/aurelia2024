@@ -10,13 +10,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterCameraSubsystem;
+import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class FollowNote extends Command {
     private final DriveSubsystem m_driveSubsystem;
-    private final ShooterCameraSubsystem m_cameraSubsytem;
+    private final IntakeCameraSubsystem m_cameraSubsytem;
     private final DoubleSupplier m_goalRange;
+    private double range = 0;
 
     /**
      * Point towards, and move towards, a detected
@@ -28,7 +29,7 @@ public class FollowNote extends Command {
      * @param cameraSubsystem subsystem containing the cameras
      *                        {@link frc.robot.subsystems.CameraSubsystem link}
      */
-    public FollowNote(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
+    public FollowNote(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_goalRange = goalRange;
@@ -40,7 +41,6 @@ public class FollowNote extends Command {
         double thetaOutput = 0;
         // TODO: like everything here needs a revamp
         double yOutput = 0;
-        double range = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
         // check if target is present
@@ -52,7 +52,7 @@ public class FollowNote extends Command {
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.IntakeCamera.kCameraHeight,
                     Constants.VisionConstants.Note.kHeight,
-                    0,
+                    0,//TODO
                     Units.degreesToRadians(target.getPitch()));
 
             // set y based on range
@@ -66,6 +66,6 @@ public class FollowNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return m_goalRange.getAsDouble() >= range;
     }
 }

@@ -7,6 +7,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class LoadShooterCommand extends Command {
     private final ShooterSubsystem m_shooterSubsystem;
 
+    /**
+     * //TODO: copilot!
+     * @param shooterSubsystem
+     */
     public LoadShooterCommand(ShooterSubsystem shooterSubsystem) {
         m_shooterSubsystem = shooterSubsystem;
         addRequirements(m_shooterSubsystem);

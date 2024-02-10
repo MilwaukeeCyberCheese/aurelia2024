@@ -67,7 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
-        Constants.DriveConstants.m_odometry.getEstimatedPosition().getX() * -1,
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
         Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
   }
 
@@ -163,8 +163,10 @@ public class DriveSubsystem extends SubsystemBase {
                 Rotation2d
                     .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
     Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
@@ -178,7 +180,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    //TODO: may need to invert some speeds
+    // TODO: may need to invert some speeds
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
@@ -192,7 +194,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Method to drive the robot relative to itself without limiters, etc.
+   * Method to drive the robot relative to itself with limiters
    * 
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
@@ -204,7 +206,7 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered;
     double rotDelivered;
 
-    //TODO: may need to invert some speeds
+    // TODO: may need to invert some speeds
 
     double ySpeed = chassisSpeeds.vyMetersPerSecond;
     double xSpeed = chassisSpeeds.vxMetersPerSecond;
@@ -285,7 +287,8 @@ public class DriveSubsystem extends SubsystemBase {
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
     Constants.ModuleConstants.m_frontRight
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
+    Constants.ModuleConstants.m_backLeft
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
     Constants.ModuleConstants.m_backRight
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
   }
@@ -321,30 +324,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns the heading of the robot.
-   *
-   * @return the robot's heading in degrees, from -180 to 180
-   */
-  public double getHeading() {
-    return Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle()).getDegrees();
-  }
-
-  /**
-   * Returns the turn rate of the robot.
-   *
-   * @return The turn rate of the robot, in degrees per second
-   */
-  public double getTurnRate() {
-    return Constants.Sensors.gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
-  }
-
-  /**
    * 
    * @return ChassisSpeeds object relative to the robot
    */
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    ChassisSpeeds speeds = Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
-    return speeds;
+    return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
 }

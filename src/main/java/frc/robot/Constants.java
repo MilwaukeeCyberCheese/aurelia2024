@@ -340,6 +340,7 @@ public final class Constants {
 
                 
                 public static final int kIntakeAngleCanId = 13;
+                public static final boolean kIntakeAngleInverted = false;
                 public static final CANSparkMax.IdleMode kIntakeAngleIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kCoast;
                 public static final CANSparkMax kIntakeAngleMotor = new CANSparkMax(kIntakeAngleCanId,

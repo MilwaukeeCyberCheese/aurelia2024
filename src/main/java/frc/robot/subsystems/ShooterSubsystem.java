@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
 
+//TODO: move wrist to LiftSubsystem?
 public class ShooterSubsystem extends SubsystemBase {
         private double leftRPM;
         private double rightRPM;
@@ -19,6 +19,10 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kRightShooterMotor.setInverted(Constants.ShooterConstants.kRightInverted);
                 Constants.ShooterConstants.kWristMotor.setInverted(Constants.ShooterConstants.kWristInverted);
 
+                // set idle mode
+                Constants.ShooterConstants.kLeftShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
+                Constants.ShooterConstants.kRightShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
+                Constants.ShooterConstants.kWristMotor.setIdleMode(Constants.ShooterConstants.kWristIdleMode);
                 // setup PID
                 CustomUtils.setSparkPID(Constants.ShooterConstants.kLeftShooterController,
                                 Constants.ShooterConstants.kShooterPIDConstants);
@@ -51,7 +55,6 @@ public class ShooterSubsystem extends SubsystemBase {
          */
         public void setRPM(double rpm) {
                 setRPMs(rpm, rpm);
-
         }
 
         /**

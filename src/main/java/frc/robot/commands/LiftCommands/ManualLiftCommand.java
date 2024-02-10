@@ -14,7 +14,7 @@ public class ManualLiftCommand extends Command {
     /**
      * Command to jog the lift manually
      * 
-     * @param adjustAmount
+     * @param adjustAmount (-1 to 1)
      * @param liftSubsystem
      */
     public ManualLiftCommand(DoubleSupplier adjustAmount, LiftSubsystem liftSubsystem) {

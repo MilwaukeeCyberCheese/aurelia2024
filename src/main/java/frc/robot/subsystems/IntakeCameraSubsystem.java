@@ -41,7 +41,7 @@ public class IntakeCameraSubsystem extends SubsystemBase {
      * @return the target found by the camera
      * 
      */
-    public PhotonTrackedTarget geTarget() {
+    public PhotonTrackedTarget getTarget() {
 
         var result = Constants.VisionConstants.IntakeCamera.kCamera.getLatestResult();
         target = result.getBestTarget();

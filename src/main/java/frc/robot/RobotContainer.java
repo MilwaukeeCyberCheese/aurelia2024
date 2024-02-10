@@ -18,6 +18,7 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
 import frc.robot.subsystems.ShooterCameraSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -44,6 +45,7 @@ public class RobotContainer {
         private final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         private final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         private final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+        private final static ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
         private final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
         private final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
 
@@ -54,6 +56,8 @@ public class RobotContainer {
 
         // the one on the right
         public static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
+
+        //da buttons
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         /**

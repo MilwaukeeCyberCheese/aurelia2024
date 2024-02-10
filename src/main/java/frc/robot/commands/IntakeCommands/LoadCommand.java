@@ -24,7 +24,8 @@ public class LoadCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        return false; //TODO
+        //stays as return false because it is used in a race condition
+        return false;
     }
 
     @Override

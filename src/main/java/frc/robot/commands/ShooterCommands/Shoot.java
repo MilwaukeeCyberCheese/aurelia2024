@@ -11,20 +11,23 @@ import frc.robot.commands.LiftCommands.LiftPositionCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.utils.WaitCommandMilli;
+import frc.robot.utils.CustomUtils.WaitCommandMilli;
 
 public class Shoot extends SequentialCommandGroup {
-        public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem,
+        public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem,
+                        ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
                 addCommands(
                                 Commands.parallel(
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
-                                                new IntakeAngleCommand(() -> Constants.IntakeConstants.kintakeAngleShootPosition,
+                                                new IntakeAngleCommand(
+                                                                () -> Constants.IntakeConstants.kintakeAngleShootPosition,
                                                                 intakeSubsystem),
-                                                new SetShooterAngleCommand(shootAngle,
-                                                                shooterSubsystem)),
-                                new SpinUpCommand(rpm, shooterSubsystem),
+                                                new SetWristAngleCommand(shootAngle,
+                                                                shooterSubsystem),
+                                                new SpinUpCommand(rpm, shooterSubsystem)),
+
                                 Commands.race(new LoadCommand(intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
                                 new SpinDownCommand(shooterSubsystem));

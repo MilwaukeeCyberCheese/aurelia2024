@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
@@ -14,6 +13,10 @@ public class ClimberSubsystem extends SubsystemBase {
         // inverted
         Constants.ClimberConstants.kLeftMotor.setInverted(Constants.ClimberConstants.kLeftInverted);
         Constants.ClimberConstants.kRightMotor.setInverted(Constants.ClimberConstants.kRightInverted);
+
+        //idle mode
+        Constants.ClimberConstants.kLeftMotor.setIdleMode(Constants.ClimberConstants.kLeftIdleMode);
+        Constants.ClimberConstants.kRightMotor.setIdleMode(Constants.ClimberConstants.kRightIdleMode);
 
         // setup PID
         CustomUtils.setSparkPID(Constants.ClimberConstants.kLeftController, Constants.ClimberConstants.kPIDConstants);
@@ -41,6 +44,11 @@ public class ClimberSubsystem extends SubsystemBase {
                         - leftPosition) < Constants.ClimberConstants.kTolerance
                 && Math.abs(Constants.ClimberConstants.kRightEncoder.getPosition()
                         - rightPosition) < Constants.ClimberConstants.kTolerance;
+    }
+
+    public void zero() {
+        Constants.ClimberConstants.kLeftEncoder.setPosition(0);
+        Constants.ClimberConstants.kRightEncoder.setPosition(0);
     }
 
     public void periodic() {

@@ -24,7 +24,7 @@ public class AmpShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return true; //TODO
+        return false; //TODO
     }
 
     @Override

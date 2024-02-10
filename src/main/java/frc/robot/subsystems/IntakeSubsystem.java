@@ -17,8 +17,12 @@ public class IntakeSubsystem extends SubsystemBase {
      */
     public IntakeSubsystem() {
         // TODO
-        Constants.IntakeConstants.kintakeAngleMotor.setInverted(true);
-        Constants.IntakeConstants.kIntakeMotor.setInverted(true);
+        Constants.IntakeConstants.kIntakeAngleMotor.setInverted(Constants.IntakeConstants.kIntakeAngleInverted);
+        Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
+
+        //set idle mode
+        Constants.IntakeConstants.kIntakeAngleMotor.setIdleMode(Constants.IntakeConstants.kIntakeAngleIdleMode);
+        Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
 
         // setup PID
         CustomUtils.setSparkPID(Constants.IntakeConstants.kintakeAngleController,
