@@ -207,6 +207,7 @@ public final class Constants {
                 public static final int kLeftJoystickPort = 0;
                 public static final int kRightJoystickPort = 1;
                 public static final int kButtonPort = 2;
+                public static final int kOperatorControllerPort = 3;
                 public static final double kDriveDeadband = 0.1;
         }
 
@@ -326,6 +327,7 @@ public final class Constants {
                 public static final double kShotWaitTime = 400;
 
                 // TODO: find RPMs
+                public static final double kMaxRPM = 5000;
                 public static final double kAmpRPM = 500;
                 public static final double kLoadRPM = 20;
 

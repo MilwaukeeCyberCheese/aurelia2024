@@ -64,6 +64,8 @@ public class ShooterSubsystem extends SubsystemBase {
          * @param rightRPM
          */
         public void setRPMs(double leftRPM, double rightRPM) {
+                leftRPM = MathUtil.clamp(leftRPM, 0, Constants.ShooterConstants.kMaxRPM);
+                rightRPM = MathUtil.clamp(rightRPM, 0, Constants.ShooterConstants.kMaxRPM);
                 this.leftRPM = leftRPM;
                 this.rightRPM = rightRPM;
         }

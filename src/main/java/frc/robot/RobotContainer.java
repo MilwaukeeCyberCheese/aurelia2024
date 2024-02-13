@@ -17,14 +17,17 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
-import frc.robot.subsystems.ShooterCameraSubsystem;
+import frc.robot.commands.ShooterCommands.SpinDownCommand;
+import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.ShooterCameraSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.FilteredButton;
+import frc.robot.utils.FilteredController;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -59,6 +62,9 @@ public class RobotContainer {
 
         //da buttons
         FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
+
+        //da operator controller
+        FilteredController m_operatorController = new FilteredController(OIConstants.kOperatorControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -114,6 +120,12 @@ public class RobotContainer {
                 // reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
+                //run shooter at full speed
+                //TODO: find ratio, set MAX RPM
+                new Trigger(m_operatorController::getAButton).onTrue(new SpinUpCommand(() -> 1000, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
+                
+                
 
         }
 
