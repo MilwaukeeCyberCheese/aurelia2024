@@ -12,7 +12,7 @@ public class LiftSubsystem extends SubsystemBase {
     public double position;
 
     public LiftSubsystem() {
-        // TODO
+        // TODO: determine whether to invert this or not
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
         //idle mode

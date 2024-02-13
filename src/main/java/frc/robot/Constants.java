@@ -283,20 +283,20 @@ public final class Constants {
 
         public static final class ShooterConstants {
                 public static final int kLeftShooterCanId = 9;
-                public static final boolean kLeftInverted = false; // TODO
+                public static final boolean kLeftInverted = false;
                 public static final CANSparkMax kLeftShooterMotor = new CANSparkMax(kLeftShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kLeftShooterEncoder = kLeftShooterMotor.getEncoder();
                 public static final SparkPIDController kLeftShooterController = kLeftShooterMotor.getPIDController();
 
                 public static final int kRightShooterCanId = 10;
-                public static final boolean kRightInverted = false; // TODO
+                public static final boolean kRightInverted = false;
                 public static final CANSparkMax kRightShooterMotor = new CANSparkMax(kRightShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
                 public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 4; // TODO
+                public static final double kShooterConversionFactor = 1/3;
 
                 // TODO: find values
                 public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
@@ -326,12 +326,12 @@ public final class Constants {
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
 
-                // TODO: find RPMs
-                public static final double kMaxRPM = 5000;
-                public static final double kAmpRPM = 500;
-                public static final double kLoadRPM = 20;
+                
+                public static final double kMaxRPM = NeoMotorConstants.kFreeSpeedRpm * kShooterConversionFactor;
+                public static final double kAmpRPM = 500;// TODO: find amp RPM
+                public static final double kLoadRPM = 20;// TODO: find load RPM
 
-                public static final double kRedNoteDetectionThreshold = 200;
+                public static final double kRedNoteDetectionThreshold = 200; //TODO: determine threshold
         }
 
         public static final class IntakeConstants {
@@ -340,7 +340,6 @@ public final class Constants {
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
 
-                
                 public static final int kIntakeAngleCanId = 13;
                 public static final boolean kIntakeAngleInverted = false;
                 public static final CANSparkMax.IdleMode kIntakeAngleIdleMode = CANSparkMax.IdleMode.kBrake;

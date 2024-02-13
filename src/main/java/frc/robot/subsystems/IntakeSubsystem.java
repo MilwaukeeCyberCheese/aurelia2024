@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * Subsystem for controlling the intake
      */
     public IntakeSubsystem() {
-        // TODO
+        // TODO: determine whether to invert this or not
         Constants.IntakeConstants.kIntakeAngleMotor.setInverted(Constants.IntakeConstants.kIntakeAngleInverted);
         Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
 

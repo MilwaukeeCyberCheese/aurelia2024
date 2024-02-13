@@ -39,7 +39,7 @@ public class FollowNote extends Command {
     @Override
     public void execute() {
         double thetaOutput = 0;
-        // TODO: like everything here needs a revamp
+        // TODO: like everything here needs a revamp, maybe use PPLib?
         double yOutput = 0;
         PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
@@ -52,7 +52,7 @@ public class FollowNote extends Command {
             range = PhotonUtils.calculateDistanceToTargetMeters(
                     Constants.VisionConstants.IntakeCamera.kCameraHeight,
                     Constants.VisionConstants.Note.kHeight,
-                    0,//TODO
+                    Constants.VisionConstants.IntakeCamera.kRobotToCam.getRotation().getY(),
                     Units.degreesToRadians(target.getPitch()));
 
             // set y based on range

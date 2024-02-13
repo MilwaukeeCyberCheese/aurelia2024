@@ -14,6 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
         private double position;
 
         public ShooterSubsystem() {
+                //TODO: find out if it should be inverted
                 // inverted
                 Constants.ShooterConstants.kLeftShooterMotor.setInverted(Constants.ShooterConstants.kLeftInverted);
                 Constants.ShooterConstants.kRightShooterMotor.setInverted(Constants.ShooterConstants.kRightInverted);
