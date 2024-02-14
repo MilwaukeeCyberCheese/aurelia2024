@@ -24,7 +24,7 @@ public class AmpShooter extends Command {
 
     @Override
     public boolean isFinished() {
-        return false; //TODO
+        return false; //TODO: this should be the color sensor I think
     }
 
     @Override

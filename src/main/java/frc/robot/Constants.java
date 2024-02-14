@@ -298,9 +298,9 @@ public final class Constants {
 
                 public static final double kShooterConversionFactor = 1/3;
 
-                // TODO: find values
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kShooterTolerance = 50;
+               
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: find PID values
+                public static final double kShooterTolerance = 50; //TODO: find tolerance
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 11;
@@ -311,11 +311,11 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                // TODO: find values
-                public static final double kWristConversionFactor = 180 / Math.PI;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kWristTolerance = 2;
-                public static final double[] kWristLimits = { 0, 0 };
+                
+                public static final double kWristConversionFactor = 180 / Math.PI; //TODO: confirm conversion factor
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0); //TODO: tune PID
+                public static final double kWristTolerance = 2; //TODO: find tolerance
+                public static final double[] kWristLimits = { 0, 0 }; //TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -404,7 +404,7 @@ public final class Constants {
 
         public class ClimberConstants {
                 public static final int kLeftCanId = 15;
-                public static final boolean kLeftInverted = false; // TODO
+                public static final boolean kLeftInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
@@ -412,17 +412,17 @@ public final class Constants {
                 public static final SparkPIDController kLeftController = kLeftMotor.getPIDController();
 
                 public static final int kRightCanId = 16;
-                public static final boolean kRightInverted = false; // TODO
+                public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
                 public static final SparkPIDController kRightController = kRightMotor.getPIDController();
 
-                public static final double kConversionFactor = 4; // TODO
+                public static final double kConversionFactor = 4; // TODO: find conversion factor to inches
 
-                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kTolerance = 50;
+                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); //TODO: tune PID
+                public static final double kTolerance = 50; //TODO: find tolerance
 
         }
 }
