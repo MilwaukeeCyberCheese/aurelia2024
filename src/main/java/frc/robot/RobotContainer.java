@@ -121,7 +121,7 @@ public class RobotContainer {
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
                 //run shooter at full speed
-                //TODO: find ratio, set MAX RPM
+                //TODO:  set MAX RPM
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinUpCommand(() -> 750, m_shooterSubsystem));
                 new Trigger(m_operatorController::getBButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
                 
