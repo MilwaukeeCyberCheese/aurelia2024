@@ -4,6 +4,13 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.revrobotics.SparkPIDController;
 
 public class CustomUtils {
+    public static void setSparkPID(SparkPIDController controller, double[] constants) {
+        controller.setP(constants[0]);
+        controller.setI(constants[1]);
+        controller.setD(constants[2]);
+        controller.setFF(constants[3]);
+    }
+
     public static void setSparkPID(SparkPIDController controller, PIDConstants constants) {
         controller.setP(constants.kP);
         controller.setI(constants.kI);
@@ -18,4 +25,6 @@ public class CustomUtils {
         }
 
     }
+
+    
 }

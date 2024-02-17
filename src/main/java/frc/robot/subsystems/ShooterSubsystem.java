@@ -14,7 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
         private double position;
 
         public ShooterSubsystem() {
-                //TODO: find out if it should be inverted
+             
                 // inverted
                 Constants.ShooterConstants.kLeftShooterMotor.setInverted(Constants.ShooterConstants.kLeftInverted);
                 Constants.ShooterConstants.kRightShooterMotor.setInverted(Constants.ShooterConstants.kRightInverted);
@@ -56,6 +56,8 @@ public class ShooterSubsystem extends SubsystemBase {
          */
         public void setRPM(double rpm) {
                 setRPMs(rpm, rpm);
+                // Constants.ShooterConstants.kLeftShooterMotor.set(1);
+                // Constants.ShooterConstants.kRightShooterMotor.set(1);
         }
 
         /**
@@ -65,6 +67,7 @@ public class ShooterSubsystem extends SubsystemBase {
          * @param rightRPM
          */
         public void setRPMs(double leftRPM, double rightRPM) {
+                System.out.println(leftRPM + " " + rightRPM);
                 leftRPM = MathUtil.clamp(leftRPM, 0, Constants.ShooterConstants.kMaxRPM);
                 rightRPM = MathUtil.clamp(rightRPM, 0, Constants.ShooterConstants.kMaxRPM);
                 this.leftRPM = leftRPM;
@@ -111,12 +114,17 @@ public class ShooterSubsystem extends SubsystemBase {
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kRightShooterController.setReference(rightRPM,
                                 CANSparkMax.ControlType.kVelocity);
+                                System.out.println(leftRPM + " " + rightRPM + " " + Constants.ShooterConstants.kLeftShooterEncoder.getVelocity() + " " + Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
 
                 Constants.ShooterConstants.kWristController.setReference(position, CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
-
+                SmartDashboard.putNumber("Left RPM", leftRPM);
+                SmartDashboard.putNumber("Right RPM", rightRPM);
+                SmartDashboard.putNumber("Left RPM Actual", Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
+                
+                SmartDashboard.putNumber("Right RPM Actual", Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
                 SmartDashboard.putBoolean("At Speed", atRPM());
         }
 }

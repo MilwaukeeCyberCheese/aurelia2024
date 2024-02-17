@@ -20,6 +20,8 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -283,7 +285,7 @@ public final class Constants {
 
         public static final class ShooterConstants {
                 public static final int kLeftShooterCanId = 9;
-                public static final boolean kLeftInverted = false;
+                public static final boolean kLeftInverted = true;
                 public static final CANSparkMax kLeftShooterMotor = new CANSparkMax(kLeftShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kLeftShooterEncoder = kLeftShooterMotor.getEncoder();
@@ -296,11 +298,13 @@ public final class Constants {
                 public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
                 public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 1/3;
+                public static final double kShooterConversionFactor = 1.0/3.0;
 
                
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: find PID values
-                public static final double kShooterTolerance = 50; //TODO: find tolerance
+                public static final double[] kShooterPIDConstants = {0.000, 0.000, 0.0, 0.00053}; // TODO: find PID values
+                public static final SimpleMotorFeedforward kShooterFeedForward = new 
+                SimpleMotorFeedforward(kShooterConversionFactor, kRightShooterCanId, kLeftShooterCanId);
+                public static final double kShooterTolerance = 10; //TODO: find tolerance
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 11;
@@ -315,6 +319,7 @@ public final class Constants {
                 public static final double kWristConversionFactor = 180 / Math.PI; //TODO: confirm conversion factor
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0); //TODO: tune PID
                 public static final double kWristTolerance = 2; //TODO: find tolerance
+
                 public static final double[] kWristLimits = { 0, 0 }; //TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
