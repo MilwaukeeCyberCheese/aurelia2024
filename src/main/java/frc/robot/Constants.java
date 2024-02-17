@@ -6,7 +6,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
+import frc.robot.utils.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
@@ -220,9 +220,9 @@ public final class Constants {
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
                 // TODO: this will need to be tuned
-                public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3.0, 1.0, 0.0);
+                public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(3.0, 1.0, 0.0);
 
-                public static final PIDConstants kThetaPIDConstants = new PIDConstants(Math.PI, 0.0, 0.0);
+                public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(Math.PI, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -301,7 +301,7 @@ public final class Constants {
                 public static final double kShooterConversionFactor = 1.0/3.0;
 
                
-                public static final double[] kShooterPIDConstants = {0.000, 0.000, 0.0, 0.00053}; // TODO: find PID values
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00053); // TODO: find PID values
                 public static final SimpleMotorFeedforward kShooterFeedForward = new 
                 SimpleMotorFeedforward(kShooterConversionFactor, kRightShooterCanId, kLeftShooterCanId);
                 public static final double kShooterTolerance = 10; //TODO: find tolerance
