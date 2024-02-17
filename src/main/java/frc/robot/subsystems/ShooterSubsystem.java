@@ -14,7 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
         private double position;
 
         public ShooterSubsystem() {
-             
+
                 // inverted
                 Constants.ShooterConstants.kLeftShooterMotor.setInverted(Constants.ShooterConstants.kLeftInverted);
                 Constants.ShooterConstants.kRightShooterMotor.setInverted(Constants.ShooterConstants.kRightInverted);
@@ -114,7 +114,6 @@ public class ShooterSubsystem extends SubsystemBase {
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kRightShooterController.setReference(rightRPM,
                                 CANSparkMax.ControlType.kVelocity);
-                                System.out.println(leftRPM + " " + rightRPM + " " + Constants.ShooterConstants.kLeftShooterEncoder.getVelocity() + " " + Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
 
                 Constants.ShooterConstants.kWristController.setReference(position, CANSparkMax.ControlType.kPosition);
         }
@@ -122,9 +121,11 @@ public class ShooterSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Left RPM", leftRPM);
                 SmartDashboard.putNumber("Right RPM", rightRPM);
-                SmartDashboard.putNumber("Left RPM Actual", Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
-                
-                SmartDashboard.putNumber("Right RPM Actual", Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
+                SmartDashboard.putNumber("Left RPM Actual",
+                                Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
+
+                SmartDashboard.putNumber("Right RPM Actual",
+                                Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
                 SmartDashboard.putBoolean("At Speed", atRPM());
         }
 }
