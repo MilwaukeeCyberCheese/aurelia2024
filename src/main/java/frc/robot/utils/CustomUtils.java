@@ -6,6 +6,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CustomUtils {
 
+    /**
+     * Set the PID constants of a SparkPIDController
+     *
+     * @param controller
+     * @param constants
+     */
     public static void setSparkPID(SparkPIDController controller, PIDConstants constants) {
         controller.setP(constants.kP);
         controller.setI(constants.kI);
@@ -15,7 +21,11 @@ public class CustomUtils {
 
     public static class WaitCommandMilli extends edu.wpi.first.wpilibj2.command.WaitCommand {
 
-        // replace generic wait command with command in millisecondsw
+        /**
+         * Instantiates a new WaitCommand
+         * 
+         * @param milliseconds
+         */
         public WaitCommandMilli(double milliseconds) {
             super(milliseconds / 1000);
         }
@@ -89,10 +99,11 @@ public class CustomUtils {
         /**
          * Instantiates a new LivePIDTuner
          * 
+         * @param name
          * @param controller
          * @param constants
          */
-        public LivePIDTuner(SparkPIDController controller, String name, PIDConstants constants) {
+        public LivePIDTuner(String name, SparkPIDController controller, PIDConstants constants) {
             this.controller = controller;
             pidConstants = new DashboardUpdaterArray(name, new double[] { constants.kP, constants.kI, constants.kD,
                     constants.kFF });

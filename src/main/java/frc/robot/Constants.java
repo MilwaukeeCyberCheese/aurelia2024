@@ -220,9 +220,11 @@ public final class Constants {
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
                 // TODO: this will need to be tuned
-                public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(3.0, 1.0, 0.0);
+                public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(
+                                3.0, 1.0, 0.0);
 
-                public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(Math.PI, 0.0, 0.0);
+                public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
+                                Math.PI, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -298,13 +300,24 @@ public final class Constants {
                 public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
                 public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 1.0/3.0;
+                public static final double kShooterConversionFactor = 1.0 / 3.0;
 
-               
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00053); // TODO: find PID values
-                public static final SimpleMotorFeedforward kShooterFeedForward = new 
-                SimpleMotorFeedforward(kShooterConversionFactor, kRightShooterCanId, kLeftShooterCanId);
-                public static final double kShooterTolerance = 10; //TODO: find tolerance
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00053); // TODO:
+                                                                                                                      // probably
+                                                                                                                      // confirmed,
+                                                                                                                      // just
+                                                                                                                      // gonna
+                                                                                                                      // leave
+                                                                                                                      // this
+                                                                                                                      // to
+                                                                                                                      // check
+                                                                                                                      // in
+                                                                                                                      // case
+                                                                                                                      // it
+                                                                                                                      // changes
+                public static final SimpleMotorFeedforward kShooterFeedForward = new SimpleMotorFeedforward(
+                                kShooterConversionFactor, kRightShooterCanId, kLeftShooterCanId);
+                public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 11;
@@ -315,12 +328,11 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                
-                public static final double kWristConversionFactor = 180 / Math.PI; //TODO: confirm conversion factor
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0); //TODO: tune PID
-                public static final double kWristTolerance = 2; //TODO: find tolerance
+                public static final double kWristConversionFactor = 180 / Math.PI; // TODO: confirm conversion factor
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
+                public static final double kWristTolerance = 2; // TODO: find tolerance
 
-                public static final double[] kWristLimits = { 0, 0 }; //TODO: set limits
+                public static final double[] kWristLimits = { 0, 0 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -331,12 +343,11 @@ public final class Constants {
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
 
-                
                 public static final double kMaxRPM = NeoMotorConstants.kFreeSpeedRpm * kShooterConversionFactor;
                 public static final double kAmpRPM = 500;// TODO: find amp RPM
                 public static final double kLoadRPM = 20;// TODO: find load RPM
 
-                public static final double kRedNoteDetectionThreshold = 200; //TODO: determine threshold
+                public static final double kRedNoteDetectionThreshold = 200; // TODO: determine threshold
         }
 
         public static final class IntakeConstants {
@@ -426,8 +437,8 @@ public final class Constants {
 
                 public static final double kConversionFactor = 4; // TODO: find conversion factor to inches
 
-                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); //TODO: tune PID
-                public static final double kTolerance = 50; //TODO: find tolerance
+                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
+                public static final double kTolerance = 50; // TODO: find tolerance
 
         }
 }

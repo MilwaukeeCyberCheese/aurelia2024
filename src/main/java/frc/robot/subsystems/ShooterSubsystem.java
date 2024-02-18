@@ -6,12 +6,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
+import frc.robot.utils.CustomUtils.LivePIDTuner;
 
-//TODO: move wrist to LiftSubsystem?
 public class ShooterSubsystem extends SubsystemBase {
         private double leftRPM;
         private double rightRPM;
         private double position;
+        private LivePIDTuner leftTuner;
+        private LivePIDTuner rightTuner;
 
         public ShooterSubsystem() {
 
@@ -24,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kLeftShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
                 Constants.ShooterConstants.kRightShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
                 Constants.ShooterConstants.kWristMotor.setIdleMode(Constants.ShooterConstants.kWristIdleMode);
+
                 // setup PID
                 CustomUtils.setSparkPID(Constants.ShooterConstants.kLeftShooterController,
                                 Constants.ShooterConstants.kShooterPIDConstants);
@@ -37,7 +40,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 CustomUtils.setSparkPID(Constants.ShooterConstants.kWristController,
                                 Constants.ShooterConstants.kWristPIDConstants);
-
                 Constants.ShooterConstants.kWristController
                                 .setFeedbackDevice(Constants.ShooterConstants.kWristEncoder);
 
@@ -47,6 +49,14 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kShooterConversionFactor);
                 Constants.ShooterConstants.kWristEncoder
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kWristConversionFactor);
+
+                // live PID tuner
+                leftTuner = new LivePIDTuner("Left Shooter",
+                                Constants.ShooterConstants.kLeftShooterController,
+                                Constants.ShooterConstants.kShooterPIDConstants);
+                rightTuner = new LivePIDTuner("Right Shooter",
+                                Constants.ShooterConstants.kRightShooterController,
+                                Constants.ShooterConstants.kShooterPIDConstants);
         }
 
         /**
@@ -56,8 +66,6 @@ public class ShooterSubsystem extends SubsystemBase {
          */
         public void setRPM(double rpm) {
                 setRPMs(rpm, rpm);
-                // Constants.ShooterConstants.kLeftShooterMotor.set(1);
-                // Constants.ShooterConstants.kRightShooterMotor.set(1);
         }
 
         /**
@@ -110,6 +118,9 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 log();
 
+                leftTuner.update();
+                rightTuner.update();
+
                 Constants.ShooterConstants.kLeftShooterController.setReference(leftRPM,
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kRightShooterController.setReference(rightRPM,
@@ -126,6 +137,5 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 SmartDashboard.putNumber("Right RPM Actual",
                                 Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
-                SmartDashboard.putBoolean("At Speed", atRPM());
         }
 }
