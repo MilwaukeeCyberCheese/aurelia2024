@@ -33,8 +33,8 @@ public class CustomUtils {
     }
 
     /**
-     * An object that will put a value to the SmartDashboard, and then update the
-     * value within the object when the value on SmartDashboard changes.
+     * An object that will put a number to the SmartDashboard, and then update the
+     * value within the object when the number on SmartDashboard changes.
      */
     public static class DashboardUpdater {
         private String key;
@@ -59,6 +59,36 @@ public class CustomUtils {
 
         public double get() {
             return value;
+        }
+    }
+
+    /**
+     * An object that will put a value to the SmartDashboard, and then update the
+     * value within the object when the value on SmartDashboard changes.
+     */
+    public static class DashboardUpdaterAny <E> {
+        private String key;
+        private Object value;
+
+        /**
+         * Instantiates a new DashboardUpdaterAny
+         * 
+         * @param key
+         * @param value
+         */
+        public DashboardUpdaterAny(String key, Object value) {
+            this.key = key;
+            this.value = value;
+            SmartDashboard.putString(key, value.toString()); //TODO: This may need to be changed to putRaw, or further experimentation may be needed
+        }
+
+        public E update() {
+            value = SmartDashboard.getString(key, value.toString());
+            return (E) value;
+        }
+
+        public E get() {
+            return (E) value;
         }
     }
 
