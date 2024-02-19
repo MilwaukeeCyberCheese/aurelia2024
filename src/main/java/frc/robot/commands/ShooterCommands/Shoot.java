@@ -11,7 +11,7 @@ import frc.robot.commands.LiftCommands.LiftPositionCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.utils.CustomUtils.WaitCommandMilli;
+import frc.robot.utils.WaitCommandMilli;
 
 public class Shoot extends SequentialCommandGroup {
         public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem,
