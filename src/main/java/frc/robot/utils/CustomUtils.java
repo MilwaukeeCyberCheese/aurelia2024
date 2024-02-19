@@ -1,7 +1,6 @@
 package frc.robot.utils;
 
 import com.revrobotics.SparkPIDController;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CustomUtils {
@@ -33,40 +32,10 @@ public class CustomUtils {
     }
 
     /**
-     * An object that will put a number to the SmartDashboard, and then update the
-     * value within the object when the number on SmartDashboard changes.
-     */
-    public static class DashboardUpdater {
-        private String key;
-        private double value;
-
-        /**
-         * Instantiates a new DashboardUpdater
-         * 
-         * @param key
-         * @param value
-         */
-        public DashboardUpdater(String key, double value) {
-            this.key = key;
-            this.value = value;
-            SmartDashboard.putNumber(key, value);
-        }
-
-        public double update() {
-            value = SmartDashboard.getNumber(key, value);
-            return value;
-        }
-
-        public double get() {
-            return value;
-        }
-    }
-
-    /**
      * An object that will put a value to the SmartDashboard, and then update the
      * value within the object when the value on SmartDashboard changes.
      */
-    public static class DashboardUpdaterAny <E> {
+    public static class DashboardUpdater<E> {
         private String key;
         private Object value;
 
@@ -76,22 +45,28 @@ public class CustomUtils {
          * @param key
          * @param value
          */
-        public DashboardUpdaterAny(String key, Object value) {
+        public DashboardUpdater(String key, Object value) {
             this.key = key;
             this.value = value;
-            SmartDashboard.putString(key, value.toString()); //TODO: This may need to be changed to putRaw, or further experimentation may be needed
+            SmartDashboard.putString(key, value.toString()); // TODO: This may need to be changed to putRaw, or further
+                                                             // experimentation may be needed
         }
 
+        @SuppressWarnings("unchecked")
         public E update() {
             value = SmartDashboard.getString(key, value.toString());
             return (E) value;
         }
 
+        @SuppressWarnings("unchecked")
         public E get() {
             return (E) value;
         }
     }
 
+    /**
+     * Not currently working
+     */
     public static class DashboardUpdaterArray {
         private String key;
         private double[] arr;
@@ -102,10 +77,10 @@ public class CustomUtils {
          * @param key
          * @param arr
          */
-        public DashboardUpdaterArray(String key, double[] value) {
+        public DashboardUpdaterArray(String key, double[] arr) {
             this.key = key;
-            this.arr = value;
-            SmartDashboard.putNumberArray(key, value);
+            this.arr = arr;
+            SmartDashboard.putNumberArray(key, arr);
         }
 
         public double[] update() {
@@ -124,7 +99,7 @@ public class CustomUtils {
      */
     public static class LivePIDTuner {
         private SparkPIDController controller;
-        private DashboardUpdaterArray pidConstants;
+        private DashboardUpdater<Double>[] pidConstants; //make it an ArrayList
 
         /**
          * Instantiates a new LivePIDTuner
@@ -135,13 +110,19 @@ public class CustomUtils {
          */
         public LivePIDTuner(String name, SparkPIDController controller, PIDConstants constants) {
             this.controller = controller;
-            pidConstants = new DashboardUpdaterArray(name, new double[] { constants.kP, constants.kI, constants.kD,
-                    constants.kFF });
+            pidConstants = new DashboardUpdater[] {
+                    new DashboardUpdater<Double>(name + "P", constants.kP),
+                    new DashboardUpdater<Double>(name + "I", constants.kI),
+                    new DashboardUpdater<Double>(name + "D", constants.kD),
+                    new DashboardUpdater<Double>(name + "FF", constants.kFF)
+            };
         }
 
         public void update() {
-            double[] consts = pidConstants.update();
-            setSparkPID(controller, new PIDConstants(consts[0], consts[1], consts[2], consts[3]));
+            for(DashboardUpdater<Double> pidConstant : pidConstants) {
+                pidConstant.update();
+            }
+            setSparkPID(controller, new PIDConstants(pidConstants[0].get(), pidConstants[1].get(), pidConstants[2].get(), pidConstants[3].get()));
         }
     }
 
