@@ -8,15 +8,15 @@ public class PIDConstants {
   public final double kI;
   /** D */
   public final double kD;
-  /**FF */
+  /** FF */
   public final double kFF;
 
   /**
    * Create a new PIDConstants object
    *
-   * @param kP P
-   * @param kI I
-   * @param kD D
+   * @param kP  P
+   * @param kI  I
+   * @param kD  D
    * @param kFF Feedforward
    */
   public PIDConstants(double kP, double kI, double kD, double kFF) {
@@ -35,5 +35,21 @@ public class PIDConstants {
    */
   public PIDConstants(double kP, double kI, double kD) {
     this(kP, kI, kD, 0.0);
+  }
+
+  /**
+   * Return a string of all the values
+   */
+  public String toString() {
+    return "P: " + kP + " I: " + kI + " D: " + kD + " FF: " + kFF;
+  }
+
+  /**
+   * Create a new PIDConstants object from string
+   */
+  public static PIDConstants fromString(String str) {
+    String[] parts = str.split(" ");
+    return new PIDConstants(Double.parseDouble(parts[1]), Double.parseDouble(parts[3]), Double.parseDouble(parts[5]),
+        Double.parseDouble(parts[7]));
   }
 }
