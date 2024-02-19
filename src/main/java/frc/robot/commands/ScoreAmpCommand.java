@@ -8,7 +8,7 @@ import frc.robot.commands.ShooterCommands.AmpShooter;
 import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.utils.CustomUtils.WaitCommandMilli;;
+import frc.robot.utils.WaitCommandMilli;;
 
 public class ScoreAmpCommand extends SequentialCommandGroup {
 
