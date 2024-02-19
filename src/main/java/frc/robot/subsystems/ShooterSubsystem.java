@@ -133,7 +133,6 @@ public class ShooterSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("Right RPM", rightRPM);
                 SmartDashboard.putNumber("Left RPM Actual",
                                 Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
-
                 SmartDashboard.putNumber("Right RPM Actual",
                                 Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
         }
