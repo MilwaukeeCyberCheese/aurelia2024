@@ -47,7 +47,7 @@ public class PIDConstants {
   /**
    * Create a new PIDConstants object from string
    */
-  public static PIDConstants fromString(String str) {
+  public static PIDConstants parsePIDConstants(String str) {
     String[] parts = str.split(" ");
     try{
     return new PIDConstants(Double.parseDouble(parts[1]), Double.parseDouble(parts[3]), Double.parseDouble(parts[5]),

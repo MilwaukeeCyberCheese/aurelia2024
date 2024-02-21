@@ -16,7 +16,7 @@ public class DashboardUpdater<E> {
      * @param key
      * @param value
      */
-    public DashboardUpdater(String key, Object value) {
+    public DashboardUpdater(String key, E value) {
         this.key = key;
         this.value = value;
         SmartDashboard.putString(key, value.toString());
@@ -24,14 +24,39 @@ public class DashboardUpdater<E> {
 
     @SuppressWarnings("unchecked")
     public E update() {
+        // get the string back from SmartDashboard
+        String val = SmartDashboard.getString(key, "Throw an exception");
+
+        // throw an exception if we get the default value back
+        if (val.equals("Throw an exception")) {
+            throw new IllegalArgumentException("DashboardUpdater: No value found for: " + key);
+        }
+
+        // convert the string to the correct type, and set the value
         value = switch (value.getClass().getSimpleName()) {
-            case "Double" -> SmartDashboard.getNumber(key, (Double) value);
-            case "Integer" -> SmartDashboard.getNumber(key, (Integer) value);
-            case "String" -> SmartDashboard.getString(key, (String) value);
-            case "Boolean" -> SmartDashboard.getBoolean(key, (Boolean) value);
-            case "PIDConstants" -> PIDConstants.fromString(SmartDashboard.getString(key, value.toString()));
-            default -> value;
+            case "Double" -> Double.parseDouble(val);
+            case "Integer" -> Integer.parseInt(val);
+            case "Boolean" -> Boolean.parseBoolean(val);
+            case "PIDConstants" -> PIDConstants.parsePIDConstants(val);
+            case "String" -> val;
+            default -> throw new IllegalArgumentException(
+                    "DashboardUpdater: Unsupported type: " + value.getClass().getSimpleName());
         };
+
+        return (E) value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public E set(E value) {
+        E old = (E) this.value;
+        SmartDashboard.putString(key, value.toString());
+        this.value = value;
+        return old;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public E get() {
         return (E) value;
     }
 }

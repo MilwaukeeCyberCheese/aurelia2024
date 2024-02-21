@@ -20,11 +20,11 @@ public class IntakeSubsystem extends SubsystemBase {
      * Subsystem for controlling the intake
      */
     public IntakeSubsystem() {
-        // TODO: determine whether to invert this or not
+        // TODO: determine whether to invert the intake motor
         Constants.IntakeConstants.kIntakeAngleMotor.setInverted(Constants.IntakeConstants.kIntakeAngleInverted);
         Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
 
-        //set idle mode
+        // set idle mode
         Constants.IntakeConstants.kIntakeAngleMotor.setIdleMode(Constants.IntakeConstants.kIntakeAngleIdleMode);
         Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
 
@@ -37,19 +37,21 @@ public class IntakeSubsystem extends SubsystemBase {
         // Converts to degrees
         Constants.IntakeConstants.kintakeAngleEncoder
                 .setPositionConversionFactor(Constants.IntakeConstants.kIntakeAngleConversionFactor);
-        
-        //Different stuff for tuning
-        tuner = new LivePIDTuner("Intake Tuner", Constants.IntakeConstants.kintakeAngleController, Constants.IntakeConstants.kPIDConstants);
+
+        // Different stuff for tuning
+        tuner = new LivePIDTuner("Intake Tuner", Constants.IntakeConstants.kintakeAngleController,
+                Constants.IntakeConstants.kPIDConstants);
         position = new DashboardUpdater<Double>("Intake Position", 0.0);
-        
+
     }
 
     public void periodic() {
         log();
         tuner.update();
-        position.update();  
+        position.update();
 
-        Constants.IntakeConstants.kintakeAngleController.setReference(position.update(), CANSparkMax.ControlType.kPosition);
+        Constants.IntakeConstants.kintakeAngleController.setReference(position.get(),
+                CANSparkMax.ControlType.kPosition);
         Constants.IntakeConstants.kIntakeMotor.set(speed);
     }
 
@@ -60,8 +62,7 @@ public class IntakeSubsystem extends SubsystemBase {
      */
     public void setSpeed(double speed) {
         this.speed = MathUtil.clamp(speed, -1.0, 1.0);
-        System.out.println(speed);
-        
+
     }
 
     /**
@@ -86,13 +87,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void log() {
-        SmartDashboard.putNumber("Intake Speed", speed);
-        SmartDashboard.putNumber("Intake angle speed", Constants.IntakeConstants.kIntakeAngleMotor.getEncoder().getVelocity());
         SmartDashboard.putNumber("Intake Angle", Constants.IntakeConstants.kintakeAngleEncoder.getPosition());
-        SmartDashboard.putNumber("P value", Constants.IntakeConstants.kintakeAngleController.getP());
-        SmartDashboard.putNumber("I value", Constants.IntakeConstants.kintakeAngleController.getI());
-        SmartDashboard.putNumber("D value", Constants.IntakeConstants.kintakeAngleController.getD());
-        SmartDashboard.putNumber("F value", Constants.IntakeConstants.kintakeAngleController.getFF());
-        System.out.println(position.update());
     }
 }
