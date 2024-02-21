@@ -12,8 +12,8 @@ public class ShooterSubsystem extends SubsystemBase {
         private double leftRPM;
         private double rightRPM;
         private double position;
-        private LivePIDTuner leftTuner;
-        private LivePIDTuner rightTuner;
+        // private LivePIDTuner leftTuner;
+        // private LivePIDTuner rightTuner;
 
         public ShooterSubsystem() {
 
@@ -51,12 +51,12 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kWristConversionFactor);
 
                 // live PID tuner
-                leftTuner = new LivePIDTuner("Left Shooter",
-                                Constants.ShooterConstants.kLeftShooterController,
-                                Constants.ShooterConstants.kShooterPIDConstants);
-                rightTuner = new LivePIDTuner("Right Shooter",
-                                Constants.ShooterConstants.kRightShooterController,
-                                Constants.ShooterConstants.kShooterPIDConstants);
+                // leftTuner = new LivePIDTuner("Left Shooter",
+                                // Constants.ShooterConstants.kLeftShooterController,
+                                // Constants.ShooterConstants.kShooterPIDConstants);
+                // rightTuner = new LivePIDTuner("Right Shooter",
+                                // Constants.ShooterConstants.kRightShooterController,
+                                // Constants.ShooterConstants.kShooterPIDConstants);
         }
 
         /**
@@ -117,8 +117,8 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 log();
 
-                leftTuner.update();
-                rightTuner.update();
+                // leftTuner.update();
+                // rightTuner.update();
 
                 Constants.ShooterConstants.kLeftShooterController.setReference(leftRPM,
                                 CANSparkMax.ControlType.kVelocity);

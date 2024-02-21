@@ -7,10 +7,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
+import frc.robot.utils.DashboardUpdater;
+import frc.robot.utils.LivePIDTuner;
 
 public class IntakeSubsystem extends SubsystemBase {
     private double speed;
     private double angle;
+    private LivePIDTuner tuner;
+    private DashboardUpdater<Double> position;
 
     /**
      * Subsystem for controlling the intake
@@ -32,12 +36,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // Converts to degrees
         Constants.IntakeConstants.kintakeAngleEncoder
-                .setPositionConversionFactor(Constants.IntakeConstants.kintakeAngleConversionFactor);
+                .setPositionConversionFactor(Constants.IntakeConstants.kIntakeAngleConversionFactor);
+        tuner = new LivePIDTuner("Intake Tuner", Constants.IntakeConstants.kintakeAngleController, Constants.IntakeConstants.kPIDConstants);
+        position = new DashboardUpdater<>("Intake Position", 0.0);
+        
     }
 
     public void periodic() {
         log();
-        Constants.IntakeConstants.kintakeAngleController.setReference(angle, CANSparkMax.ControlType.kPosition);
+        // tuner.update();
+
+        Constants.IntakeConstants.kintakeAngleController.setReference(20, CANSparkMax.ControlType.kPosition);
+        Constants.IntakeConstants.kIntakeMotor.set(speed);
     }
 
     /**
@@ -46,8 +56,9 @@ public class IntakeSubsystem extends SubsystemBase {
      * @param speed (-1 to 1)
      */
     public void setSpeed(double speed) {
-        this.speed = speed;
-        Constants.IntakeConstants.kIntakeMotor.set(speed);
+        this.speed = MathUtil.clamp(speed, -1.0, 1.0);
+        System.out.println(speed);
+        
     }
 
     /**
@@ -73,5 +84,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void log() {
         SmartDashboard.putNumber("Intake Speed", speed);
+        SmartDashboard.putNumber("Intake angle speed", Constants.IntakeConstants.kIntakeAngleMotor.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Intake Angle", Constants.IntakeConstants.kintakeAngleEncoder.getPosition());
     }
 }

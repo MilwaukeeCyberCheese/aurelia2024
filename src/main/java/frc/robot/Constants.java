@@ -359,15 +359,15 @@ public final class Constants {
                 public static final int kIntakeAngleCanId = 13;
                 public static final boolean kIntakeAngleInverted = false;
                 public static final CANSparkMax.IdleMode kIntakeAngleIdleMode = CANSparkMax.IdleMode.kBrake;
-                public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kCoast;
+                public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kIntakeAngleMotor = new CANSparkMax(kIntakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kintakeAngleEncoder = kIntakeAngleMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kintakeAngleController = kIntakeAngleMotor.getPIDController();
 
-                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0);
-                public static final double kintakeAngleConversionFactor = 180 / Math.PI;
+                public static final PIDConstants kPIDConstants = new PIDConstants(0.4, 0.0, 0.0, 0.000);
+                public static final double kIntakeAngleConversionFactor = 360;
                 public static final double kTolerance = 2;
 
                 // TODO: determine positions
@@ -376,7 +376,7 @@ public final class Constants {
                 public static final double kintakeAngleGroundPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kintakeAngleLimits = { 0, 200 };
+                public static final double[] kintakeAngleLimits = { 0, 218 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
