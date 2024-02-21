@@ -49,7 +49,11 @@ public class PIDConstants {
    */
   public static PIDConstants fromString(String str) {
     String[] parts = str.split(" ");
+    try{
     return new PIDConstants(Double.parseDouble(parts[1]), Double.parseDouble(parts[3]), Double.parseDouble(parts[5]),
-        Double.parseDouble(parts[7]));
+        Double.parseDouble(parts[7]));}
+        catch(Exception e){
+          throw new IllegalArgumentException("Invalid PIDConstants string format. Must be 'P: <double> I: <double> D: <double> FF: <double>'");
+        }
   }
 }

@@ -34,9 +34,4 @@ public class DashboardUpdater<E> {
         };
         return (E) value;
     }
-
-    @SuppressWarnings("unchecked")
-    public E get() {
-        return (E) value;
-    }
 }

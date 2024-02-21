@@ -37,16 +37,19 @@ public class IntakeSubsystem extends SubsystemBase {
         // Converts to degrees
         Constants.IntakeConstants.kintakeAngleEncoder
                 .setPositionConversionFactor(Constants.IntakeConstants.kIntakeAngleConversionFactor);
+        
+        //Different stuff for tuning
         tuner = new LivePIDTuner("Intake Tuner", Constants.IntakeConstants.kintakeAngleController, Constants.IntakeConstants.kPIDConstants);
-        position = new DashboardUpdater<>("Intake Position", 0.0);
+        position = new DashboardUpdater<Double>("Intake Position", 0.0);
         
     }
 
     public void periodic() {
         log();
-        // tuner.update();
+        tuner.update();
+        position.update();  
 
-        Constants.IntakeConstants.kintakeAngleController.setReference(20, CANSparkMax.ControlType.kPosition);
+        Constants.IntakeConstants.kintakeAngleController.setReference(position.update(), CANSparkMax.ControlType.kPosition);
         Constants.IntakeConstants.kIntakeMotor.set(speed);
     }
 
@@ -86,5 +89,10 @@ public class IntakeSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Intake Speed", speed);
         SmartDashboard.putNumber("Intake angle speed", Constants.IntakeConstants.kIntakeAngleMotor.getEncoder().getVelocity());
         SmartDashboard.putNumber("Intake Angle", Constants.IntakeConstants.kintakeAngleEncoder.getPosition());
+        SmartDashboard.putNumber("P value", Constants.IntakeConstants.kintakeAngleController.getP());
+        SmartDashboard.putNumber("I value", Constants.IntakeConstants.kintakeAngleController.getI());
+        SmartDashboard.putNumber("D value", Constants.IntakeConstants.kintakeAngleController.getD());
+        SmartDashboard.putNumber("F value", Constants.IntakeConstants.kintakeAngleController.getFF());
+        System.out.println(position.update());
     }
 }
