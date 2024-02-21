@@ -22,11 +22,20 @@ public class LivePIDTuner {
         pidConstants = new DashboardUpdater<PIDConstants>(name, constants);
     }
 
+    /**
+     * Update the pid based off the constants
+     */
     public void update() {
-        CustomUtils.setSparkPID(controller, pidConstants.update());
+        pidConstants.update();
+        CustomUtils.setSparkPID(controller, pidConstants.get());
     }
 
+    /**
+     * 
+     * @return PIDConstants 
+     */
     public PIDConstants getConstants() {
-        return pidConstants.update();
+        pidConstants.update();
+        return pidConstants.get();
     }
 }

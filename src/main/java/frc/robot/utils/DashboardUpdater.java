@@ -22,14 +22,20 @@ public class DashboardUpdater<E> {
         SmartDashboard.putString(key, value.toString());
     }
 
-    @SuppressWarnings("unchecked")
-    public E update() {
+    /**
+     * Check the dashboard and update the value if it has changed
+     * 
+     * @return whether the value has changed
+     */
+    public boolean update() {
         // get the string back from SmartDashboard
         String val = SmartDashboard.getString(key, "Throw an exception");
 
         // throw an exception if we get the default value back
         if (val.equals("Throw an exception")) {
             throw new IllegalArgumentException("DashboardUpdater: No value found for: " + key);
+        } else if (val.equals(value.toString())) {
+            return false;
         }
 
         // convert the string to the correct type, and set the value
@@ -43,9 +49,14 @@ public class DashboardUpdater<E> {
                     "DashboardUpdater: Unsupported type: " + value.getClass().getSimpleName());
         };
 
-        return (E) value;
+        return true;
     }
 
+    /**
+     * Set the value of the DashboardUpdater
+     * 
+     * @return the previous value
+     */
     @SuppressWarnings("unchecked")
     public E set(E value) {
         E old = (E) this.value;
@@ -55,6 +66,9 @@ public class DashboardUpdater<E> {
 
     }
 
+    /** 
+     * Get the current value
+     */
     @SuppressWarnings("unchecked")
     public E get() {
         return (E) value;
