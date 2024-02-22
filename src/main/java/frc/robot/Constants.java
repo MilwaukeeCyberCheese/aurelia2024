@@ -366,7 +366,7 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kintakeAngleController = kIntakeAngleMotor.getPIDController();
 
-                public static final PIDConstants kPIDConstants = new PIDConstants(0.4, 0.0, 0.0, 0.000);
+                public static final PIDConstants kPIDConstants = new PIDConstants(0.00001, 0.0, 0.0, 0.000);
                 public static final double kIntakeAngleConversionFactor = 360;
                 public static final double kTolerance = 2;
 
@@ -376,7 +376,7 @@ public final class Constants {
                 public static final double kintakeAngleGroundPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kintakeAngleLimits = { 0, 218 };
+                public static final double[] kintakeAngleLimits = { 6, 218 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;

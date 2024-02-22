@@ -20,6 +20,8 @@ public class IntakeSubsystem extends SubsystemBase {
      * Subsystem for controlling the intake
      */
     public IntakeSubsystem() {
+        //reset sparkmax
+        Constants.IntakeConstants.kIntakeAngleMotor.restoreFactoryDefaults();
         // TODO: determine whether to invert the intake motor
         Constants.IntakeConstants.kIntakeAngleMotor.setInverted(Constants.IntakeConstants.kIntakeAngleInverted);
         Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
@@ -37,11 +39,12 @@ public class IntakeSubsystem extends SubsystemBase {
         // Converts to degrees
         Constants.IntakeConstants.kintakeAngleEncoder
                 .setPositionConversionFactor(Constants.IntakeConstants.kIntakeAngleConversionFactor);
+        Constants.IntakeConstants.kintakeAngleEncoder.setInverted(true);
 
         // Different stuff for tuning
         tuner = new LivePIDTuner("Intake Tuner", Constants.IntakeConstants.kintakeAngleController,
                 Constants.IntakeConstants.kPIDConstants);
-        position = new DashboardUpdater<Double>("Intake Position", 0.0);
+        position = new DashboardUpdater<Double>("Intake Position", 6.0);
 
     }
 
@@ -49,7 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
         log();
         tuner.update();
         position.update();
-
+        // Constants.IntakeConstants.kIntakeAngleMotor.set(0.04);
         Constants.IntakeConstants.kintakeAngleController.setReference(position.get(),
                 CANSparkMax.ControlType.kPosition);
         Constants.IntakeConstants.kIntakeMotor.set(speed);
@@ -88,5 +91,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void log() {
         SmartDashboard.putNumber("Intake Angle", Constants.IntakeConstants.kintakeAngleEncoder.getPosition());
+        SmartDashboard.putNumber("Intake P: ", Constants.IntakeConstants.kintakeAngleController.getP());
+        SmartDashboard.putNumber("Intake I: ", Constants.IntakeConstants.kintakeAngleController.getI());
+        SmartDashboard.putNumber("Intake D: ", Constants.IntakeConstants.kintakeAngleController.getD());
+        SmartDashboard.putNumber("Intake FF: ", Constants.IntakeConstants.kintakeAngleController.getFF());
     }
 }
