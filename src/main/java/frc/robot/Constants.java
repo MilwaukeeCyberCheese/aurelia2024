@@ -362,21 +362,23 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kIntakeAngleMotor = new CANSparkMax(kIntakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kintakeAngleEncoder = kIntakeAngleMotor
+                public static final AbsoluteEncoder kIntakeAngleEncoder = kIntakeAngleMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-                public static final SparkPIDController kintakeAngleController = kIntakeAngleMotor.getPIDController();
+                public static final SparkPIDController kIntakeAngleController = kIntakeAngleMotor.getPIDController();
+                public static final boolean kIntakeAngleEncoderInverted = true;
+                public static final double kIntakeAngleMaxOuput = 0.3;
 
-                public static final PIDConstants kPIDConstants = new PIDConstants(0.00001, 0.0, 0.0, 0.000);
+                public static final PIDConstants kPIDConstants = new PIDConstants(0.009, 0.0, 0.08, 0.000);
                 public static final double kIntakeAngleConversionFactor = 360;
                 public static final double kTolerance = 2;
 
                 // TODO: determine positions
-                public static final double kintakeAngleLoadPosition = 0;
-                public static final double kintakeAngleShootPosition = 0;
-                public static final double kintakeAngleGroundPosition = 0;
+                public static final double kIntakeAngleLoadPosition = 0;
+                public static final double kIntakeAngleShootPosition = 0;
+                public static final double kIntakeAngleGroundPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kintakeAngleLimits = { 6, 218 };
+                public static final double[] kIntakeAngleLimits = { 9, 210 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;

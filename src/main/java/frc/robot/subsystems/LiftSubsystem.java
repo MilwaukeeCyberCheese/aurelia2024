@@ -37,7 +37,7 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public void setPosition(double position) {
         if ((Constants.ShooterConstants.kWristEncoder.getPosition() > Constants.LiftConstants.kWristTolerance &&
-                Constants.IntakeConstants.kintakeAngleEncoder
+                Constants.IntakeConstants.kIntakeAngleEncoder
                         .getPosition() < Constants.LiftConstants.kIntakeTolerance)
                 || this.position > 3/* TODO protect from the wrist hitting stuff*/) {
 
