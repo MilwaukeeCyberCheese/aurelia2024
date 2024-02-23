@@ -32,7 +32,7 @@ public class LivePIDTuner {
 
     /**
      * 
-     * @return PIDConstants 
+     * @return PIDConstants
      */
     public PIDConstants getConstants() {
         pidConstants.update();

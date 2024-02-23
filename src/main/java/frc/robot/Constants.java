@@ -321,15 +321,16 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 11;
-                public static final boolean kWristInverted = false;
+                public static final boolean kWristInverted = true;
                 public static final CANSparkMax kWristMotor = new CANSparkMax(kWristCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kWristEncoder = kWristMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                public static final double kWristConversionFactor = 180 / Math.PI; // TODO: confirm conversion factor
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
+                public static final double kWristConversionFactor = 360; // TODO: confirm conversion factor
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.0, 0.0, 0.0, 0.0); // TODO:
+                                                                                                            // tune PID
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
                 public static final double[] kWristLimits = { 0, 0 }; // TODO: set limits

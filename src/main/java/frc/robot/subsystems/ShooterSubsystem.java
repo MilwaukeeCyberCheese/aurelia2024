@@ -24,6 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kLeftShooterMotor.setInverted(Constants.ShooterConstants.kLeftInverted);
                 Constants.ShooterConstants.kRightShooterMotor.setInverted(Constants.ShooterConstants.kRightInverted);
                 Constants.ShooterConstants.kWristMotor.setInverted(Constants.ShooterConstants.kWristInverted);
+                Constants.ShooterConstants.kWristEncoder.setInverted(true);
 
                 // set idle mode
                 Constants.ShooterConstants.kLeftShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
@@ -52,6 +53,8 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kShooterConversionFactor);
                 Constants.ShooterConstants.kWristEncoder
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kWristConversionFactor);
+
+                Constants.ShooterConstants.kWristController.setOutputRange(-0.2, 0.2);
 
                 // live PID tuner
                 leftTuner = new LivePIDTuner("Left Shooter",
@@ -132,16 +135,17 @@ public class ShooterSubsystem extends SubsystemBase {
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kRightShooterController.setReference(rightRPM,
                                 CANSparkMax.ControlType.kVelocity);
-
-                Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(), CANSparkMax.ControlType.kPosition);
+                Constants.ShooterConstants.kWristMotor.set(positionUpdater.get());
+                // Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(), CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
-                SmartDashboard.putNumber("Left RPM", leftRPM);
-                SmartDashboard.putNumber("Right RPM", rightRPM);
-                SmartDashboard.putNumber("Left RPM Actual",
-                                Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
-                SmartDashboard.putNumber("Right RPM Actual",
-                                Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
+                // SmartDashboard.putNumber("Left RPM", leftRPM);
+                // SmartDashboard.putNumber("Right RPM", rightRPM);
+                // SmartDashboard.putNumber("Left RPM Actual",
+                //                 Constants.ShooterConstants.kLeftShooterEncoder.getVelocity());
+                // SmartDashboard.putNumber("Right RPM Actual",
+                //                 Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
+                SmartDashboard.putNumber("Wrist Position Actual", Constants.ShooterConstants.kWristEncoder.getPosition());
         }
 }
