@@ -59,8 +59,6 @@ public class ShooterSubsystem extends SubsystemBase {
                                 Constants.ShooterConstants.kWristMaxOutput * -1.0,
                                 Constants.ShooterConstants.kWristMaxOutput);
 
-                // TODO: wrapping for wrist PID
-
                 // live PID tuner
                 leftTuner = new LivePIDTuner("Left Shooter",
                                 Constants.ShooterConstants.kLeftShooterController,

@@ -329,13 +329,13 @@ public final class Constants {
                 public static final boolean kWristEncoderInverted = true;
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                public static final double kWristConversionFactor = 360; // TODO: confirm conversion factor
+                public static final double kWristConversionFactor = 360;
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(0.0, 0.0, 0.0, 0.0); // TODO:
                                                                                                             // tune PID
                 public static final double kWristMaxOutput = 0.2;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
-                public static final double[] kWristLimits = { 0, 0 }; // TODO: set limits
+                public static final double[] kWristLimits = { 0, 200 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -442,13 +442,14 @@ public final class Constants {
                 public static final double kConversionFactor = 4; // TODO: find conversion factor to inches
 
                 public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
-                public static final double kTolerance = 50; // TODO: find tolerance
+                public static final double kTolerance = 0.5; // TODO: find tolerance
 
         }
 
         // the naming convention for these limits is the subsystem moving, whether the
         // limit is at the top or bottom of the range, and what the limit is to protect
         public class SafetyLimits {
+                //TODO: find the rest of the limits
                 public static final double kIntakeUpperLift = 180;
                 public static final double kWristLowerLift = 60;
         }

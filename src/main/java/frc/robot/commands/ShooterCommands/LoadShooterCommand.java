@@ -8,7 +8,8 @@ public class LoadShooterCommand extends Command {
     private final ShooterSubsystem m_shooterSubsystem;
 
     /**
-     * //TODO: copilot!
+     * Run the shooter slowly to load the note for the amp
+     * 
      * @param shooterSubsystem
      */
     public LoadShooterCommand(ShooterSubsystem shooterSubsystem) {
@@ -24,10 +25,5 @@ public class LoadShooterCommand extends Command {
     @Override
     public boolean isFinished() {
         return Constants.Sensors.shooterColorSensor.getRed() > Constants.ShooterConstants.kRedNoteDetectionThreshold;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        m_shooterSubsystem.setRPM(0);
     }
 }
