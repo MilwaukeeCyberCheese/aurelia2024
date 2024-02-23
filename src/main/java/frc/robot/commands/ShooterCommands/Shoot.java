@@ -22,7 +22,7 @@ public class Shoot extends SequentialCommandGroup {
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
                                                 new IntakeAngleCommand(
-                                                                () -> Constants.IntakeConstants.kIntakeAngleShootPosition,
+                                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                                 intakeSubsystem),
                                                 new SetWristAngleCommand(shootAngle,
                                                                 shooterSubsystem),

@@ -19,7 +19,7 @@ public class GroundCommand extends Command {
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setintakeAnglePosition(Constants.IntakeConstants.kIntakeAngleGroundPosition);
+        m_intakeSubsystem.setPosition(Constants.IntakeConstants.kIntakeOutPosition);
     }
 
     @Override

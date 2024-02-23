@@ -23,7 +23,7 @@ public class IntakeAngleCommand extends Command {
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setintakeAnglePosition(m_position.getAsDouble());
+        m_intakeSubsystem.setPosition(m_position.getAsDouble());
     }
 
     @Override

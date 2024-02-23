@@ -46,26 +46,25 @@ public class RobotContainer {
 
         // Initialize subsystems
         private final static DriveSubsystem m_robotDrive = new DriveSubsystem();
-        private final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-        private final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-        private final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+        public final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+        public final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+        public final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
         private final static ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
         private final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
         private final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
 
-
         // initialize the controllers
         // the one on the left
-        public static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
+        private static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
 
         // the one on the right
-        public static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
+        private static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
 
-        //da buttons
-        FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
+        // da buttons
+        private static FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
-        //da operator controller
-        FilteredController m_operatorController = new FilteredController(OIConstants.kOperatorControllerPort);
+        // da operator controller
+        private static FilteredController m_operatorController = new FilteredController(OIConstants.kOperatorControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,7 +77,7 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 // set default command for drive
-                //TODO: inversion may be needed
+                // TODO: inversion may be needed
                 m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
@@ -121,13 +120,11 @@ public class RobotContainer {
                 // reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
-                //run shooter at full speed
-                //TODO:  set MAX RPM
+                // run shooter at full speed
+                // TODO: set MAX RPM
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinUpCommand(() -> 1800, m_shooterSubsystem));
                 new Trigger(m_operatorController::getBButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
                 new Trigger(m_operatorController::getXButton).onTrue(new IntakeCommand(m_intakeSubsystem));
-                
-                
 
         }
 

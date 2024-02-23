@@ -25,7 +25,7 @@ public class LoadShooter extends SequentialCommandGroup {
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kLoadPosition,
                                                                 liftSubsystem),
                                                 new IntakeAngleCommand(
-                                                                () -> Constants.IntakeConstants.kIntakeAngleLoadPosition,
+                                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                                 intakeSubsystem),
                                                 new SetWristAngleCommand(() -> Constants.ShooterConstants.kLoadAngle,
                                                                 shooterSubsystem)),

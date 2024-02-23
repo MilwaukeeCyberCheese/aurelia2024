@@ -12,7 +12,7 @@ import frc.robot.utils.LivePIDTuner;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed;
-        private double angle;
+        private double position;
         // private LivePIDTuner tuner;
         // private DashboardUpdater<Double> position;
 
@@ -21,31 +21,31 @@ public class IntakeSubsystem extends SubsystemBase {
          */
         public IntakeSubsystem() {
                 // reset sparkmax
-                Constants.IntakeConstants.kIntakeAngleMotor.restoreFactoryDefaults();
+                Constants.IntakeConstants.kIntakePivotMotor.restoreFactoryDefaults();
                 // TODO: determine whether to invert the intake motor
-                Constants.IntakeConstants.kIntakeAngleMotor.setInverted(Constants.IntakeConstants.kIntakeAngleInverted);
+                Constants.IntakeConstants.kIntakePivotMotor.setInverted(Constants.IntakeConstants.kIntakePivotInverted);
                 Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
 
                 // set idle mode
-                Constants.IntakeConstants.kIntakeAngleMotor.setIdleMode(Constants.IntakeConstants.kIntakeAngleIdleMode);
+                Constants.IntakeConstants.kIntakePivotMotor.setIdleMode(Constants.IntakeConstants.kIntakePivotIdleMode);
                 Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
 
                 // setup PID
-                CustomUtils.setSparkPID(Constants.IntakeConstants.kIntakeAngleController,
+                CustomUtils.setSparkPID(Constants.IntakeConstants.kIntakePositionController,
                                 Constants.IntakeConstants.kPIDConstants);
-                Constants.IntakeConstants.kIntakeAngleController
-                                .setFeedbackDevice(Constants.IntakeConstants.kIntakeAngleEncoder);
+                Constants.IntakeConstants.kIntakePositionController
+                                .setFeedbackDevice(Constants.IntakeConstants.kIntakePositionEncoder);
 
                 // limit PID output
-                Constants.IntakeConstants.kIntakeAngleController.setOutputRange(
-                                Constants.IntakeConstants.kIntakeAngleMaxOuput * -1.0,
-                                Constants.IntakeConstants.kIntakeAngleMaxOuput);
+                Constants.IntakeConstants.kIntakePositionController.setOutputRange(
+                                Constants.IntakeConstants.kIntakePivotMaxOuput * -1.0,
+                                Constants.IntakeConstants.kIntakePivotMaxOuput);
 
                 // Converts to degrees
-                Constants.IntakeConstants.kIntakeAngleEncoder
-                                .setPositionConversionFactor(Constants.IntakeConstants.kIntakeAngleConversionFactor);
-                Constants.IntakeConstants.kIntakeAngleEncoder
-                                .setInverted(Constants.IntakeConstants.kIntakeAngleEncoderInverted);
+                Constants.IntakeConstants.kIntakePositionEncoder
+                                .setPositionConversionFactor(Constants.IntakeConstants.kIntakePositionConversionFactor);
+                Constants.IntakeConstants.kIntakePositionEncoder
+                                .setInverted(Constants.IntakeConstants.kIntakePositionEncoderInverted);
 
                 // Different stuff for tuning
                 // tuner = new LivePIDTuner("Intake Tuner",
@@ -59,7 +59,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 log();
                 // tuner.update();
                 // position.update();
-                Constants.IntakeConstants.kIntakeAngleController.setReference(angle,
+                Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                 CANSparkMax.ControlType.kPosition);
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
@@ -75,28 +75,40 @@ public class IntakeSubsystem extends SubsystemBase {
         }
 
         /**
-         * Set the angle of the intake intakeAngle
+         * Set the position of the intake
          * 
-         * @param angle
+         * @param position
          */
-        public void setintakeAnglePosition(double angle) {
-                angle = MathUtil.clamp(angle, Constants.IntakeConstants.kIntakeAngleLimits[0],
-                                Constants.IntakeConstants.kIntakeAngleLimits[1]);
-                this.angle = angle;
+        public void setPosition(double position) {
+                position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
+                                Constants.IntakeConstants.kIntakePositionLimits[1]);
+                if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
+                                && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift safety checks
+                ) {
+                        this.position = position;
+                }
         }
 
         /**
          * 
-         * @return whether the intakeAngle is at the set position
+         * @return whether the intake is at the set position
          */
         public boolean atPosition() {
                 return Math.abs(
-                                Constants.IntakeConstants.kIntakeAngleEncoder.getPosition()
-                                                - angle) < Constants.IntakeConstants.kTolerance;
+                                Constants.IntakeConstants.kIntakePositionEncoder.getPosition()
+                                                - position) < Constants.IntakeConstants.kTolerance;
+        }
+
+        /**
+         * @return position of the intake
+         */
+        public double getPosition() {
+                return position;
         }
 
         public void log() {
-                SmartDashboard.putNumber("Intake Angle", Constants.IntakeConstants.kIntakeAngleEncoder.getPosition());
+                SmartDashboard.putNumber("Intake Angle",
+                                Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
                 // SmartDashboard.putNumber("Intake P: ",
                 // Constants.IntakeConstants.kIntakeAngleController.getP());
                 // SmartDashboard.putNumber("Intake I: ",

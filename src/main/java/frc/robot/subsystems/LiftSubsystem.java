@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 
 public class LiftSubsystem extends SubsystemBase {
@@ -15,7 +16,7 @@ public class LiftSubsystem extends SubsystemBase {
         // TODO: determine whether to invert this or not
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
-        //idle mode
+        // idle mode
         Constants.LiftConstants.kLiftMotor.setIdleMode(Constants.LiftConstants.kIdleMode);
 
         // setup PID
@@ -36,10 +37,12 @@ public class LiftSubsystem extends SubsystemBase {
      * @param position (inches)
      */
     public void setPosition(double position) {
-        if ((Constants.ShooterConstants.kWristEncoder.getPosition() > Constants.LiftConstants.kWristTolerance &&
-                Constants.IntakeConstants.kIntakeAngleEncoder
-                        .getPosition() < Constants.LiftConstants.kIntakeTolerance)
-                || this.position > 3/* TODO protect from the wrist hitting stuff*/) {
+        if ((RobotContainer.m_shooterSubsystem.getPosition() > Constants.SafetyLimits.kWristLowerLift &&
+                RobotContainer.m_intakeSubsystem.getPosition() < Constants.SafetyLimits.kIntakeUpperLift)
+                || (this.position > Constants.LiftConstants.kClearOfObstructions
+                        && Constants.LiftConstants.kClearOfObstructions > 3)/*
+                                                                             * TODO protect from the wrist hitting stuff
+                                                                             */) {
 
             position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                     Constants.LiftConstants.kLiftLimits[1]);

@@ -360,28 +360,27 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
 
                 public static final int kIntakeAngleCanId = 13;
-                public static final boolean kIntakeAngleInverted = false;
-                public static final CANSparkMax.IdleMode kIntakeAngleIdleMode = CANSparkMax.IdleMode.kBrake;
+                public static final boolean kIntakePivotInverted = false;
+                public static final CANSparkMax.IdleMode kIntakePivotIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kBrake;
-                public static final CANSparkMax kIntakeAngleMotor = new CANSparkMax(kIntakeAngleCanId,
+                public static final CANSparkMax kIntakePivotMotor = new CANSparkMax(kIntakeAngleCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final AbsoluteEncoder kIntakeAngleEncoder = kIntakeAngleMotor
+                public static final AbsoluteEncoder kIntakePositionEncoder = kIntakePivotMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-                public static final SparkPIDController kIntakeAngleController = kIntakeAngleMotor.getPIDController();
-                public static final boolean kIntakeAngleEncoderInverted = true;
-                public static final double kIntakeAngleMaxOuput = 0.3;
-
+                public static final SparkPIDController kIntakePositionController = kIntakePivotMotor.getPIDController();
+                public static final boolean kIntakePositionEncoderInverted = true;
+                public static final double kIntakePivotMaxOuput = 0.3;
                 public static final PIDConstants kPIDConstants = new PIDConstants(0.009, 0.0, 0.08, 0.000);
-                public static final double kIntakeAngleConversionFactor = 360;
+                public static final double kIntakePositionConversionFactor = 360;
                 public static final double kTolerance = 2;
 
                 // TODO: determine positions
-                public static final double kIntakeAngleLoadPosition = 0;
-                public static final double kIntakeAngleShootPosition = 0;
-                public static final double kIntakeAngleGroundPosition = 0;
+                public static final double kIntakeLoadPosition = 0;
+                public static final double kIntakeStowedPosition = 0;
+                public static final double kIntakeOutPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kIntakeAngleLimits = { 9, 210 };
+                public static final double[] kIntakePositionLimits = { 9, 210 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
@@ -411,6 +410,9 @@ public final class Constants {
                 // TODO: set lift limits
                 public static final double[] kLiftLimits = { 0, 0 };
 
+                // TODO: find clear of obstructions value
+                public static final double kClearOfObstructions = 3;
+
                 // TODO: find manual modifier
                 public static final double kManualModifier = 1 / 100;
 
@@ -418,9 +420,6 @@ public final class Constants {
                 public static final double kLoadPosition = 0;
                 public static final double kShootPosition = 0;
                 public static final double kAmpPosition = 0;
-
-                public static final double kWristTolerance = 60;
-                public static final double kIntakeTolerance = 195;
         }
 
         public class ClimberConstants {
@@ -445,5 +444,12 @@ public final class Constants {
                 public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
                 public static final double kTolerance = 50; // TODO: find tolerance
 
+        }
+
+        // the naming convention for these limits is the subsystem moving, whether the
+        // limit is at the top or bottom of the range, and what the limit is to protect
+        public class SafetyLimits {
+                public static final double kIntakeUpperLift = 180;
+                public static final double kWristLowerLift = 60;
         }
 }
