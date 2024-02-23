@@ -326,11 +326,13 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kWristEncoder = kWristMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+                public static final boolean kWristEncoderInverted = true;
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360; // TODO: confirm conversion factor
                 public static final PIDConstants kWristPIDConstants = new PIDConstants(0.0, 0.0, 0.0, 0.0); // TODO:
                                                                                                             // tune PID
+                public static final double kWristMaxOutput = 0.2;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
                 public static final double[] kWristLimits = { 0, 0 }; // TODO: set limits
