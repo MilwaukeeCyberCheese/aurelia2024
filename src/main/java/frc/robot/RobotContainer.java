@@ -129,7 +129,7 @@ public class RobotContainer {
                 new Trigger(m_operatorController::getBButton).whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
                 new Trigger(m_operatorController::getXButton).whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper).onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
-                new Trigger(m_operatorController::getLeftBumper).onTrue(new IntakePositionCommand(() -> 210, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftBumper).onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
         }
 
         public Command getAutonomousCommand() {

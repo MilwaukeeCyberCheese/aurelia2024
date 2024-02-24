@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommands.LoadCommand;
-import frc.robot.commands.IntakeCommands.IntakeAngleCommand;
+import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.LiftCommands.LiftPositionCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -21,7 +21,7 @@ public class Shoot extends SequentialCommandGroup {
                                 Commands.parallel(
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
-                                                new IntakeAngleCommand(
+                                                new IntakePositionCommand(
                                                                 () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                                 intakeSubsystem),
                                                 new SetWristAngleCommand(shootAngle,

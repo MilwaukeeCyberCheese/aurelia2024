@@ -85,11 +85,11 @@ public class IntakeSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
-                if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
-                                && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift safety checks
-                ) {
+                // if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
+                                // && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift safety checks
+                // ) {
                         this.position = position;
-                }
+                // }
         }
 
         /**
