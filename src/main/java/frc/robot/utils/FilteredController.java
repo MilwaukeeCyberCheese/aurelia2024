@@ -20,6 +20,10 @@ public class FilteredController {
         this.controller = new XboxController(port);
     }
 
+    public FilteredController(XboxController controller) {
+        this.controller = controller;
+    }
+
     /**
      * Gets the filtered X input for the given stick.
      * 

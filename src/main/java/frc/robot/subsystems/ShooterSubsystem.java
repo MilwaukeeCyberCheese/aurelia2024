@@ -14,12 +14,14 @@ public class ShooterSubsystem extends SubsystemBase {
         private double leftRPM;
         private double rightRPM;
         private double position;
-        private LivePIDTuner leftTuner;
-        private LivePIDTuner rightTuner;
-        private LivePIDTuner wristTuner;
+        // private LivePIDTuner leftTuner;
+        // private LivePIDTuner rightTuner;
+        // private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
+        private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
+                Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
 
                 // inverted
                 Constants.ShooterConstants.kLeftShooterMotor.setInverted(Constants.ShooterConstants.kLeftInverted);
@@ -53,22 +55,23 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kRightShooterEncoder
                                 .setVelocityConversionFactor(Constants.ShooterConstants.kShooterConversionFactor);
                 Constants.ShooterConstants.kWristEncoder
-                                .setVelocityConversionFactor(Constants.ShooterConstants.kWristConversionFactor);
+                                .setPositionConversionFactor(Constants.ShooterConstants.kWristConversionFactor);
 
                 Constants.ShooterConstants.kWristController.setOutputRange(
                                 Constants.ShooterConstants.kWristMaxOutput * -1.0,
                                 Constants.ShooterConstants.kWristMaxOutput);
 
                 // live PID tuner
-                leftTuner = new LivePIDTuner("Left Shooter",
-                                Constants.ShooterConstants.kLeftShooterController,
-                                Constants.ShooterConstants.kShooterPIDConstants);
-                rightTuner = new LivePIDTuner("Right Shooter",
-                                Constants.ShooterConstants.kRightShooterController,
-                                Constants.ShooterConstants.kShooterPIDConstants);
-                wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
-                                Constants.ShooterConstants.kWristPIDConstants);
-                positionUpdater = new DashboardUpdater<Double>("Wrist Position", 0.0);
+                // leftTuner = new LivePIDTuner("Left Shooter",
+                //                 Constants.ShooterConstants.kLeftShooterController,
+                //                 Constants.ShooterConstants.kShooterPIDConstants);
+                // rightTuner = new LivePIDTuner("Right Shooter",
+                //                 Constants.ShooterConstants.kRightShooterController,
+                //                 Constants.ShooterConstants.kShooterPIDConstants);
+                // wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
+                //                 Constants.ShooterConstants.kWristPIDConstants);
+                positionUpdater = new DashboardUpdater<Double>("Wrist Position", 190.0);
+                rpmUpdater = new DashboardUpdater<Double>("RPM", 0.0);
         }
 
         /**
@@ -140,18 +143,18 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 log();
 
-                leftTuner.update();
-                rightTuner.update();
-                wristTuner.update();
+                // leftTuner.update();
+                // rightTuner.update();
+                // wristTuner.update();
                 positionUpdater.update();
+                rpmUpdater.update();
 
                 Constants.ShooterConstants.kLeftShooterController.setReference(leftRPM,
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kRightShooterController.setReference(rightRPM,
                                 CANSparkMax.ControlType.kVelocity);
-                Constants.ShooterConstants.kWristMotor.set(positionUpdater.get());
-                // Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
-                // CANSparkMax.ControlType.kPosition);
+                Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
+                CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
@@ -163,5 +166,6 @@ public class ShooterSubsystem extends SubsystemBase {
                 // Constants.ShooterConstants.kRightShooterEncoder.getVelocity());
                 SmartDashboard.putNumber("Wrist Position Actual",
                                 Constants.ShooterConstants.kWristEncoder.getPosition());
+                SmartDashboard.putNumber("Wrist Speed", Constants.ShooterConstants.kWristMotor.getEncoder().getVelocity());
         }
 }

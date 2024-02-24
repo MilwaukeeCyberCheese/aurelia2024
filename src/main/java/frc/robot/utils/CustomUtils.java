@@ -15,6 +15,7 @@ public class CustomUtils {
         controller.setI(constants.kI);
         controller.setD(constants.kD);
         controller.setFF(constants.kFF);
+        controller.setIZone(constants.kIZone);
     }
 
 }

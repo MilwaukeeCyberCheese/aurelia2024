@@ -286,14 +286,14 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kLeftShooterCanId = 9;
+                public static final int kLeftShooterCanId = 10;
                 public static final boolean kLeftInverted = true;
                 public static final CANSparkMax kLeftShooterMotor = new CANSparkMax(kLeftShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kLeftShooterEncoder = kLeftShooterMotor.getEncoder();
                 public static final SparkPIDController kLeftShooterController = kLeftShooterMotor.getPIDController();
 
-                public static final int kRightShooterCanId = 10;
+                public static final int kRightShooterCanId = 9;
                 public static final boolean kRightInverted = false;
                 public static final CANSparkMax kRightShooterMotor = new CANSparkMax(kRightShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
@@ -330,12 +330,13 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.0, 0.0, 0.0, 0.0); // TODO:
-                                                                                                            // tune PID
-                public static final double kWristMaxOutput = 0.2;
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.013, 0.0); // TODO:
+                                                                                                                // tune
+                                                                                                                // PID
+                public static final double kWristMaxOutput = 0.15;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
-                public static final double[] kWristLimits = { 0, 200 }; // TODO: set limits
+                public static final double[] kWristLimits = { 190, 270 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -380,7 +381,7 @@ public final class Constants {
                 public static final double kIntakeOutPosition = 0;
 
                 // TODO: determine limits
-                public static final double[] kIntakePositionLimits = { 9, 210 };
+                public static final double[] kIntakePositionLimits = { 9, 220 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.5;
@@ -449,7 +450,7 @@ public final class Constants {
         // the naming convention for these limits is the subsystem moving, whether the
         // limit is at the top or bottom of the range, and what the limit is to protect
         public class SafetyLimits {
-                //TODO: find the rest of the limits
+                // TODO: find the rest of the limits
                 public static final double kIntakeUpperLift = 180;
                 public static final double kWristLowerLift = 60;
         }

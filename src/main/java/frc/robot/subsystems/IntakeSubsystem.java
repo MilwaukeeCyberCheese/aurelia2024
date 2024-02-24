@@ -14,7 +14,8 @@ public class IntakeSubsystem extends SubsystemBase {
         private double speed;
         private double position;
         // private LivePIDTuner tuner;
-        // private DashboardUpdater<Double> position;
+        private DashboardUpdater<Double> positionUpdater;
+        private DashboardUpdater<Double> speedUpdater;
 
         /**
          * Subsystem for controlling the intake
@@ -49,16 +50,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
                 // Different stuff for tuning
                 // tuner = new LivePIDTuner("Intake Tuner",
-                // Constants.IntakeConstants.kIntakeAngleController,
+                // Constants.IntakeConstants.kIntakePositionController,
                 // Constants.IntakeConstants.kPIDConstants);
-                // position = new DashboardUpdater<Double>("Intake Position", 9.0);
+                positionUpdater = new DashboardUpdater<Double>("Intake Position", 9.0);
+                speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
 
         }
 
         public void periodic() {
                 log();
                 // tuner.update();
-                // position.update();
+                positionUpdater.update();
+                speedUpdater.update();
                 Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                 CANSparkMax.ControlType.kPosition);
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
