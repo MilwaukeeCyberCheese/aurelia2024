@@ -286,37 +286,16 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kLeftShooterCanId = 10;
-                public static final boolean kLeftInverted = true;
-                public static final CANSparkMax kLeftShooterMotor = new CANSparkMax(kLeftShooterCanId,
+                public static final int kShooterCanId = 10;
+                public static final boolean kShooterInverted = true;
+                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kLeftShooterEncoder = kLeftShooterMotor.getEncoder();
-                public static final SparkPIDController kLeftShooterController = kLeftShooterMotor.getPIDController();
+                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
+                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
 
-                public static final int kRightShooterCanId = 9;
-                public static final boolean kRightInverted = false;
-                public static final CANSparkMax kRightShooterMotor = new CANSparkMax(kRightShooterCanId,
-                                CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kRightShooterEncoder = kRightShooterMotor.getEncoder();
-                public static final SparkPIDController kRightShooterController = kRightShooterMotor.getPIDController();
+                public static final double kShooterConversionFactor = 1.0;
 
-                public static final double kShooterConversionFactor = 1.0 / 3.0;
-
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00053); // TODO:
-                                                                                                                      // probably
-                                                                                                                      // confirmed,
-                                                                                                                      // just
-                                                                                                                      // gonna
-                                                                                                                      // leave
-                                                                                                                      // this
-                                                                                                                      // to
-                                                                                                                      // check
-                                                                                                                      // in
-                                                                                                                      // case
-                                                                                                                      // it
-                                                                                                                      // changes
-                public static final SimpleMotorFeedforward kShooterFeedForward = new SimpleMotorFeedforward(
-                                kShooterConversionFactor, kRightShooterCanId, kLeftShooterCanId);
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.0); // TODO: retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
@@ -330,9 +309,7 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.013, 0.0); // TODO:
-                                                                                                                // tune
-                                                                                                                // PID
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.0, 0.0, 0.0, 0.0); // TODO: retune
                 public static final double kWristMaxOutput = 0.15;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
