@@ -259,7 +259,7 @@ public final class Constants {
 
                         public static final PhotonCamera kCamera = new PhotonCamera("IntakeCamera");
 
-                        public static final double kCameraHeight = Units.inchesToMeters(14);
+                        public static final double kCameraHeight = Units.inchesToMeters(10.5);
 
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(-0.5, 0.0, 0.5),
                                         new Rotation3d(0, 0, 0));
@@ -376,9 +376,9 @@ public final class Constants {
                 public static final double kTolerance = 2;
 
                 // TODO: determine positions
-                public static final double kIntakeLoadPosition = 0;
-                public static final double kIntakeStowedPosition = 0;
-                public static final double kIntakeOutPosition = 0;
+                public static final double kIntakeLoadPosition = 213;
+                public static final double kIntakeStowedPosition = 170;
+                public static final double kIntakeOutPosition = 15;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };

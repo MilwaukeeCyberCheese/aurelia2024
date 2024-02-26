@@ -2,6 +2,8 @@
 package frc.robot.subsystems;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -49,7 +51,12 @@ public class IntakeCameraSubsystem extends SubsystemBase {
 
     }
 
+    public double getPitch() {
+        return target.getPitch();
+    }
+
     public void log() {
+        SmartDashboard.putBoolean("Target Found", target != null);
     }
 
     @Override

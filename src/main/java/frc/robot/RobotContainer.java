@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
+import frc.robot.commands.FollowNote;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
-import frc.robot.commands.IntakeCommands.IntakeCommand;
-import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+// import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -126,10 +126,11 @@ public class RobotContainer {
                 // TODO: set MAX RPM
                 new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 2000, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
-                new Trigger(m_operatorController::getXButton).whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
+                // new Trigger(m_operatorController::getBButton).whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
+                // new Trigger(m_operatorController::getXButton).whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper).onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
                 new Trigger(m_operatorController::getLeftBumper).onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightTriggerActive).whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 1.0));
         }
 
         public Command getAutonomousCommand() {
