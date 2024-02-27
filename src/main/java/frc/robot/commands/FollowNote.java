@@ -8,6 +8,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -60,6 +61,7 @@ public class FollowNote extends Command {
             yOutput = (range > m_goalRange.getAsDouble()) ? range - m_goalRange.getAsDouble() : 0.0;
 
         }
+        SmartDashboard.putNumber("Range to Note", yOutput);
 
         m_driveSubsystem.drive(new Pose2d(0.0, yOutput, new Rotation2d(thetaOutput)));
 
