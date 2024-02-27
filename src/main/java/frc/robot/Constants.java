@@ -20,8 +20,6 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -142,7 +140,7 @@ public final class Constants {
                 public static final boolean kTurningEncoderInverted = true;
 
                 // Calculations required for driving motor conversion factors and feed forward
-                public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+                public static final double kDrivingMotorFreeSpeedRps = MotorConstants.kVortexFreeSpeedRpm / 60;
                 public static final double kWheelDiameterMeters = 0.0762;
                 public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
                 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
@@ -246,8 +244,9 @@ public final class Constants {
                 );
         }
 
-        public static final class NeoMotorConstants {
-                public static final double kFreeSpeedRpm = 5676;
+        public static final class MotorConstants {
+                public static final double kNeoFreeSpeedRpm = 5676;
+                public static final double kVortexFreeSpeedRpm = 6784;
         }
 
         public class VisionConstants {
@@ -324,7 +323,7 @@ public final class Constants {
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
 
-                public static final double kMaxRPM = NeoMotorConstants.kFreeSpeedRpm * kShooterConversionFactor;
+                public static final double kMaxRPM = MotorConstants.kNeoFreeSpeedRpm * kShooterConversionFactor;
                 public static final double kAmpRPM = 500;// TODO: find amp RPM
                 public static final double kLoadRPM = 20;// TODO: find load RPM
 
@@ -348,7 +347,7 @@ public final class Constants {
                 public static final SparkPIDController kIntakePositionController = kIntakePivotMotor.getPIDController();
                 public static final boolean kIntakePositionEncoderInverted = true;
                 public static final double kIntakePivotMaxOuput = 0.3;
-                public static final PIDConstants kPIDConstants = new PIDConstants(0.009, 0.0, 0.08, 0.000);
+                public static final PIDConstants kPIDConstants = new PIDConstants(0.007, 0.0, 0.002, 0.000);
                 public static final double kIntakePositionConversionFactor = 360;
                 public static final double kTolerance = 2;
 

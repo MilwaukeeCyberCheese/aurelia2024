@@ -14,8 +14,8 @@ public class IntakeSubsystem extends SubsystemBase {
         private double speed;
         private double position;
         // private LivePIDTuner tuner;
-        private DashboardUpdater<Double> positionUpdater;
-        private DashboardUpdater<Double> speedUpdater;
+        // private DashboardUpdater<Double> positionUpdater;
+        // private DashboardUpdater<Double> speedUpdater;
 
         /**
          * Subsystem for controlling the intake
@@ -52,16 +52,16 @@ public class IntakeSubsystem extends SubsystemBase {
                 // tuner = new LivePIDTuner("Intake Tuner",
                 // Constants.IntakeConstants.kIntakePositionController,
                 // Constants.IntakeConstants.kPIDConstants);
-                positionUpdater = new DashboardUpdater<Double>("Intake Position", 9.0);
-                speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
+                // positionUpdater = new DashboardUpdater<Double>("Intake Position", 15.0);
+                // speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
 
         }
 
         public void periodic() {
                 log();
                 // tuner.update();
-                positionUpdater.update();
-                speedUpdater.update();
+                // positionUpdater.update();
+                // speedUpdater.update();
                 Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                 CANSparkMax.ControlType.kPosition);
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
@@ -112,6 +112,7 @@ public class IntakeSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Intake Angle",
                                 Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
+                SmartDashboard.putNumber("Pivot Applied Output", Constants.IntakeConstants.kIntakePivotMotor.getAppliedOutput());
                 // SmartDashboard.putNumber("Intake P: ",
                 // Constants.IntakeConstants.kIntakeAngleController.getP());
                 // SmartDashboard.putNumber("Intake I: ",
