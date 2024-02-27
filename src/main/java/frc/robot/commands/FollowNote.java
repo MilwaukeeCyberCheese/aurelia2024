@@ -26,9 +26,7 @@ public class FollowNote extends Command {
      * PhotonTrackedTarget}
      * 
      * @param driveSubsystem  subsystem used for driving
-     *                        {@link frc.robot.subsystems.DriveSubsystem link}
-     * @param cameraSubsystem subsystem containing the cameras
-     *                        {@link frc.robot.subsystems.CameraSubsystem link}
+     * @param cameraSubsystem subsystem containing the camera
      * @param goalRange       the range at which the robot should stop (meters)
      */
     public FollowNote(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem, DoubleSupplier goalRange) {

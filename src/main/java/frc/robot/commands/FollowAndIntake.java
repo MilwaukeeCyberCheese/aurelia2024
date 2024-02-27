@@ -13,7 +13,7 @@ public class FollowAndIntake extends SequentialCommandGroup {
             IntakeCameraSubsystem intakeCameraSubsystem) {
         addCommands(
                 new FollowNote(driveSubsystem, intakeCameraSubsystem, () -> Constants.IntakeConstants.kDeployRange),
-                Commands.race(new FollowNote(driveSubsystem, intakeCameraSubsystem, () -> -1),
+                Commands.race(new FollowNote(driveSubsystem, intakeCameraSubsystem, () -> -1.0),
                         new IntakeFromGround(intakeSubsystem)));
     }
 }

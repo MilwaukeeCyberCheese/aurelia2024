@@ -374,7 +374,7 @@ public final class Constants {
                 public static final AbsoluteEncoder kLiftEncoder = kLiftMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
-                public static final PIDConstants kLiftPIDConstants = new PIDConstants(1, 0.0, 0.0);
+                public static final PIDConstants kLiftPIDConstants = new PIDConstants(0.0, 0.0, 0.0);
                 public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
