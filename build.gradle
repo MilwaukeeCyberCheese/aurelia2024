@@ -99,3 +99,7 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+//add support for synthesis
+wpi.sim.envVar("HALSIMWS_HOST", "127.0.0.1")
+wpi.sim.addWebsocketsClient().defaultEnabled = true
