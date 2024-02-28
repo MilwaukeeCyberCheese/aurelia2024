@@ -14,9 +14,9 @@ public class ShooterSubsystem extends SubsystemBase {
         private double RPM;
         private double position;
         // private LivePIDTuner shooterTuner;
-        // private LivePIDTuner wristTuner;
+        private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
-        private DashboardUpdater<Double> rpmUpdater;
+        // private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
                 Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
@@ -56,10 +56,10 @@ public class ShooterSubsystem extends SubsystemBase {
                 // shooterTuner = new LivePIDTuner("Left Shooter",
                 //                 Constants.ShooterConstants.kShooterController,
                 //                 Constants.ShooterConstants.kShooterPIDConstants);
-                // wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
-                //                 Constants.ShooterConstants.kWristPIDConstants);
+                wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
+                                Constants.ShooterConstants.kWristPIDConstants);
                 positionUpdater = new DashboardUpdater<Double>("Wrist Position", 190.0);
-                rpmUpdater = new DashboardUpdater<Double>("RPM", 0.0);
+                // rpmUpdater = new DashboardUpdater<Double>("RPM", 0.0);
         }
 
         /**
@@ -118,9 +118,9 @@ public class ShooterSubsystem extends SubsystemBase {
                 log();
 
                 // shooterTuner.update();
-                // wristTuner.update();
+                wristTuner.update();
                 positionUpdater.update();
-                rpmUpdater.update();
+                // rpmUpdater.update();
 
                 Constants.ShooterConstants.kShooterController.setReference(RPM,
                                 CANSparkMax.ControlType.kVelocity);

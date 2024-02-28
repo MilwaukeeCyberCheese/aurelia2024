@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.util.PPLibTelemetry;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -154,7 +156,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
     ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-    rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
+    rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
+        * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -180,7 +183,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    // TODO: may need to invert some speeds
+    // TODO: may need to invert some speeds as of 2/27
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
@@ -253,7 +256,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     xSpeedDelivered = xSpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
     ySpeedDelivered = ySpeedCommanded * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-    rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed;
+    rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
+        * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -272,9 +276,12 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose position to drive to
    */
   public void drive(Pose2d pose) {
-    double x = xController.calculate(0.0, pose.getX());
-    double y = yController.calculate(0.0, pose.getY());
-    double theta = thetaController.calculate(0.0, pose.getRotation().getRadians());
+    double limit = 0.4;
+    double x = MathUtil.clamp(xController.calculate(0.0, pose.getX()), -1.0, 1.0) * limit;
+    double y = MathUtil.clamp(yController.calculate(0.0, pose.getY()), -1.0, 1.0) * limit;
+    double theta = MathUtil.clamp(thetaController.calculate(0.0, pose.getRotation().getRadians()), -1.0, 1.0)
+        * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0) * limit;
+    // double theta = 0 * limit;
 
     driveLimited(new ChassisSpeeds(x, y, theta));
   }
@@ -296,7 +303,7 @@ public class DriveSubsystem extends SubsystemBase {
   /*
    * Get state of swerve modules
    * 
-   * @return SwerveModuleState[]
+   * @return SwerveModuleState[] frontLeft, frontRight, backLeft, backRight
    */
   public static SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = { Constants.ModuleConstants.m_frontLeft.getState(),
@@ -321,6 +328,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
 
+    SwerveModuleState[] states = getModuleStates();
+    SmartDashboard.putNumber("FrontLeft", states[0].angle.getDegrees());
+    SmartDashboard.putNumber("FrontRight", states[1].angle.getDegrees());
+    SmartDashboard.putNumber("BackLeft", states[2].angle.getDegrees());
+    SmartDashboard.putNumber("BackRight", states[3].angle.getDegrees());
   }
 
   /**

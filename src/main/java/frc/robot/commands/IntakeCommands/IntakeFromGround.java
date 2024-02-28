@@ -11,8 +11,8 @@ public class IntakeFromGround extends SequentialCommandGroup {
      * @param intakeSubsystem
      */
     public IntakeFromGround(IntakeSubsystem intakeSubsystem) {
-        addCommands(Commands.parallel(
+        addCommands(
                 new GroundCommand(intakeSubsystem),
-                new IntakeCommand(intakeSubsystem)));
+                new IntakeCommand(intakeSubsystem));
     }
 }

@@ -11,8 +11,8 @@ import frc.robot.utils.DashboardUpdater;
 import frc.robot.utils.LivePIDTuner;
 
 public class IntakeSubsystem extends SubsystemBase {
-        private double speed;
-        private double position;
+        private double speed = 0.0;
+        private double position = 15.0;
         // private LivePIDTuner tuner;
         // private DashboardUpdater<Double> positionUpdater;
         // private DashboardUpdater<Double> speedUpdater;
@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 // TODO: determine whether to invert the intake motor
                 Constants.IntakeConstants.kIntakePivotMotor.setInverted(Constants.IntakeConstants.kIntakePivotInverted);
                 Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
-
+                Constants.IntakeConstants.kIntakeMotor.setControlFramePeriodMs(0);
                 // set idle mode
                 Constants.IntakeConstants.kIntakePivotMotor.setIdleMode(Constants.IntakeConstants.kIntakePivotIdleMode);
                 Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);

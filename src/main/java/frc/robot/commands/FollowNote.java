@@ -46,7 +46,7 @@ public class FollowNote extends Command {
         // check if target is present
         if (target != null) {
             // set theta based on yaw
-            thetaOutput = Math.toRadians(target.getYaw());
+            thetaOutput = Math.toRadians(target.getYaw() * -1.0);
 
             // calculate range
             range = PhotonUtils.calculateDistanceToTargetMeters(

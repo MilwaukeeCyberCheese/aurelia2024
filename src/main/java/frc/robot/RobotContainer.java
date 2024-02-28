@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStop;
+import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.FollowNote;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
@@ -130,7 +131,8 @@ public class RobotContainer {
                 new Trigger(m_operatorController::getXButton).whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper).onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
                 new Trigger(m_operatorController::getLeftBumper).onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightTriggerActive).whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 1.0));
+                new Trigger(m_operatorController::getRightTriggerActive).whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
+                new Trigger (m_leftJoystick::getTriggerActive).whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
         }
 
         public Command getAutonomousCommand() {

@@ -91,9 +91,11 @@ public final class Constants {
                 // Angular offsets of the modules relative to the chassis in radians
                 // ccw is positive
                 public static final double kFrontLeftChassisAngularOffset = Math.PI;
-                public static final double kFrontRightChassisAngularOffset = -Math.PI / 2;
+                public static final double kFrontRightChassisAngularOffset = 3 * Math.PI / 2;
                 public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
                 public static final double kBackRightChassisAngularOffset = 0;
+
+                public static final boolean kRotInverted = true;
 
                 // SPARK MAX CAN IDs
                 public static final int kFrontLeftDrivingCanId = 1;
@@ -354,13 +356,13 @@ public final class Constants {
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 170;
-                public static final double kIntakeOutPosition = 15;
+                public static final double kIntakeOutPosition = 12;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
 
                 // TODO: determine speeds
-                public static final double kIntakeSpeed = 0.5;
+                public static final double kIntakeSpeed = 0.7;
                 public static final double kLoadSpeed = 0.2;
 
                 // TODO: determine range
