@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
-import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
