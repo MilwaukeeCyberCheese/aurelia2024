@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed = 0.0;
         private double position = 15.0;
-        // private LivePIDTuner tuner;
-        // private DashboardUpdater<Double> positionUpdater;
-        // private DashboardUpdater<Double> speedUpdater;
+        private DashboardUpdater<Double> positionUpdater;
+        private DashboardUpdater<Double> speedUpdater;
 
         /**
          * Subsystem for controlling the intake
@@ -52,19 +50,19 @@ public class IntakeSubsystem extends SubsystemBase {
                 // tuner = new LivePIDTuner("Intake Tuner",
                 // Constants.IntakeConstants.kIntakePositionController,
                 // Constants.IntakeConstants.kPIDConstants);
-                // positionUpdater = new DashboardUpdater<Double>("Intake Position", 15.0);
-                // speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
+                positionUpdater = new DashboardUpdater<Double>("Intake Position", 15.0);
+                speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
 
         }
 
         public void periodic() {
                 log();
                 // tuner.update();
-                // positionUpdater.update();
-                // speedUpdater.update();
-                Constants.IntakeConstants.kIntakePositionController.setReference(position,
+                positionUpdater.update();
+                speedUpdater.update();
+                Constants.IntakeConstants.kIntakePositionController.setReference(positionUpdater.get(),
                                 CANSparkMax.ControlType.kPosition);
-                Constants.IntakeConstants.kIntakeMotor.set(speed);
+                Constants.IntakeConstants.kIntakeMotor.set(speedUpdater.get());
         }
 
         /**

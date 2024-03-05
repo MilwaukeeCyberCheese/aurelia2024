@@ -40,7 +40,7 @@ public class DriveAndOrientToTarget extends Command {
      */
     public DriveAndOrientToTarget(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem,
             DoubleSupplier goalRange, DoubleSupplier xSpeed, DoubleSupplier ySpeed, BooleanSupplier fieldRelative,
-            BooleanSupplier rateLimit) {
+            BooleanSupplier rateLimit, BooleanSupplier slow, DoubleSupplier throttle) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_goalRange = goalRange;
@@ -69,7 +69,9 @@ public class DriveAndOrientToTarget extends Command {
             thetaOutput = thetaController.calculate(0/* TODO: gyro */, Math.toRadians(target.getYaw() * -1.0));
         }
 
-        m_driveSubsystem.drive(() -> 0.0, () -> 0.0, () -> thetaOutput);
+        m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), thetaOutput,
+                m_fieldRelative.getAsBoolean(),
+                m_rateLimit.getAsBoolean());
 
     }
 
