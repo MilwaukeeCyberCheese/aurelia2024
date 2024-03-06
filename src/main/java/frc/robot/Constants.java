@@ -296,7 +296,8 @@ public final class Constants {
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00021); // TODO: retune
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00021); // TODO:
+                                                                                                                      // retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
@@ -310,7 +311,8 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.003, 0.0, 0.0, 0.0); // TODO: retune
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.003, 0.0, 0.0, 0.0); // TODO:
+                                                                                                              // retune
                 public static final double kWristMaxOutput = 0.15;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
@@ -380,8 +382,10 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
-                // TODO: find conversion factor in inches
-                public static final double kLiftConversionFactor = 1;
+                //conversion factor in inches
+                //TODO: probably done, check math
+                public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (24.0 / 27.0) *
+                /* circumfurence of gear */(Math.PI * 1.757);
 
                 // TODO: find tolerance
                 public static final double kTolerance = 0;
