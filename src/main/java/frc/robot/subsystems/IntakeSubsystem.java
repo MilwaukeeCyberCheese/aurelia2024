@@ -46,10 +46,6 @@ public class IntakeSubsystem extends SubsystemBase {
                 Constants.IntakeConstants.kIntakePositionEncoder
                                 .setInverted(Constants.IntakeConstants.kIntakePositionEncoderInverted);
 
-                // Different stuff for tuning
-                // tuner = new LivePIDTuner("Intake Tuner",
-                // Constants.IntakeConstants.kIntakePositionController,
-                // Constants.IntakeConstants.kPIDConstants);
                 positionUpdater = new DashboardUpdater<Double>("Intake Position", 15.0);
                 speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
 
@@ -57,7 +53,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
         public void periodic() {
                 log();
-                // tuner.update();
                 positionUpdater.update();
                 speedUpdater.update();
                 Constants.IntakeConstants.kIntakePositionController.setReference(positionUpdater.get(),

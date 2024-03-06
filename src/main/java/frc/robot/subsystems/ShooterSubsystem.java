@@ -13,7 +13,7 @@ import frc.robot.utils.LivePIDTuner;
 public class ShooterSubsystem extends SubsystemBase {
         private double RPM;
         private double position;
-        private LivePIDTuner shooterTuner;
+        // private LivePIDTuner shooterTuner;
         // private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
         private DashboardUpdater<Double> rpmUpdater;
@@ -53,9 +53,9 @@ public class ShooterSubsystem extends SubsystemBase {
                                 Constants.ShooterConstants.kWristMaxOutput);
 
                 // live PID tuner
-                shooterTuner = new LivePIDTuner("Shooter",
-                                Constants.ShooterConstants.kShooterController,
-                                Constants.ShooterConstants.kShooterPIDConstants);
+                // shooterTuner = new LivePIDTuner("Shooter",
+                //                 Constants.ShooterConstants.kShooterController,
+                //                 Constants.ShooterConstants.kShooterPIDConstants);
                 // wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
                 //                 Constants.ShooterConstants.kWristPIDConstants);
                 positionUpdater = new DashboardUpdater<Double>("Wrist Position", 125.0);
