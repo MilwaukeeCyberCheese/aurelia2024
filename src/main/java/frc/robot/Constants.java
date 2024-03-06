@@ -384,8 +384,8 @@ public final class Constants {
 
                 // conversion factor in inches
                 // TODO: probably done, check math
-                public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (24.0 / 27.0) *
-                /* circumfurence of gear */(Math.PI * 1.757);
+                public static final double kLiftConversionFactor =  /* motor shaft to low hex lift */ (27.0 / 24.0) /
+                /* circumference of gear */(Math.PI * 1.757);
 
                 // TODO: find tolerance
                 public static final double kTolerance = 0;
