@@ -382,8 +382,8 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
-                //conversion factor in inches
-                //TODO: probably done, check math
+                // conversion factor in inches
+                // TODO: probably done, check math
                 public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (24.0 / 27.0) *
                 /* circumfurence of gear */(Math.PI * 1.757);
 
