@@ -58,8 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
                 //                 Constants.ShooterConstants.kShooterPIDConstants);
                 // wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
                 //                 Constants.ShooterConstants.kWristPIDConstants);
-                positionUpdater = new DashboardUpdater<Double>("Wrist Position", 125.0);
-                rpmUpdater = new DashboardUpdater<Double>("RPM", 0.0);
+                positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 125.0);
+                rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
         /**

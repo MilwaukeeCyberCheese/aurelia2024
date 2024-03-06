@@ -46,8 +46,8 @@ public class IntakeSubsystem extends SubsystemBase {
                 Constants.IntakeConstants.kIntakePositionEncoder
                                 .setInverted(Constants.IntakeConstants.kIntakePositionEncoderInverted);
 
-                positionUpdater = new DashboardUpdater<Double>("Intake Position", 15.0);
-                speedUpdater = new DashboardUpdater<Double>("Intake speed", 0.0);
+                positionUpdater = new DashboardUpdater<Double>("Intake Position Updater", 15.0);
+                speedUpdater = new DashboardUpdater<Double>("Intake Speed Updater", 0.0);
 
         }
 
