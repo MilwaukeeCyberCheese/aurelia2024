@@ -22,6 +22,7 @@ import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+import frc.robot.commands.LiftCommands.ManualLiftCommand;
 import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
@@ -101,6 +102,9 @@ public class RobotContainer {
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
+                // default command for lift
+                m_liftSubsystem.setDefaultCommand(
+                                new ManualLiftCommand(m_operatorController::getYLeft, m_liftSubsystem));
                 // default command for intake
                 // m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
                 // () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
