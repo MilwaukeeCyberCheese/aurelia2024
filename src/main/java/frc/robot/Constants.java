@@ -412,22 +412,12 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
-                public static final SparkPIDController kLeftController = kLeftMotor.getPIDController();
-
+                                
                 public static final int kRightCanId = 10;
                 public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
-                public static final SparkPIDController kRightController = kRightMotor.getPIDController();
-
-                public static final double kConversionFactor = 4; // TODO: find conversion factor to inches
-
-                public static final PIDConstants kPIDConstants = new PIDConstants(1, 0.0, 0.0); // TODO: tune PID
-                public static final double kTolerance = 0.5; // TODO: find tolerance
-
         }
 
         // the naming convention for these limits is the subsystem moving, whether the
