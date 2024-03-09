@@ -8,23 +8,18 @@ import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DriveAndOrientToTarget;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowAndIntake;
-import frc.robot.commands.FollowNote;
 import frc.robot.commands.GyroReset;
-import frc.robot.commands.ReadyToShoot;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
-import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
 import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
@@ -108,7 +103,7 @@ public class RobotContainer {
 
                 // default command for intake
                 // m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
-                //                 () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
+                // () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
 
                 // Configure the AutoBuilder last
                 AutoBuilder.configureHolonomic(
@@ -136,47 +131,68 @@ public class RobotContainer {
          * {@link JoystickButton}.
          */
         private void configureButtonBindings() {
-                // top left button and x button on controller sets wheels to x
+                // // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
                                 m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
-                // top right button resets gyro or right button five
+
+                // // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
-                // bottom middle button stops drive
-                // new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
-                // reset odo on right joystick ten
-                new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
-                                () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
-                // run shooter at full speed
-                // TODO: set MAX RPM
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5000, m_shooterSubsystem));
-                // new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SpinUpCommand(() -> -5000, m_shooterSubsystem));
-                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
+
+                // // run shooter at full speed
+
+                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> -500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 8)
-                                .onTrue(new Shoot(() -> 5000, () -> 115, m_intakeSubsystem,
-                                                m_shooterSubsystem, m_liftSubsystem));
-                new Trigger(m_operatorController::getBButton)
-                                .whileTrue(new IntakeCommand(m_intakeSubsystem));
-                new Trigger(m_operatorController::getXButton)
+
+                new Trigger(m_operatorController::getLeftTriggerActive)
                                 .whileTrue(new IntakeSpeedCommand(() -> -1.0, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightBumper)
-                                .whileTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
-                                                m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightTriggerActive)
+                                .whileTrue(new IntakeCommand(m_intakeSubsystem));
+
                 new Trigger(m_operatorController::getLeftBumper)
                                 .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightStickPressed).onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
-                // new Trigger(m_operatorController::getRightTriggerActive)
-                //                 .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
+                new Trigger(m_operatorController::getRightBumper)
+                                .whileTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
+                                                m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed)
+                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                                m_intakeSubsystem));
+
                 new Trigger(m_leftJoystick::getTriggerActive)
-                                .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
-                new Trigger(() -> m_operatorController.getPOVButton() == 4).onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
-                  new Trigger(() -> m_operatorController.getPOVButton() == 6).onTrue(new SetWristAngleCommand(() -> 60, m_shooterSubsystem));
-                  new Trigger(() -> m_operatorController.getPOVButton() == 2).onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
-                  new Trigger(m_operatorController::getRightTriggerActive).onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
-              
-                // new Trigger(m_operatorController::getRightTriggerActive).onTrue(new Shoot(() -> 5000, () -> 108, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
-                // new Trigger(m_operatorController::getRightTriggerActive).onFalse(new );
+                                .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera, () -> 0,
+                                                m_rightJoystick::getX,
+                                                m_rightJoystick::getY,
+                                                () -> (!m_rightJoystick.getTriggerActive()
+                                                                && !m_buttons.getTopSwitch()),
+                                                Constants.DriveConstants.kRateLimitsEnabled,
+                                                m_rightJoystick::getButtonTwo,
+                                                m_rightJoystick::getThrottle));
+
+                new Trigger(() -> m_operatorController.getPOVButton() == 2)
+                                .onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPOVButton() == 4)
+                                .onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPOVButton() == 6)
+                                .onTrue(new SetWristAngleCommand(() -> 108, m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPOVButton() == 8)
+                                .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
+
+                new Trigger(m_operatorController::getRightTriggerActive)
+                                .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
+
+                // climber bindings
+                new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
+                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kSlowSpeed)));
+                new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
+                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed)));
+                new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
+                                .runOnce(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed)));
+                new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
+                                .runOnce(() -> m_climberSubsystem
+                                                .setRightSpeed(Constants.ClimberConstants.kSlowSpeed)));
         }
 
         public Command getAutonomousCommand() {

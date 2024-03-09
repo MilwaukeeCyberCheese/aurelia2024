@@ -9,6 +9,7 @@ import frc.robot.commands.IntakeCommands.LoadCommand;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.LiftCommands.LiftPositionCommand;
 import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
+import frc.robot.commands.ShooterCommands.SpinAndAngle;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -20,21 +21,20 @@ public class Shoot extends SequentialCommandGroup {
         public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem,
                         ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
-                addCommands(
-                                Commands.parallel(
+                addCommands( new SetWristAngleCommand(() -> 90, shooterSubsystem),
+                                
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
 
                                                 new SetWristAngleCommand(() -> 120,
-                                                                shooterSubsystem)),
+                                                                shooterSubsystem),
                                 new IntakePositionCommand(
                                                 () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 intakeSubsystem),
-                                new SpinUpCommand(rpm, shooterSubsystem),
-                                new SetWristAngleCommand(shootAngle, shooterSubsystem),
+                                new SpinAndAngle(shootAngle, rpm, shooterSubsystem),
 
                                 Commands.race(new LoadCommand(intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
-                                new SpinDownCommand(shooterSubsystem));
+                                new SpinAndAngle(() -> 120, () -> 0, shooterSubsystem));
         }
 }

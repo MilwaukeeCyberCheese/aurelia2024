@@ -408,7 +408,7 @@ public final class Constants {
 
         public class ClimberConstants {
                 public static final int kLeftCanId = 9;
-                public static final boolean kLeftInverted = false; // TODO: find inverted
+                public static final boolean kLeftInverted = true; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
@@ -418,6 +418,9 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
+
+                public static final double kSlowSpeed = 0.3;
+                public static final double kFastSpeed = 0.7;
         }
 
         // the naming convention for these limits is the subsystem moving, whether the

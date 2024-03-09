@@ -37,6 +37,12 @@ public class DriveAndOrientToTarget extends Command {
      * @param driveSubsystem  subsystem used for driving
      * @param cameraSubsystem subsystem containing the camera
      * @param goalRange       the range at which the robot should stop (meters)
+     * @param xSpeed
+     * @param ySpeed
+     * @param fieldRelative
+     * @param rateLimit
+     * @param slow
+     * @param throttle
      */
     public DriveAndOrientToTarget(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem,
             DoubleSupplier goalRange, DoubleSupplier xSpeed, DoubleSupplier ySpeed, BooleanSupplier fieldRelative,
@@ -66,7 +72,7 @@ public class DriveAndOrientToTarget extends Command {
         // check if target is present
         if (target != null) {
             // set theta based on yaw
-            thetaOutput = thetaController.calculate(0/* TODO: gyro */, Math.toRadians(target.getYaw() * -1.0));
+            thetaOutput = thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()), Math.toRadians(target.getYaw() * -1.0));
         }
 
         m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), thetaOutput,
