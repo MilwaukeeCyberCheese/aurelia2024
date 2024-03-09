@@ -28,6 +28,7 @@ public class IntakePositionCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        return m_intakeSubsystem.atPosition();
+        // return m_intakeSubsystem.atPosition();
+        return false;
     }
 }

@@ -105,8 +105,8 @@ public class RobotContainer {
                                 m_rightJoystick::getThrottle));
 
                 // default command for intake
-                m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
-                                () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
+                // m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
+                //                 () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
 
                 // Configure the AutoBuilder last
                 AutoBuilder.configureHolonomic(
@@ -162,11 +162,12 @@ public class RobotContainer {
                 new Trigger(m_operatorController::getLeftBumper)
                                 .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed).onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightTriggerActive)
                                 .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
-                new Trigger(m_operatorController::getRightTriggerActive).onTrue(new ReadyToShoot(() -> 5000, () -> 115, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(m_operatorController::getRightTriggerActive).onTrue(new Shoot(() -> 5000, () -> 115, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 // new Trigger(m_operatorController::getRightTriggerActive).onFalse(new );
         }
 
