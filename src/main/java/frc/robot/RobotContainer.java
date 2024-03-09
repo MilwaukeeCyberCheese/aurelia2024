@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,6 +23,7 @@ import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+import frc.robot.commands.ShooterCommands.Shoot;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -61,13 +64,15 @@ public class RobotContainer {
         private static FilteredJoystick m_leftJoystick = new FilteredJoystick(Constants.OIConstants.kLeftJoystickPort);
 
         // the one on the right
-        private static FilteredJoystick m_rightJoystick = new FilteredJoystick(Constants.OIConstants.kRightJoystickPort);
+        private static FilteredJoystick m_rightJoystick = new FilteredJoystick(
+                        Constants.OIConstants.kRightJoystickPort);
 
         // da buttons
         private static FilteredButton m_buttons = new FilteredButton(OIConstants.kButtonPort);
 
         // da operator controller
-        private static FilteredController m_operatorController = new FilteredController(Constants.OIConstants.kOperatorControllerPort);
+        private static FilteredController m_operatorController = new FilteredController(
+                        Constants.OIConstants.kOperatorControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,7 +80,14 @@ public class RobotContainer {
         public RobotContainer() {
 
                 // name commands for use in pathPlanner
-
+                NamedCommands.registerCommand("FollowAndIntake",
+                                new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
+                // NamedCommands.registerCommand("ShootFromRight",
+                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // NamedCommands.registerCommand("ShootFromLeft",
+                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // NamedCommands.registerCommand("ShootFromMiddle",
+                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -125,14 +137,20 @@ public class RobotContainer {
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
                 // run shooter at full speed
                 // TODO: set MAX RPM
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 2000, m_shooterSubsystem));
+                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5000, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
-                new Trigger(m_operatorController::getXButton).whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightBumper).onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
-                new Trigger(m_operatorController::getLeftBumper).onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightTriggerActive).whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
-                new Trigger (m_leftJoystick::getTriggerActive).whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
+                new Trigger(m_operatorController::getBButton)
+                                .whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
+                new Trigger(m_operatorController::getXButton)
+                                .whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightBumper)
+                                .onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftBumper)
+                                .onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightTriggerActive)
+                                .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
+                new Trigger(m_leftJoystick::getTriggerActive)
+                                .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
         }
 
         public Command getAutonomousCommand() {

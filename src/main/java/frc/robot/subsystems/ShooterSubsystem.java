@@ -122,7 +122,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 positionUpdater.update();
                 rpmUpdater.update();
 
-                Constants.ShooterConstants.kShooterController.setReference(rpmUpdater.get(),
+                Constants.ShooterConstants.kShooterController.setReference(RPM,
                                 CANSparkMax.ControlType.kVelocity);
                 // Constants.ShooterConstants.kShooterMotor.set(0.1);
                 Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
@@ -131,8 +131,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public void log() {
                 SmartDashboard.putNumber("Shooter Speed", Constants.ShooterConstants.kShooterMotor.getEncoder().getVelocity());
-                // SmartDashboard.putNumber("Wrist Position Actual",
-                                // Constants.ShooterConstants.kWristEncoder.getPosition());
+                SmartDashboard.putNumber("Wrist Position Actual",
+                                Constants.ShooterConstants.kWristEncoder.getPosition());
                 // SmartDashboard.putNumber("Wrist Speed", Constants.ShooterConstants.kWristMotor.getEncoder().getVelocity());
         }
 }

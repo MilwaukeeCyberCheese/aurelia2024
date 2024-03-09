@@ -55,9 +55,9 @@ public class IntakeSubsystem extends SubsystemBase {
                 log();
                 positionUpdater.update();
                 speedUpdater.update();
-                Constants.IntakeConstants.kIntakePositionController.setReference(positionUpdater.get(),
+                Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                 CANSparkMax.ControlType.kPosition);
-                Constants.IntakeConstants.kIntakeMotor.set(speedUpdater.get());
+                Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
 
         /**

@@ -10,7 +10,6 @@ import frc.robot.utils.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
@@ -58,7 +57,7 @@ public final class Constants {
 
                 // TODO: Limit switch for intake
 
-                public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+                // public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
         }
 
@@ -98,15 +97,15 @@ public final class Constants {
                 public static final boolean kRotInverted = true;
 
                 // SPARK MAX CAN IDs
-                public static final int kFrontLeftDrivingCanId = 1;
-                public static final int kBackLeftDrivingCanId = 3;
-                public static final int kFrontRightDrivingCanId = 5;
-                public static final int kBackRightDrivingCanId = 7;
+                public static final int kFrontLeftDrivingCanId = 7;
+                public static final int kBackLeftDrivingCanId = 5;
+                public static final int kFrontRightDrivingCanId = 1;
+                public static final int kBackRightDrivingCanId = 3;
 
-                public static final int kFrontLeftTurningCanId = 2;
-                public static final int kBackLeftTurningCanId = 4;
-                public static final int kFrontRightTurningCanId = 6;
-                public static final int kBackRightTurningCanId = 8;
+                public static final int kFrontLeftTurningCanId = 8;
+                public static final int kBackLeftTurningCanId = 6;
+                public static final int kFrontRightTurningCanId = 2;
+                public static final int kBackRightTurningCanId = 4;
 
                 public static final boolean kGyroReversed = false;
 
@@ -287,7 +286,7 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 10;
+                public static final int kShooterCanId = 14;
                 public static final boolean kShooterInverted = true;
                 public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
@@ -301,7 +300,7 @@ public final class Constants {
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
-                public static final int kWristCanId = 11;
+                public static final int kWristCanId = 15;
                 public static final boolean kWristInverted = false;
                 public static final CANSparkMax kWristMotor = new CANSparkMax(kWristCanId,
                                 CANSparkMax.MotorType.kBrushless);
@@ -340,7 +339,7 @@ public final class Constants {
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
 
-                public static final int kIntakeAngleCanId = 13;
+                public static final int kIntakeAngleCanId = 11;
                 public static final boolean kIntakePivotInverted = false;
                 public static final CANSparkMax.IdleMode kIntakePivotIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax.IdleMode kIntakeIdleMode = CANSparkMax.IdleMode.kBrake;
@@ -372,7 +371,7 @@ public final class Constants {
         }
 
         public static final class LiftConstants {
-                public static final int kLiftCanId = 14;
+                public static final int kLiftCanId = 13;
                 public static final CANSparkMax kLiftMotor = new CANSparkMax(kLiftCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final AbsoluteEncoder kLiftEncoder = kLiftMotor
@@ -406,7 +405,7 @@ public final class Constants {
         }
 
         public class ClimberConstants {
-                public static final int kLeftCanId = 15;
+                public static final int kLeftCanId = 9;
                 public static final boolean kLeftInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
@@ -414,7 +413,7 @@ public final class Constants {
                 public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
                 public static final SparkPIDController kLeftController = kLeftMotor.getPIDController();
 
-                public static final int kRightCanId = 16;
+                public static final int kRightCanId = 10;
                 public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,

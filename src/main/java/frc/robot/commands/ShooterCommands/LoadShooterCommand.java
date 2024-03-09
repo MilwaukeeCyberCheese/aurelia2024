@@ -24,6 +24,7 @@ public class LoadShooterCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return Constants.Sensors.shooterColorSensor.getRed() > Constants.ShooterConstants.kRedNoteDetectionThreshold;
+        // return Constants.Sensors.shooterColorSensor.getRed() > Constants.ShooterConstants.kRedNoteDetectionThreshold;
+        return false;
     }
 }
