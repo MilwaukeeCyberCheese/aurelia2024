@@ -356,8 +356,8 @@ public final class Constants {
 
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
-                public static final double kIntakeStowedPosition = 170;
-                public static final double kIntakeOutPosition = 12;
+                public static final double kIntakeStowedPosition = 160;
+                public static final double kIntakeOutPosition = 15;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
@@ -377,14 +377,16 @@ public final class Constants {
                 public static final AbsoluteEncoder kLiftEncoder = kLiftMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
-                public static final PIDConstants kLiftPIDConstants = new PIDConstants(0.0, 0.0, 0.0);
+                public static final PIDConstants kLiftPIDConstants = new PIDConstants(0.35, 0.0, 0.0);
                 public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
                 // conversion factor in inches
                 // TODO: probably done, check math
                 public static final double kLiftConversionFactor =  /* motor shaft to low hex lift */ (27.0 / 24.0) /
-                /* circumference of gear */(Math.PI * 1.757);
+                /* circumference of gear */(Math.PI * 1.757) * 16;
+
+                public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 16;
 
                 // TODO: find tolerance
                 public static final double kTolerance = 0;

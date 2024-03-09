@@ -20,10 +20,12 @@ import frc.robot.commands.DriveStop;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.FollowNote;
 import frc.robot.commands.GyroReset;
+import frc.robot.commands.ReadyToShoot;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.WheelsX;
+import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
-import frc.robot.commands.ShooterCommands.Shoot;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -83,11 +85,14 @@ public class RobotContainer {
                 NamedCommands.registerCommand("FollowAndIntake",
                                 new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
                 // NamedCommands.registerCommand("ShootFromRight",
-                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
+                // m_liftSubsystem));
                 // NamedCommands.registerCommand("ShootFromLeft",
-                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
+                // m_liftSubsystem));
                 // NamedCommands.registerCommand("ShootFromMiddle",
-                //                 new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
+                // m_liftSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -98,6 +103,10 @@ public class RobotContainer {
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
+
+                // default command for intake
+                m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
+                                () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
 
                 // Configure the AutoBuilder last
                 AutoBuilder.configureHolonomic(
@@ -131,26 +140,34 @@ public class RobotContainer {
                 // top right button resets gyro or right button five
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
                 // bottom middle button stops drive
-                new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
+                // new Trigger(m_buttons::getThreeB).whileTrue(new DriveStop(m_robotDrive));
                 // reset odo on right joystick ten
                 new Trigger(m_rightJoystick::getButtonTen).onTrue(m_robotDrive.runOnce(
                                 () -> m_robotDrive.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)))));
                 // run shooter at full speed
                 // TODO: set MAX RPM
                 new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5000, m_shooterSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SpinUpCommand(() -> -5000, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPOVButton() == 8)
+                                .onTrue(new Shoot(() -> 5000, () -> 115, m_intakeSubsystem,
+                                                m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_operatorController::getBButton)
-                                .whileTrue(new IntakeSpeedCommand(() -> 0.5, m_intakeSubsystem));
+                                .whileTrue(new IntakeFromGround(m_intakeSubsystem));
                 new Trigger(m_operatorController::getXButton)
                                 .whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper)
-                                .onTrue(new IntakePositionCommand(() -> 15, m_intakeSubsystem));
+                                .whileTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
+                                                m_intakeSubsystem));
                 new Trigger(m_operatorController::getLeftBumper)
-                                .onTrue(new IntakePositionCommand(() -> 213, m_intakeSubsystem));
+                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                                m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightTriggerActive)
                                 .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
+                new Trigger(m_operatorController::getRightTriggerActive).onTrue(new ReadyToShoot(() -> 5000, () -> 115, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                // new Trigger(m_operatorController::getRightTriggerActive).onFalse(new );
         }
 
         public Command getAutonomousCommand() {

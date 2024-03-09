@@ -17,6 +17,7 @@ public class LiftSubsystem extends SubsystemBase {
     private final DashboardUpdater<Double> positionUpdater;
 
     public LiftSubsystem() {
+        Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
         // TODO: determine whether to invert this or not
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
@@ -25,10 +26,14 @@ public class LiftSubsystem extends SubsystemBase {
 
         // setup PID
         CustomUtils.setSparkPID(Constants.LiftConstants.kLiftController, Constants.LiftConstants.kLiftPIDConstants);
-        Constants.LiftConstants.kLiftController.setFeedbackDevice(Constants.LiftConstants.kLiftEncoder);
+        Constants.LiftConstants.kLiftController.setFeedbackDevice(Constants.LiftConstants.kLiftMotor.getEncoder());
 
         Constants.LiftConstants.kLiftEncoder.setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactor);
-        tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController, Constants.LiftConstants.kLiftPIDConstants);
+        Constants.LiftConstants.kLiftMotor.getEncoder()
+                .setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactorOnboard);
+                Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(Constants.LiftConstants.kLiftEncoder.getPosition());
+        tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController,
+                Constants.LiftConstants.kLiftPIDConstants);
         positionUpdater = new DashboardUpdater<Double>("Lift Position Updater", 0.0);
     }
 
@@ -79,6 +84,6 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void log() {
-        SmartDashboard.putNumber("Lift Position: ", position);
+        SmartDashboard.putNumber("Lift Position: ", Constants.LiftConstants.kLiftMotor.getEncoder().getPosition());
     }
 }
