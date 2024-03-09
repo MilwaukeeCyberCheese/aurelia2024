@@ -12,7 +12,7 @@ import frc.robot.utils.LivePIDTuner;
 
 public class ShooterSubsystem extends SubsystemBase {
         private double RPM = 0;
-        private double position;;
+        private double position = 120;
         // private LivePIDTuner shooterTuner;
         // private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
@@ -72,6 +72,8 @@ public class ShooterSubsystem extends SubsystemBase {
                 this.RPM = rpm;
         }
 
+     
+
        
 
         /**
@@ -92,10 +94,10 @@ public class ShooterSubsystem extends SubsystemBase {
                 MathUtil.clamp(position, Constants.ShooterConstants.kWristLimits[0],
                                 Constants.ShooterConstants.kWristLimits[1]);
                                 //TODO: make these constants and add more limits if needed
-                if (RobotContainer.m_liftSubsystem.getPosition() > 3 || (position > 60 && this.position > 60)) {
+                // if (RobotContainer.m_liftSubsystem.getPosition() > 3 || (position > 60 && this.position > 60)) {
 
                         this.position = position;
-                }
+                // }
         }
 
         /**
@@ -125,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kShooterController.setReference(RPM,
                                 CANSparkMax.ControlType.kVelocity);
                 // Constants.ShooterConstants.kShooterMotor.set(0.1);
-                Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
+                Constants.ShooterConstants.kWristController.setReference(position,
                 CANSparkMax.ControlType.kPosition);
         }
 

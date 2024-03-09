@@ -24,12 +24,14 @@ public class Shoot extends SequentialCommandGroup {
                                 Commands.parallel(
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
-                                                new IntakePositionCommand(
-                                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
-                                                                intakeSubsystem),
-                                                new SetWristAngleCommand(shootAngle,
+
+                                                new SetWristAngleCommand(() -> 120,
                                                                 shooterSubsystem)),
+                                new IntakePositionCommand(
+                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                                intakeSubsystem),
                                 new SpinUpCommand(rpm, shooterSubsystem),
+                                new SetWristAngleCommand(shootAngle, shooterSubsystem),
 
                                 Commands.race(new LoadCommand(intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),

@@ -295,7 +295,7 @@ public final class Constants {
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.000, 0.000, 0.0, 0.00021); // TODO:
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
                                                                                                                       // retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
@@ -315,7 +315,7 @@ public final class Constants {
                 public static final double kWristMaxOutput = 0.15;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
-                public static final double[] kWristLimits = { 190, 270 }; // TODO: set limits
+                public static final double[] kWristLimits = {15, 270 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -357,14 +357,14 @@ public final class Constants {
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
-                public static final double kIntakeOutPosition = 15;
+                public static final double kIntakeOutPosition = 18;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.7;
-                public static final double kLoadSpeed = 0.2;
+                public static final double kLoadSpeed = -1.0;
 
                 // TODO: determine range
                 public static final double kDeployRange = 2;
@@ -377,7 +377,7 @@ public final class Constants {
                 public static final AbsoluteEncoder kLiftEncoder = kLiftMotor
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kLiftController = kLiftMotor.getPIDController();
-                public static final PIDConstants kLiftPIDConstants = new PIDConstants(0.35, 0.0, 0.0);
+                public static final PIDConstants kLiftPIDConstants = new PIDConstants(0.25, 0.0, 0.0);
                 public static final CANSparkMax.IdleMode kIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final boolean kInverted = false;
 
@@ -392,7 +392,7 @@ public final class Constants {
                 public static final double kTolerance = 0;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0, 0 };
+                public static final double[] kLiftLimits = { 0, 11 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;

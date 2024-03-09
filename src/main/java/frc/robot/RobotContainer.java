@@ -23,9 +23,11 @@ import frc.robot.commands.GyroReset;
 import frc.robot.commands.ReadyToShoot;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.WheelsX;
+import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakeFromGround;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -147,15 +149,16 @@ public class RobotContainer {
                 // run shooter at full speed
                 // TODO: set MAX RPM
                 new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5000, m_shooterSubsystem));
-                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SpinUpCommand(() -> -5000, m_shooterSubsystem));
+                // new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SpinUpCommand(() -> -5000, m_shooterSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
                 new Trigger(() -> m_operatorController.getPOVButton() == 8)
                                 .onTrue(new Shoot(() -> 5000, () -> 115, m_intakeSubsystem,
                                                 m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_operatorController::getBButton)
-                                .whileTrue(new IntakeFromGround(m_intakeSubsystem));
+                                .whileTrue(new IntakeCommand(m_intakeSubsystem));
                 new Trigger(m_operatorController::getXButton)
-                                .whileTrue(new IntakeSpeedCommand(() -> -0.8, m_intakeSubsystem));
+                                .whileTrue(new IntakeSpeedCommand(() -> -1.0, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper)
                                 .whileTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
                                                 m_intakeSubsystem));
@@ -163,11 +166,16 @@ public class RobotContainer {
                                 .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightStickPressed).onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightTriggerActive)
-                                .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
+                // new Trigger(m_operatorController::getRightTriggerActive)
+                //                 .whileTrue(new FollowNote(m_robotDrive, m_intakeCamera, () -> 0.0));
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
-                new Trigger(m_operatorController::getRightTriggerActive).onTrue(new Shoot(() -> 5000, () -> 115, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(() -> m_operatorController.getPOVButton() == 4).onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
+                  new Trigger(() -> m_operatorController.getPOVButton() == 6).onTrue(new SetWristAngleCommand(() -> 60, m_shooterSubsystem));
+                  new Trigger(() -> m_operatorController.getPOVButton() == 2).onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
+                  new Trigger(m_operatorController::getRightTriggerActive).onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
+              
+                // new Trigger(m_operatorController::getRightTriggerActive).onTrue(new Shoot(() -> 5000, () -> 108, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 // new Trigger(m_operatorController::getRightTriggerActive).onFalse(new );
         }
 

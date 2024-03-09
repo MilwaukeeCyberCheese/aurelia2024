@@ -2,10 +2,12 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
 
@@ -55,8 +57,12 @@ public class IntakeSubsystem extends SubsystemBase {
                 log();
                 positionUpdater.update();
                 speedUpdater.update();
-                Constants.IntakeConstants.kIntakePositionController.setReference(position,
-                                CANSparkMax.ControlType.kPosition);
+                System.out.println(RobotContainer.m_shooterSubsystem.getPosition());
+                if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
+                        Constants.IntakeConstants.kIntakePositionController.setReference(position,
+                                        CANSparkMax.ControlType.kPosition);
+                        
+                }
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
 
@@ -79,9 +85,10 @@ public class IntakeSubsystem extends SubsystemBase {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
                 // if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
-                                // && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift safety checks
+                // && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift
+                // safety checks
                 // ) {
-                        this.position = position;
+                this.position = position;
                 // }
         }
 
@@ -105,7 +112,8 @@ public class IntakeSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Intake Angle",
                                 Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
-                SmartDashboard.putNumber("Pivot Applied Output", Constants.IntakeConstants.kIntakePivotMotor.getAppliedOutput());
+                SmartDashboard.putNumber("Pivot Applied Output",
+                                Constants.IntakeConstants.kIntakePivotMotor.getAppliedOutput());
                 // SmartDashboard.putNumber("Intake P: ",
                 // Constants.IntakeConstants.kIntakeAngleController.getP());
                 // SmartDashboard.putNumber("Intake I: ",

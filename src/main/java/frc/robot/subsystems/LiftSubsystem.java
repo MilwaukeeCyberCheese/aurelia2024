@@ -41,7 +41,7 @@ public class LiftSubsystem extends SubsystemBase {
         log();
         tuner.update();
         positionUpdater.update();
-
+        
         Constants.LiftConstants.kLiftController.setReference(positionUpdater.get(), CANSparkMax.ControlType.kPosition);
     }
 
@@ -56,13 +56,13 @@ public class LiftSubsystem extends SubsystemBase {
                 || (this.position > Constants.LiftConstants.kClearOfObstructions
                         && Constants.LiftConstants.kClearOfObstructions > 3)/*
                                                                              * TODO protect from the wrist hitting stuff
-                                                                             */) {
+                                                                             */) {}
 
             position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                     Constants.LiftConstants.kLiftLimits[1]);
             this.position = position;
 
-        }
+        
 
     }
 
