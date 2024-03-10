@@ -31,7 +31,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.subsystems.MAXSwerveModule;
 
@@ -107,7 +106,7 @@ public final class Constants {
                 public static final int kFrontRightTurningCanId = 2;
                 public static final int kBackRightTurningCanId = 4;
 
-                public static final boolean kGyroReversed = false;
+                public static final boolean kGyroReversed = true;
 
                 // starting pose of the robot
                 public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
@@ -293,9 +292,9 @@ public final class Constants {
                 public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
                 public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 1.0;
+                public static final double kShooterConversionFactor = 1.0 / 3.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.0001); // TODO:
                                                                                                                       // retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
@@ -357,7 +356,7 @@ public final class Constants {
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
-                public static final double kIntakeOutPosition = 18;
+                public static final double kIntakeOutPosition = 20;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
@@ -389,7 +388,7 @@ public final class Constants {
                 public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 16;
 
                 // TODO: find tolerance
-                public static final double kTolerance = 0;
+                public static final double kTolerance = 0.1;
 
                 // TODO: set lift limits
                 public static final double[] kLiftLimits = { 0, 11 };
@@ -398,7 +397,7 @@ public final class Constants {
                 public static final double kClearOfObstructions = 3;
 
                 // TODO: find manual modifier
-                public static final double kManualModifier = 1 / 100;
+                public static final double kManualModifier = 1.0 / 100.0;
 
                 // TODO: find positions
                 public static final double kLoadPosition = 0;

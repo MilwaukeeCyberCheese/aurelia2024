@@ -177,13 +177,13 @@ public class RobotContainer {
                 new Trigger(() -> m_operatorController.getPOVButton() == 2)
                                 .onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
                 new Trigger(() -> m_operatorController.getPOVButton() == 4)
-                                .onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
+                                .onTrue(new SetWristAngleCommand(() -> 150, m_shooterSubsystem));
                 new Trigger(() -> m_operatorController.getPOVButton() == 6)
                                 .onTrue(new SetWristAngleCommand(() -> 108, m_shooterSubsystem));
                 new Trigger(() -> m_operatorController.getPOVButton() == 8)
                                 .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
 
-                new Trigger(m_operatorController::getRightTriggerActive)
+                new Trigger(m_operatorController::getRightStickPressed)
                                 .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
                                                 m_liftSubsystem));
 
@@ -197,6 +197,11 @@ public class RobotContainer {
                 new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
                                 .runOnce(() -> m_climberSubsystem
                                                 .setRightSpeed(Constants.ClimberConstants.kSlowSpeed)));
+
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new IntakePositionCommand(() -> 130, m_intakeSubsystem));
+
+                //zero absolute encoder lift
+                new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton).onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
         }
 
         public Command getAutonomousCommand() {

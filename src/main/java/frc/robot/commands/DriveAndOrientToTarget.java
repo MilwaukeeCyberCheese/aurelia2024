@@ -83,6 +83,6 @@ public class DriveAndOrientToTarget extends Command {
 
     @Override
     public boolean isFinished() {
-        return m_goalRange.getAsDouble() >= range;
+        return false;
     }
 }

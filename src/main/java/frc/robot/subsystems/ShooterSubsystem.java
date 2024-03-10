@@ -5,15 +5,16 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
 import frc.robot.utils.LivePIDTuner;
 
+
 public class ShooterSubsystem extends SubsystemBase {
         private double RPM = 0;
-        private double position = 120;
-        // private LivePIDTuner shooterTuner;
+        private double position = 150;
+        private LivePIDTuner shooterTuner;
         // private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
         private DashboardUpdater<Double> rpmUpdater;
@@ -53,9 +54,9 @@ public class ShooterSubsystem extends SubsystemBase {
                                 Constants.ShooterConstants.kWristMaxOutput);
 
                 // live PID tuner
-                // shooterTuner = new LivePIDTuner("Shooter",
-                //                 Constants.ShooterConstants.kShooterController,
-                //                 Constants.ShooterConstants.kShooterPIDConstants);
+                shooterTuner = new LivePIDTuner("Shooter",
+                                Constants.ShooterConstants.kShooterController,
+                                Constants.ShooterConstants.kShooterPIDConstants);
                 // wristTuner = new LivePIDTuner("Wrist Tuner", Constants.ShooterConstants.kWristController,
                 //                 Constants.ShooterConstants.kWristPIDConstants);
                 positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
@@ -119,7 +120,7 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 log();
 
-                // shooterTuner.update();
+                shooterTuner.update();
                 // wristTuner.update();
                 positionUpdater.update();
                 rpmUpdater.update();

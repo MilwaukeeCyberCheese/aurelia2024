@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -43,6 +44,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void log() {
-
+        SmartDashboard.putNumber("Left Climber Speed", Constants.ClimberConstants.kLeftMotor.get());
+        SmartDashboard.putNumber("Right Climber Speed", Constants.ClimberConstants.kRightMotor.get());
     }
 }

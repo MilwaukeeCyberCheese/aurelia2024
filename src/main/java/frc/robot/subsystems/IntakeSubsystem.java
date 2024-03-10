@@ -57,7 +57,6 @@ public class IntakeSubsystem extends SubsystemBase {
                 log();
                 positionUpdater.update();
                 speedUpdater.update();
-                System.out.println(RobotContainer.m_shooterSubsystem.getPosition());
                 if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
                         Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                         CANSparkMax.ControlType.kPosition);

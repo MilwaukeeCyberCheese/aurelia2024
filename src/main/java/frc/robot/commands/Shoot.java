@@ -26,7 +26,7 @@ public class Shoot extends SequentialCommandGroup {
                                                 new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
                                                                 liftSubsystem),
 
-                                                new SetWristAngleCommand(() -> 120,
+                                                new SetWristAngleCommand(() -> 150,
                                                                 shooterSubsystem),
                                 new IntakePositionCommand(
                                                 () -> Constants.IntakeConstants.kIntakeLoadPosition,
@@ -35,6 +35,6 @@ public class Shoot extends SequentialCommandGroup {
 
                                 Commands.race(new LoadCommand(intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
-                                new SpinAndAngle(() -> 120, () -> 0, shooterSubsystem));
+                                new SpinAndAngle(() -> 150, () -> 0, shooterSubsystem));
         }
 }

@@ -329,6 +329,7 @@ public class DriveSubsystem extends SubsystemBase {
     PPLibTelemetry.setCurrentPose(getPose());
 
     SwerveModuleState[] states = getModuleStates();
+    SmartDashboard.putNumber("Gyro", Constants.Sensors.gyro.getAngle());
     // SmartDashboard.putNumber("FrontLeft", states[0].angle.getDegrees());
     // SmartDashboard.putNumber("FrontRight", states[1].angle.getDegrees());
     // SmartDashboard.putNumber("BackLeft", states[2].angle.getDegrees());

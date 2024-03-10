@@ -31,7 +31,12 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftEncoder.setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactor);
         Constants.LiftConstants.kLiftMotor.getEncoder()
                 .setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactorOnboard);
-                Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(Constants.LiftConstants.kLiftEncoder.getPosition());
+        Constants.LiftConstants.kLiftMotor.getEncoder()
+                .setPosition((Constants.LiftConstants.kLiftEncoder.getPosition() < 2.5)
+                        ? Constants.LiftConstants.kLiftEncoder.getPosition()
+                        : Constants.LiftConstants.kLiftConversionFactor * -1.0
+                                + Constants.LiftConstants.kLiftEncoder.getPosition());
+
         tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController,
                 Constants.LiftConstants.kLiftPIDConstants);
         positionUpdater = new DashboardUpdater<Double>("Lift Position Updater", 0.0);
@@ -41,8 +46,8 @@ public class LiftSubsystem extends SubsystemBase {
         log();
         tuner.update();
         positionUpdater.update();
-        
-        Constants.LiftConstants.kLiftController.setReference(positionUpdater.get(), CANSparkMax.ControlType.kPosition);
+
+        Constants.LiftConstants.kLiftController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
 
     /**
@@ -56,13 +61,12 @@ public class LiftSubsystem extends SubsystemBase {
                 || (this.position > Constants.LiftConstants.kClearOfObstructions
                         && Constants.LiftConstants.kClearOfObstructions > 3)/*
                                                                              * TODO protect from the wrist hitting stuff
-                                                                             */) {}
+                                                                             */) {
+        }
 
-            position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
-                    Constants.LiftConstants.kLiftLimits[1]);
-            this.position = position;
-
-        
+        position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
+                Constants.LiftConstants.kLiftLimits[1]);
+        this.position = position;
 
     }
 
@@ -72,6 +76,17 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public double getPosition() {
         return position;
+    }
+
+    /**
+     * zero the lift
+     * 
+     */
+    public void zero() {
+        Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(0);
+        double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
+                + Constants.LiftConstants.kLiftEncoder.getPosition();
+        Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
     }
 
     /**
