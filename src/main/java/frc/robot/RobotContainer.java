@@ -148,7 +148,7 @@ public class RobotContainer {
 
                 // // run shooter at full speed
 
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 1892, m_shooterSubsystem));
+                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> 200, m_shooterSubsystem));
                 new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));

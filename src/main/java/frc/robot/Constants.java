@@ -356,7 +356,7 @@ public final class Constants {
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
-                public static final double kIntakeOutPosition = 23;
+                public static final double kIntakeOutPosition = 20;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
