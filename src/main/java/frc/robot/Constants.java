@@ -397,7 +397,7 @@ public final class Constants {
                 public static final double kClearOfObstructions = 3;
 
                 // TODO: find manual modifier
-                public static final double kManualModifier = 1.0 / 100.0;
+                public static final double kManualModifier = 8.0 / 100.0;
 
                 // TODO: find positions
                 public static final double kLoadPosition = 0;
