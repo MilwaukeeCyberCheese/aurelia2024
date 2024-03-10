@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,6 +41,7 @@ import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.geometry.*;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -140,7 +143,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
 
-                new Trigger(m_rightJoystick::getButtonThree).onTrue(m_driveSubsystem.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(1.90, 5.61, new Rotation2d(0)))));
+                new Trigger(m_rightJoystick::getButtonThree).onTrue(m_robotDrive.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(1.90, 5.61, new Rotation2d(0)))));
                 
                 // // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
@@ -219,6 +222,7 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
+                m_robotDrive.zeroHeading();
                 return autoChooser.getSelected();
         }
 

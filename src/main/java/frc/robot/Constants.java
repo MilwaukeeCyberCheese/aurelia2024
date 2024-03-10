@@ -212,17 +212,17 @@ public final class Constants {
         }
 
         public static final class AutoConstants {
-                public static final double kMaxSpeedMetersPerSecond = 3;
-                public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+                public static final double kMaxSpeedMetersPerSecond = 1.0;
+                public static final double kMaxAccelerationMetersPerSecondSquared = 1.0;
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
                 // TODO: this will need to be tuned
                 public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                3.0, 1.0, 0.0);
+                                0.03, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI, 0.0, 0.0);
+                                Math.PI/ 10.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
