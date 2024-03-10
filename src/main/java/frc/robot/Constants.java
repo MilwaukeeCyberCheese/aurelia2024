@@ -292,9 +292,9 @@ public final class Constants {
                 public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
                 public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
 
-                public static final double kShooterConversionFactor = 1.0 / 3.0;
+                public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.0001); // TODO:
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO: 0.00062 is for 3:1
                                                                                                                       // retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
@@ -356,7 +356,7 @@ public final class Constants {
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
-                public static final double kIntakeOutPosition = 20;
+                public static final double kIntakeOutPosition = 23;
 
                 // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
@@ -385,7 +385,7 @@ public final class Constants {
                 public static final double kLiftConversionFactor =  /* motor shaft to low hex lift */ (27.0 / 24.0) /
                 /* circumference of gear */(Math.PI * 1.757) * 16;
 
-                public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 16;
+                public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
 
                 // TODO: find tolerance
                 public static final double kTolerance = 0.1;

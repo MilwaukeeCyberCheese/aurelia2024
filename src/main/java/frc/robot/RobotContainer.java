@@ -105,6 +105,10 @@ public class RobotContainer {
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
                                 new ManualLiftCommand(m_operatorController::getYLeft, m_liftSubsystem));
+
+                // default command for climber
+                m_climberSubsystem
+                                .setDefaultCommand(m_climberSubsystem.run(() -> m_climberSubsystem.setSpeeds(0.0)));
                 // default command for intake
                 // m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
                 // () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
@@ -144,8 +148,8 @@ public class RobotContainer {
 
                 // // run shooter at full speed
 
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> -500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 1892, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> 200, m_shooterSubsystem));
                 new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
 
@@ -165,9 +169,9 @@ public class RobotContainer {
                                                 m_intakeSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
-                                .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera, () -> 0,
+                                .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera,
                                                 m_rightJoystick::getX,
-                                                m_rightJoystick::getY,
+                                                m_rightJoystick::getY, m_leftJoystick::getX,
                                                 () -> (!m_rightJoystick.getTriggerActive()
                                                                 && !m_buttons.getTopSwitch()),
                                                 Constants.DriveConstants.kRateLimitsEnabled,
@@ -189,19 +193,26 @@ public class RobotContainer {
 
                 // climber bindings
                 new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kSlowSpeed)));
+                                .run(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kSlowSpeed)));
                 new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed)));
+                                .run(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed)));
                 new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed)));
+                                .run(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed)));
                 new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem
+                                .run(() -> m_climberSubsystem
                                                 .setRightSpeed(Constants.ClimberConstants.kSlowSpeed)));
+                // this one goes the other way
+                new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
+                                .run(() -> m_climberSubsystem.setRightSpeed(-Constants.ClimberConstants.kSlowSpeed)));
+                new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
+                                .run(() -> m_climberSubsystem.setLeftSpeed(-Constants.ClimberConstants.kSlowSpeed)));
 
-                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new IntakePositionCommand(() -> 130, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed)
+                                .onTrue(new IntakePositionCommand(() -> 130, m_intakeSubsystem));
 
-                //zero absolute encoder lift
-                new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton).onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
+                // zero absolute encoder lift
+                new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
+                                .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
         }
 
         public Command getAutonomousCommand() {
