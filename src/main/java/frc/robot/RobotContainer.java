@@ -139,6 +139,9 @@ public class RobotContainer {
          * {@link JoystickButton}.
          */
         private void configureButtonBindings() {
+
+                new Trigger(m_rightJoystick::getButtonThree).onTrue(m_driveSubsystem.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(1.90, 5.61, new Rotation2d(0)))));
+                
                 // // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
                                 m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
@@ -187,9 +190,9 @@ public class RobotContainer {
                 new Trigger(() -> m_operatorController.getPOVButton() == 8)
                                 .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
 
-                new Trigger(m_operatorController::getRightStickPressed)
-                                .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
-                                                m_liftSubsystem));
+                // new Trigger(m_operatorController::getRightStickPressed)
+                //                 .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
+                //                                 m_liftSubsystem));
 
                 // climber bindings
                 new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
