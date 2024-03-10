@@ -85,6 +85,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    //m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(2.0, 5.5, new Rotation2d(0)));
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -94,6 +96,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    SmartDashboard.putString("Current Pose Auto", m_robotContainer.m_robotDrive.getPose().toString());
   }
 
   @Override
@@ -110,6 +113,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putString("Current Pose Teleop", m_robotContainer.m_robotDrive.getPose().toString());
   }
 
   @Override

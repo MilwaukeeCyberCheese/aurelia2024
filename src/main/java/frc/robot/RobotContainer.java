@@ -54,7 +54,7 @@ public class RobotContainer {
         private final SendableChooser<Command> autoChooser;
 
         // Initialize subsystems
-        private final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+        public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
         public final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         public final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         public final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
@@ -127,6 +127,8 @@ public class RobotContainer {
                                 m_robotDrive);
 
                 autoChooser = AutoBuilder.buildAutoChooser();
+
+                SmartDashboard.putString("Starting Pose", m_robotDrive.getPose().toString());
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -222,7 +224,6 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-                m_robotDrive.zeroHeading();
                 return autoChooser.getSelected();
         }
 
