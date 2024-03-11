@@ -50,7 +50,7 @@ public class AlignToAmp extends Command {
         PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
         // check if target is present
-        if (target != null) {
+        if (target != null && target.getFiducialId() == 6) {
             // set theta based on yaw
             xOutput = m_xController.calculate(Math.toRadians(target.getYaw() * -1.0));
 

@@ -120,7 +120,7 @@ public class RobotContainer {
                                 m_robotDrive::getRobotRelativeSpeeds,
                                 m_robotDrive::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
-                                () -> DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red)),
+                                () -> Robot.allianceColor,
                                 m_robotDrive);
 
                 autoChooser = AutoBuilder.buildAutoChooser();

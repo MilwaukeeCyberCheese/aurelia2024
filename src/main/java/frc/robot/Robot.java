@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,6 +28,11 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  /**
+   * True if red, false if blue
+   */
+  public static boolean allianceColor;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -74,6 +81,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    allianceColor = DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red));
   }
 
   /**
