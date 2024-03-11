@@ -40,6 +40,30 @@
           "data": {
             "name": "ShootFromLeft"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftGetMiddleNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
         }
       ]
     }

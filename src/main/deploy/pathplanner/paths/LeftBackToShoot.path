@@ -12,7 +12,7 @@
         "y": 6.295109513295952
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftShooting"
     },
     {
       "anchor": {
@@ -39,8 +39,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 35.0,
-    "rotateFast": false
+    "rotation": 40.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Left",
