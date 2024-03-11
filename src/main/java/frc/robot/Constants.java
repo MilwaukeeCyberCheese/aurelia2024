@@ -225,7 +225,7 @@ public final class Constants {
                                 0.05, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI/10.0, 0.0, 0.0);
+                                Math.PI / 10.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -248,7 +248,9 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
-                                put("TestAuto.auto", new Pose2d(2.0, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFiveFour.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("Left.auto", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFourThree.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("Middle.auto", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
@@ -426,7 +428,7 @@ public final class Constants {
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kLeftMotorEncoder = kLeftMotor.getEncoder();
-                                
+
                 public static final int kRightCanId = 10;
                 public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
