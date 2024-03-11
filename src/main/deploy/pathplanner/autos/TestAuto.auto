@@ -6,12 +6,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "GyroReset"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Test"
