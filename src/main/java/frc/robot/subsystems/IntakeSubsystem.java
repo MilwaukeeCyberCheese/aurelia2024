@@ -31,6 +31,9 @@ public class IntakeSubsystem extends SubsystemBase {
                 Constants.IntakeConstants.kIntakePivotMotor.setIdleMode(Constants.IntakeConstants.kIntakePivotIdleMode);
                 Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
 
+                //current limits
+                Constants.IntakeConstants.kIntakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.kIntakeCurrentLimit);
+
                 // setup PID
                 CustomUtils.setSparkPID(Constants.IntakeConstants.kIntakePositionController,
                                 Constants.IntakeConstants.kPIDConstants);

@@ -354,6 +354,7 @@ public final class Constants {
                 public static final boolean kIntakeInverted = false;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final int kIntakeCurrentLimit = 30;
 
                 public static final int kIntakeAngleCanId = 11;
                 public static final boolean kIntakePivotInverted = false;
