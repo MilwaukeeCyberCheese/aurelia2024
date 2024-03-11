@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -94,8 +95,9 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // reset the pose of the robot to the starting pose of the autonomous command
+    System.out.println(m_autonomousCommand.getName() + "da name");
     Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
-    RobotContainer.m_robotDrive.resetOdometry((initialPose == null) ? initialPose : new Pose2d());
+    RobotContainer.m_robotDrive.resetOdometry((initialPose != null) ? initialPose : new Pose2d(0, 0, new Rotation2d(0)));
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null && initialPose != null) {
