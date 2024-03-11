@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.ShooterCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -50,7 +51,7 @@ public class AlignToAmp extends Command {
         PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
 
         // check if target is present
-        if (target != null && target.getFiducialId() == 6) {
+        if (target != null && target.getFiducialId() == ((Robot.allianceColor) ? 5 : 6)) {
             // set theta based on yaw
             xOutput = m_xController.calculate(Math.toRadians(target.getYaw() * -1.0));
 
