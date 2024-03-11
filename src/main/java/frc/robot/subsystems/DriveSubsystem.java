@@ -186,9 +186,9 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
-    chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
-    chassisSpeeds.vyMetersPerSecond = temp;
+    // double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
+    // chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
+    // chassisSpeeds.vyMetersPerSecond = temp;
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
