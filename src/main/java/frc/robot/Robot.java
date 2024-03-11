@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putString("Current Pose Auto", m_robotContainer.m_robotDrive.getPose().toString());
+    SmartDashboard.putString("Current Pose Auto", RobotContainer.m_robotDrive.getPose().toString());
   }
 
   @Override
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putString("Current Pose Teleop", m_robotContainer.m_robotDrive.getPose().toString());
+    SmartDashboard.putString("Current Pose Teleop", RobotContainer.m_robotDrive.getPose().toString());
   }
 
   @Override

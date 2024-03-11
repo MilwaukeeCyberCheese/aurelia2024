@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,7 +17,6 @@ import frc.robot.commands.DriveAndOrientToTarget;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.GyroReset;
-import frc.robot.commands.Shoot;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
@@ -145,8 +142,9 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
 
-                new Trigger(m_rightJoystick::getButtonThree).onTrue(m_robotDrive.runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(1.90, 5.61, new Rotation2d(0)))));
-                
+                new Trigger(m_rightJoystick::getButtonThree).onTrue(m_robotDrive
+                                .runOnce(() -> m_robotDrive.resetOdometry(new Pose2d(1.90, 5.61, new Rotation2d(0)))));
+
                 // // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
                                 m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
@@ -196,8 +194,9 @@ public class RobotContainer {
                                 .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
 
                 // new Trigger(m_operatorController::getRightStickPressed)
-                //                 .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
-                //                                 m_liftSubsystem));
+                // .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem,
+                // m_shooterSubsystem,
+                // m_liftSubsystem));
 
                 // climber bindings
                 new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
