@@ -219,10 +219,10 @@ public final class Constants {
 
                 // TODO: this will need to be tuned
                 public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                0.03, 0.0, 0.0);
+                                0.05, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI/ 100.0, 0.0, 0.0);
+                                Math.PI/10.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -411,15 +411,19 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kLeftMotorEncoder = kLeftMotor.getEncoder();
                                 
                 public static final int kRightCanId = 10;
                 public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kRightMotorEncoder = kRightMotor.getEncoder();
 
                 public static final double kSlowSpeed = 0.3;
                 public static final double kFastSpeed = 0.7;
+
+                public static final double kStopCounts = 300;
         }
 
         // the naming convention for these limits is the subsystem moving, whether the

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.pathplanner.lib.util.GeometryUtil;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -186,13 +187,16 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    // TODO: may need to invert some speeds as of 2/27
+    double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
+    chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
+    chassisSpeeds.vyMetersPerSecond = temp;
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
         .toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
+
     Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
     Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
     Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);

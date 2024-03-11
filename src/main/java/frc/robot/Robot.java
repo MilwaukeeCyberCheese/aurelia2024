@@ -85,7 +85,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    //m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(2.0, 5.5, new Rotation2d(0)));
+    // TODO: Need every auto to have their own start pose, can probably query auto command
+    m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(4.0, 5.0, new Rotation2d(0)));
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
