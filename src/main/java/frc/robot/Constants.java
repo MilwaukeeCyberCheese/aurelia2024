@@ -248,10 +248,10 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
-                                put("RightFiveFour.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
-                                put("Left.auto", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFourThree.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
-                                put("Middle.auto", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
+                                put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFourThree", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }
