@@ -13,6 +13,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -56,7 +59,8 @@ public final class Constants {
 
                 // TODO: Limit switch for intake
 
-                // public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+                // public static final ColorSensorV3 shooterColorSensor = new
+                // ColorSensorV3(I2C.Port.kOnboard);
 
         }
 
@@ -222,7 +226,7 @@ public final class Constants {
                                 0.03, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI/ 100.0, 0.0, 0.0);
+                                Math.PI / 100.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -242,6 +246,13 @@ public final class Constants {
                                 new ReplanningConfig() // Default path replanning config. See the API
                 // for the options here
                 );
+
+                public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
+                        {
+                                put("TestAuto.auto", new Pose2d(2.0, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("Middle.auto", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
+                        }
+                };
         }
 
         public static final class MotorConstants {
@@ -294,8 +305,12 @@ public final class Constants {
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO: 0.00062 is for 3:1
-                                                                                                                      // retune
+                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
+                                                                                                                     // 0.00062
+                                                                                                                     // is
+                                                                                                                     // for
+                                                                                                                     // 3:1
+                                                                                                                     // retune
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
@@ -314,7 +329,7 @@ public final class Constants {
                 public static final double kWristMaxOutput = 0.15;
                 public static final double kWristTolerance = 2; // TODO: find tolerance
 
-                public static final double[] kWristLimits = {15, 270 }; // TODO: set limits
+                public static final double[] kWristLimits = { 15, 270 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // TODO: find actual values
@@ -382,7 +397,7 @@ public final class Constants {
 
                 // conversion factor in inches
                 // TODO: probably done, check math
-                public static final double kLiftConversionFactor =  /* motor shaft to low hex lift */ (27.0 / 24.0) /
+                public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (27.0 / 24.0) /
                 /* circumference of gear */(Math.PI * 1.757) * 16;
 
                 public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
@@ -411,7 +426,7 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                                
+
                 public static final int kRightCanId = 10;
                 public static final boolean kRightInverted = false; // TODO: find inverted
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;

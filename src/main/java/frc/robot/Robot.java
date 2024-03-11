@@ -5,13 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * project.
  */
 public class Robot extends TimedRobot {
-  
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -35,13 +33,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    //suppress joystick warnings
+    // suppress joystick warnings
     DriverStation.silenceJoystickConnectionWarning(true);
   }
 
@@ -85,10 +83,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    //m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(2.0, 5.5, new Rotation2d(0)));
+    // reset the pose of the robot to the starting pose of the autonomous command
+    Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
+    RobotContainer.m_robotDrive.resetOdometry((initialPose == null) ? initialPose : new Pose2d());
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null && initialPose != null) {
       m_autonomousCommand.schedule();
     }
   }
