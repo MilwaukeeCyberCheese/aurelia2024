@@ -6,7 +6,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.utils.WaitCommandMilli;
 
 public class Pulse extends SequentialCommandGroup {
-    private double speed = 0.3;
+    private double speed = 0.2;
     private int waitTime = 100;
 
     public Pulse(IntakeSubsystem m_IntakeSubsystem) {
