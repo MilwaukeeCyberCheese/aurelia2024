@@ -86,7 +86,9 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(0);
         double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
                 + Constants.LiftConstants.kLiftEncoder.getPosition();
+        position = 0.0;
         Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
+
     }
 
     /**

@@ -13,7 +13,7 @@ import frc.robot.utils.DashboardUpdater;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed = 0.0;
-        private double position = 15.0;
+        private double position = Constants.IntakeConstants.kIntakeLoadPosition;
         private DashboardUpdater<Double> positionUpdater;
         private DashboardUpdater<Double> speedUpdater;
 

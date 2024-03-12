@@ -302,6 +302,7 @@ public final class Constants {
                 public static final boolean kShooterInverted = true;
                 public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final int kCurrentLimit = 40;
                 public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
                 public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
 
@@ -354,7 +355,7 @@ public final class Constants {
                 public static final boolean kIntakeInverted = false;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final int kIntakeCurrentLimit = 30;
+                public static final int kIntakeCurrentLimit = 80;
 
                 public static final int kIntakeAngleCanId = 11;
                 public static final boolean kIntakePivotInverted = false;
@@ -409,7 +410,7 @@ public final class Constants {
                 public static final double kTolerance = 0.1;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0, 11 };
+                public static final double[] kLiftLimits = { 0.0, 11 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;

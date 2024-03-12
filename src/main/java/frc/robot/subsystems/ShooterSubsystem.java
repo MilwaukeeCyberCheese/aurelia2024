@@ -8,7 +8,6 @@ import frc.robot.Constants;
 
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
 
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -31,7 +30,8 @@ public class ShooterSubsystem extends SubsystemBase {
                      Constants.ShooterConstants.kShooterMotor.setIdleMode(Constants.ShooterConstants.kShooterIdleMode);
                 Constants.ShooterConstants.kWristMotor.setIdleMode(Constants.ShooterConstants.kWristIdleMode);
 
-                // setup PID
+                // setup current limits
+                Constants.ShooterConstants.kShooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.kCurrentLimit);
               
 
                 CustomUtils.setSparkPID(Constants.ShooterConstants.kShooterController,

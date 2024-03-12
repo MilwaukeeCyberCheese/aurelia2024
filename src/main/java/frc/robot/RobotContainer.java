@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +19,7 @@ import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLiftCommand;
 import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
@@ -155,7 +154,7 @@ public class RobotContainer {
                 // // run shooter at full speed
 
                 new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> 200, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> 2000, m_shooterSubsystem));
                 new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
 
@@ -220,6 +219,8 @@ public class RobotContainer {
                 // zero absolute encoder lift
                 new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
                                 .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
+
+                new Trigger(m_rightJoystick::getButtonTen).onTrue(new Pulse(m_intakeSubsystem));
         }
 
         public Command getAutonomousCommand() {
