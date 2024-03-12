@@ -33,6 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.subsystems.MAXSwerveModule;
 
@@ -57,6 +58,7 @@ public final class Constants {
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
                 // TODO: Limit switch for intake
+                public static final DigitalInput intakeLimitSwitch = new DigitalInput(0);
 
                 // public static final ColorSensorV3 shooterColorSensor = new
                 // ColorSensorV3(I2C.Port.kOnboard);
@@ -443,13 +445,5 @@ public final class Constants {
                 public static final double kFastSpeed = 0.7;
 
                 public static final double kStopCounts = 300;
-        }
-
-        // the naming convention for these limits is the subsystem moving, whether the
-        // limit is at the top or bottom of the range, and what the limit is to protect
-        public class SafetyLimits {
-                // TODO: find the rest of the limits
-                public static final double kIntakeUpperLift = 180;
-                public static final double kWristLowerLift = 60;
         }
 }

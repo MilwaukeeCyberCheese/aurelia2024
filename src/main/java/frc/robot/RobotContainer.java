@@ -16,7 +16,6 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.WheelsX;
-import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
@@ -38,7 +37,6 @@ import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.math.geometry.*;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a

@@ -56,13 +56,7 @@ public class LiftSubsystem extends SubsystemBase {
      * @param position (inches)
      */
     public void setPosition(double position) {
-        if ((RobotContainer.m_shooterSubsystem.getPosition() > Constants.SafetyLimits.kWristLowerLift &&
-                RobotContainer.m_intakeSubsystem.getPosition() < Constants.SafetyLimits.kIntakeUpperLift)
-                || (this.position > Constants.LiftConstants.kClearOfObstructions
-                        && Constants.LiftConstants.kClearOfObstructions > 3)/*
-                                                                             * TODO protect from the wrist hitting stuff
-                                                                             */) {
-        }
+        
 
         position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                 Constants.LiftConstants.kLiftLimits[1]);
