@@ -133,6 +133,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
 
         public void log() {
+                SmartDashboard.putBoolean("Shooter at Position", atPosition());
                 SmartDashboard.putNumber("Shooter Speed", Constants.ShooterConstants.kShooterMotor.getEncoder().getVelocity());
                 SmartDashboard.putNumber("Wrist Position Actual",
                                 Constants.ShooterConstants.kWristEncoder.getPosition());

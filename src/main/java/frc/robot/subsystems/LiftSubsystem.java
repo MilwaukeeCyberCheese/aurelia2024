@@ -97,10 +97,11 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public boolean atPosition() {
         return Math.abs(
-                Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
+                Constants.LiftConstants.kLiftMotor.getEncoder().getPosition() - position) < Constants.LiftConstants.kLiftTolerance;
     }
 
     public void log() {
         SmartDashboard.putNumber("Lift Position: ", Constants.LiftConstants.kLiftMotor.getEncoder().getPosition());
+        SmartDashboard.putBoolean("Lift at position", atPosition());
     }
 }

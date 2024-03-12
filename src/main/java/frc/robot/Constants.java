@@ -225,7 +225,7 @@ public final class Constants {
                                 0.05, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI / 10.0, 0.0, 0.0);
+                                Math.PI / 3.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -327,18 +327,18 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.003, 0.0, 0.0, 0.0); // TODO:
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.006, 0.0, 0.0, 0.0); // TODO:
                                                                                                               // retune
                 public static final double kWristMaxOutput = 0.15;
-                public static final double kWristTolerance = 2; // TODO: find tolerance
+                public static final double kWristTolerance = 3; // TODO: find tolerance
 
                 public static final double[] kWristLimits = { 15, 270 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
-                // TODO: find actual values
-                public static final double kStowAngle = 0;
-                public static final double kLoadAngle = 0;
-                public static final double kAmpAngle = 0;
+                // angles
+                public static final double kIntakeInAngle = 150;
+                public static final double kShootAngle = 108;
+                public static final double kLiftSafeAngle = 90;
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
@@ -407,7 +407,7 @@ public final class Constants {
                 public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
 
                 // TODO: find tolerance
-                public static final double kTolerance = 0.1;
+                public static final double kLiftTolerance = 0.3;
 
                 // TODO: set lift limits
                 public static final double[] kLiftLimits = { 0.0, 11 };

@@ -69,13 +69,16 @@ public class DriveAndOrientToTarget extends Command {
             if (target != null) {
                 // set theta based on yaw
                 goalYaw = Math.toRadians(target.getYaw() + Constants.Sensors.gyro.getAngle());
+                // System.out.println(goalYaw);
             }
         }
         // check if target is present
-        if (goalYaw == null) {
+        if (target == null) {
             thetaOutput = m_rot.getAsDouble();
+            System.out.println("ruh roh");
         } else {
             thetaOutput = thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()), goalYaw);
+            System.out.println("hey it works");
         }
 
         m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), thetaOutput,
