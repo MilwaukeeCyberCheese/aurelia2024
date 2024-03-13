@@ -22,7 +22,6 @@ import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
 import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLiftCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
-import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -177,32 +176,40 @@ public class RobotContainer {
                                                 m_rightJoystick::getThrottle));
 
                 // climber bindings
-                new Trigger(m_leftJoystick::getButtonFour)
+
+                // zeroes
+                new Trigger(m_leftJoystick::getButtonFour).and(m_leftJoystick::getButtonThree)
                                 .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroLeft()));
 
-                new Trigger(m_leftJoystick::getButtonFive)
+                new Trigger(m_leftJoystick::getButtonFive).and(m_leftJoystick::getButtonThree)
                                 .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroRight()));
 
+                // controls both
                 new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
                                 .run(() -> m_climberSubsystem.setSpeeds(-0.4,
                                                 false)));
+
                 new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
                                 .run(() -> m_climberSubsystem.setSpeeds(1.0, false)));
+
+                // controls left
                 new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
                                 .run(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed,
-                                                m_leftJoystick.getButtonThree())));
-                new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem
-                                                .setRightSpeed(Constants.ClimberConstants.kSlowSpeed,
-                                                                m_leftJoystick.getButtonThree())));
-                // this one goes the other way
-                new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setRightSpeed(-Constants.ClimberConstants.kSlowSpeed,
                                                 m_leftJoystick.getButtonThree())));
                 new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
                                 .run(() -> m_climberSubsystem.setLeftSpeed(-Constants.ClimberConstants.kSlowSpeed,
                                                 m_leftJoystick.getButtonThree())));
 
+                // controls right
+                new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
+                                .run(() -> m_climberSubsystem.setRightSpeed(-Constants.ClimberConstants.kSlowSpeed,
+                                                m_leftJoystick.getButtonThree())));
+                new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
+                                .run(() -> m_climberSubsystem
+                                                .setRightSpeed(Constants.ClimberConstants.kSlowSpeed,
+                                                                m_leftJoystick.getButtonThree())));
+
+                // follow and intake note: this is a test
                 new Trigger(m_operatorController::getLeftStickPressed)
                                 .onTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera,
                                                 m_liftSubsystem, m_shooterSubsystem));
@@ -211,7 +218,7 @@ public class RobotContainer {
                 new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
                                 .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
 
-                new Trigger(m_rightJoystick::getButtonTen).onTrue(new Pulse(m_intakeSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed).onTrue(new Pulse(m_intakeSubsystem));
         }
 
         public Command getAutonomousCommand() {

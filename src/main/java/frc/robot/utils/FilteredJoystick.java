@@ -124,8 +124,18 @@ public class FilteredJoystick {
     }
 
     /**
+     * Returns the state of the POV
+     * 
+     * @return the degree of the pov, -1 if not pressed
+     */
+    public int getPovState() {
+        return joystick.getPOV();
+    }
+
+    /**
      * Returns depending on which POVButton is pressed
      * 
+     * @deprecated
      * @return int
      */
     public int getPOVButton() {
