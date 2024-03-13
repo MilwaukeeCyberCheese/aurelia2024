@@ -13,11 +13,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-
 import java.util.HashMap;
 import java.util.function.BooleanSupplier;
-
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
@@ -462,22 +459,22 @@ public final class Constants {
 
         public class ClimberConstants {
                 public static final int kLeftCanId = 9;
-                public static final boolean kLeftInverted = true; // TODO: find inverted
+                public static final boolean kLeftInverted = true;
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kLeftMotorEncoder = kLeftMotor.getEncoder();
+                public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
 
                 public static final int kRightCanId = 10;
-                public static final boolean kRightInverted = false; // TODO: find inverted
+                public static final boolean kRightInverted = false;
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kRightMotorEncoder = kRightMotor.getEncoder();
+                public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
 
                 public static final double kSlowSpeed = 0.3;
                 public static final double kFastSpeed = 0.7;
 
-                public static final double kStopCounts = 300;
+                public static final double kUpperLimit = 300;
         }
 }
