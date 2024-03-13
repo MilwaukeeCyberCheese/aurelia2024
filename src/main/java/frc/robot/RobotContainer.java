@@ -14,15 +14,14 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToTarget;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
-import frc.robot.commands.GyroReset;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
-import frc.robot.commands.IntakeCommands.IntakePositionCommand;
-import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
+import frc.robot.commands.IntakeCommands.SetIntakePosition;
+import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
 import frc.robot.commands.IntakeCommands.Pulse;
-import frc.robot.commands.LiftCommands.ManualLiftCommand;
-import frc.robot.commands.ShooterCommands.SpinDownCommand;
+import frc.robot.commands.LiftCommands.ManualLift;
+import frc.robot.commands.ShooterCommands.SetSpin;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -48,7 +47,7 @@ public class RobotContainer {
         private final SendableChooser<Command> autoChooser;
 
         // Initialize subsystems
-        public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+        public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
         public final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         public final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         public final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
@@ -78,7 +77,7 @@ public class RobotContainer {
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("FollowAndIntake",
-                                new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera, m_liftSubsystem,
+                                new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera, m_liftSubsystem,
                                                 m_shooterSubsystem));
                 // NamedCommands.registerCommand("ShootFromRight",
                 // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
@@ -94,7 +93,7 @@ public class RobotContainer {
 
                 // set default command for drive
                 // TODO: inversion may be needed
-                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, () -> -1.0 * m_rightJoystick.getX(),
+                m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem, () -> -1.0 * m_rightJoystick.getX(),
                                 () -> -1.0 * m_rightJoystick.getY(), m_leftJoystick::getX,
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
@@ -102,7 +101,7 @@ public class RobotContainer {
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
-                                new ManualLiftCommand(m_operatorController::getYLeft, m_liftSubsystem));
+                                new ManualLift(m_operatorController::getYLeft, m_liftSubsystem));
 
                 // default command for climber
                 m_climberSubsystem
@@ -114,17 +113,17 @@ public class RobotContainer {
 
                 // Configure the AutoBuilder last
                 AutoBuilder.configureHolonomic(
-                                m_robotDrive::getPose,
-                                m_robotDrive::resetOdometry,
-                                m_robotDrive::getRobotRelativeSpeeds,
-                                m_robotDrive::drive,
+                                m_driveSubsystem::getPose,
+                                m_driveSubsystem::resetOdometry,
+                                m_driveSubsystem::getRobotRelativeSpeeds,
+                                m_driveSubsystem::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
                                 () -> Robot.allianceColor,
-                                m_robotDrive);
+                                m_driveSubsystem);
 
                 autoChooser = AutoBuilder.buildAutoChooser();
 
-                SmartDashboard.putString("Starting Pose", m_robotDrive.getPose().toString());
+                SmartDashboard.putString("Starting Pose", m_driveSubsystem.getPose().toString());
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -143,31 +142,32 @@ public class RobotContainer {
 
                 // // top left button and x button on controller sets wheels to x
                 new Trigger(m_buttons::getOneA).or(
-                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
+                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_driveSubsystem));
 
                 // // top right button resets gyro or right button five
-                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
+                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive)
+                                .onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.zeroHeading()));
 
                 // // set speeds for the shooter
-                new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
+                new Trigger(m_operatorController::getAButton).onTrue(new SetSpin(() -> 0, m_shooterSubsystem));
 
                 // set intake speeds
                 new Trigger(m_operatorController::getLeftTriggerActive)
-                                .whileTrue(new IntakeSpeedCommand(() -> -0.6, m_intakeSubsystem));
+                                .whileTrue(new SetIntakeSpeed(() -> -0.6, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightTriggerActive)
-                                .whileTrue(new IntakeSpeedCommand(() -> Constants.IntakeConstants.kIntakeSpeed,
+                                .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,
                                                 m_intakeSubsystem));
 
                 // set intake positions
                 new Trigger(m_operatorController::getLeftBumper)
-                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                .onTrue(new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeStowedPosition,
                                                 m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper)
                                 .whileTrue(new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
                                                 m_shooterSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
-                                .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera,
+                                .whileTrue(new DriveAndOrientToTarget(m_driveSubsystem, m_intakeCamera,
                                                 m_rightJoystick::getX,
                                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                                 () -> (!m_rightJoystick.getTriggerActive()
@@ -212,7 +212,7 @@ public class RobotContainer {
 
                 // follow and intake note: this is a test
                 new Trigger(m_operatorController::getLeftStickPressed)
-                                .onTrue(new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera,
+                                .onTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
                                                 m_liftSubsystem, m_shooterSubsystem));
 
                 // zero absolute encoder lift
@@ -222,8 +222,10 @@ public class RobotContainer {
                 // pulse intake to center note
                 new Trigger(m_operatorController::getRightStickPressed).onTrue(new Pulse(m_intakeSubsystem));
 
-                //orient to speaker
-                new Trigger(() -> m_rightJoystick.getPovState() == 180).whileTrue(new SnapToAndAlign(m_robotDrive, m_shooterCamera, () -> (Robot.allianceColor) ? 4 : 7, () -> 180, m_rightJoystick::getY));
+                // orient to speaker
+                new Trigger(() -> m_rightJoystick.getPovState() == 180)
+                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 180, m_rightJoystick::getY));
         }
 
         public Command getAutonomousCommand() {

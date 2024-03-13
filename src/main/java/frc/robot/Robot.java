@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.GyroReset;
 import frc.robot.utils.Transpose;
 
 /**
@@ -92,13 +91,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    new GyroReset();
+    RobotContainer.m_driveSubsystem.runOnce(() -> RobotContainer.m_driveSubsystem.zeroHeading());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // reset the pose of the robot to the starting pose of the autonomous command
     System.out.println(m_autonomousCommand.getName() + "da name");
     Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
-    RobotContainer.m_robotDrive
+    RobotContainer.m_driveSubsystem
         .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
             : new Pose2d(0, 0, new Rotation2d(0))); //TOOD: make sure that flipping pose works
 
@@ -111,7 +110,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putString("Current Pose Auto", RobotContainer.m_robotDrive.getPose().toString());
+    SmartDashboard.putString("Current Pose Auto", RobotContainer.m_driveSubsystem.getPose().toString());
   }
 
   @Override
@@ -125,14 +124,14 @@ public class Robot extends TimedRobot {
     }
 
     // TODO: Take teleop pose from final auto pose
-    RobotContainer.m_robotDrive.resetOdometry(new Pose2d(2, 2, new Rotation2d(0)));
+    RobotContainer.m_driveSubsystem.resetOdometry(new Pose2d(2, 2, new Rotation2d(0)));
 
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putString("Current Pose Teleop", RobotContainer.m_robotDrive.getPose().toString());
+    SmartDashboard.putString("Current Pose Teleop", RobotContainer.m_driveSubsystem.getPose().toString());
   }
 
   @Override

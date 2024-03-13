@@ -3,8 +3,8 @@ package frc.robot.commands.IntakeCommands;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.LiftCommands.LiftPositionCommand;
-import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
+import frc.robot.commands.LiftCommands.SetLiftPosition;
+import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -18,24 +18,24 @@ public class IntakeThenPulse extends SequentialCommandGroup {
         public IntakeThenPulse(IntakeSubsystem intakeSubsystem, LiftSubsystem liftSubsystem,
                         ShooterSubsystem shooterSubsystem) {
                 addCommands(
-                                Commands.parallel(new LiftPositionCommand(() -> 0.0, liftSubsystem),
-                                                new SetWristAngleCommand(
-                                                                () -> Constants.ShooterConstants.kIntakeInAngle,
+                                Commands.parallel(new SetLiftPosition(() -> 0.0, liftSubsystem),
+                                                new SetWristAngle(
+                                                                () -> Constants.ShooterConstants.kIntakeSafeAngle,
                                                                 shooterSubsystem)),
-                                new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
+                                new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeOutPosition,
                                                 intakeSubsystem),
-                                new IntakeCommand(intakeSubsystem),
+                                new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,intakeSubsystem),
                                 Commands.parallel(
-                                                new IntakePositionCommand(
+                                                new SetIntakePosition(
                                                                 () -> Constants.IntakeConstants.kIntakeStowedPosition,
                                                                 intakeSubsystem),
-                                                new LiftPositionCommand(() -> 0.0, liftSubsystem),
-                                                new SetWristAngleCommand(
-                                                                () -> Constants.ShooterConstants.kIntakeInAngle,
+                                                new SetLiftPosition(() -> 0.0, liftSubsystem),
+                                                new SetWristAngle(
+                                                                () -> Constants.ShooterConstants.kIntakeSafeAngle,
                                                                 shooterSubsystem)),
-                                new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 intakeSubsystem),
-                                new SetWristAngleCommand(() -> 108, shooterSubsystem),
+                                new SetWristAngle(() -> 108, shooterSubsystem),
                                 new Pulse(intakeSubsystem), new Pulse(intakeSubsystem), new Pulse(intakeSubsystem));
         }
 }

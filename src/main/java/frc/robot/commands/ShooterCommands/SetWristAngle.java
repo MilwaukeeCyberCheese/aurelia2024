@@ -5,30 +5,30 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class SpinUpCommand extends Command {
-    public final DoubleSupplier m_rpm;
+public class SetWristAngle extends Command {
     public final ShooterSubsystem m_shooterSubsystem;
+    public final DoubleSupplier m_angle;
 
     /**
-     * Runs the shooter at a specific RPMs
+     * Set angle of the shooter
      * 
-     * @param RPM              RPMs to spin the shooter up to
-     * @param ShooterSubsystem subsystem for controlling the shooter
+     * @param angle            angle to set the shooter to
+     * @param shooterSubsystem subsystem for controlling the shooter
      *                         {@link frc.robot.subsystems.ShooterSubsystem link}
      */
-    public SpinUpCommand(DoubleSupplier RPM, ShooterSubsystem shooterSubsystem) {
-        m_rpm = RPM;
+    public SetWristAngle(DoubleSupplier angle, ShooterSubsystem shooterSubsystem) {
+        m_angle = angle;
         m_shooterSubsystem = shooterSubsystem;
         addRequirements(m_shooterSubsystem);
     }
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setRPM(m_rpm.getAsDouble());
+        m_shooterSubsystem.setPosition(m_angle.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return m_shooterSubsystem.atRPM();
+        return m_shooterSubsystem.atPosition();
     }
 }

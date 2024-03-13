@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.LiftSubsystem;
 
-public class ManualLiftCommand extends Command {
+public class ManualLift extends Command {
     public final LiftSubsystem m_liftSubsystem;
     public final DoubleSupplier m_positionAdjust;
 
@@ -17,7 +17,7 @@ public class ManualLiftCommand extends Command {
      * @param adjustAmount (-1 to 1)
      * @param liftSubsystem
      */
-    public ManualLiftCommand(DoubleSupplier adjustAmount, LiftSubsystem liftSubsystem) {
+    public ManualLift(DoubleSupplier adjustAmount, LiftSubsystem liftSubsystem) {
         this.m_positionAdjust = () -> MathUtil.clamp(adjustAmount.getAsDouble(), -1.0, 1.0);
         this.m_liftSubsystem = liftSubsystem;
         addRequirements(m_liftSubsystem);

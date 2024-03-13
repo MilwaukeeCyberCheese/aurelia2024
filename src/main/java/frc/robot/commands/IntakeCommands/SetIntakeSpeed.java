@@ -1,30 +1,32 @@
 package frc.robot.commands.IntakeCommands;
 
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCommand extends Command {
+public class SetIntakeSpeed extends Command {
     private final IntakeSubsystem m_intakeSubsystem;
+    private final DoubleSupplier m_speed;
 
     /**
      * Command to intake the note
      * 
      * @param intakeSubsystem
      */
-    public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+    public SetIntakeSpeed(DoubleSupplier speed, IntakeSubsystem intakeSubsystem) {
+        m_speed = speed;
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
 
     @Override
     public void initialize() {
-        m_intakeSubsystem.setSpeed(Constants.IntakeConstants.kIntakeSpeed);
+        m_intakeSubsystem.setSpeed(m_speed.getAsDouble());
     }
 
     @Override
     public boolean isFinished(){
-        return Constants.Sensors.intakeLimitSwitch.get();
+        return false;
     }
 
     @Override
