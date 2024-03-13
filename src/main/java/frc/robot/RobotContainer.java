@@ -15,6 +15,7 @@ import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.SnapToAndAlign;
+import frc.robot.commands.SnapToAndAlignWithRange;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
@@ -212,7 +213,7 @@ public class RobotContainer {
 
                 // follow and intake note: this is a test
                 new Trigger(m_operatorController::getLeftStickPressed)
-                                .onTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
+                                .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
                                                 m_liftSubsystem, m_shooterSubsystem));
 
                 // zero absolute encoder lift
@@ -224,8 +225,8 @@ public class RobotContainer {
 
                 // orient to speaker
                 new Trigger(() -> m_rightJoystick.getPovState() == 180)
-                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
-                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 180, m_rightJoystick::getY));
+                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 90, () -> 0.5));
         }
 
         public Command getAutonomousCommand() {

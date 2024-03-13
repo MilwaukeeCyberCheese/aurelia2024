@@ -302,9 +302,11 @@ public final class Constants {
                 }
 
                 public static final class TagPositions {
-                        private static final Pose3d kTagSeven = new Pose3d(-1.5, 218.42, 57.13,
+                        private static final Pose3d kTagSeven = new Pose3d(Units.inchesToMeters(-1.5),
+                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
                                         new Rotation3d(0, 0, 0));
-                        private static final Pose3d kTagFour = new Pose3d(652.73, 218.42, 57.13,
+                        private static final Pose3d kTagFour = new Pose3d(Units.inchesToMeters(652.73),
+                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
                                         new Rotation3d(0, 0, 180));
 
                         public static final HashMap<Integer, Pose3d> kTagPositions = new HashMap<Integer, Pose3d>() {
@@ -365,7 +367,7 @@ public final class Constants {
                 public static final double kIntakeSafeAngle = 150;
                 public static final double kShootAngle = 108;
                 public static final double kLiftSafeAngle = 90;
-                public static final double kAmpAngle = 70; //TODO: confirm that
+                public static final double kAmpAngle = 70; // TODO: confirm that
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;

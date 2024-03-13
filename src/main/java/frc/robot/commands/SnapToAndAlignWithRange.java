@@ -34,7 +34,7 @@ public class SnapToAndAlignWithRange extends Command {
      * @param driveSubsystem
      * @param cameraSubsystem
      * @param id              id of the apriltag to orient to
-     * @param angle           angle to snap to on the field
+     * @param angle           angle to snap to on the field (degrees)
      * @param goalRange       range to achieve from the apriltag
      */
     public SnapToAndAlignWithRange(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem,
@@ -71,7 +71,7 @@ public class SnapToAndAlignWithRange extends Command {
         // check if target is present
         if (target != null) {
             // set x based on yaw
-            xOutput = m_xController.calculate(Math.toRadians(target.getYaw() * -1.0));
+            xOutput = m_xController.calculate(target.getYaw() * -1.0);
 
             // set y based on range
             double range = PhotonUtils.calculateDistanceToTargetMeters(
@@ -85,8 +85,8 @@ public class SnapToAndAlignWithRange extends Command {
 
         //snap to theta using gyro
         thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()));
-
-        m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, yOutput, thetaOutput));
+        System.out.println("Range: " + yOutput + "Translation: " + xOutput);
+        m_driveSubsystem.driveLimited(new ChassisSpeeds(-1 * yOutput, xOutput, thetaOutput));
 
     }
 
