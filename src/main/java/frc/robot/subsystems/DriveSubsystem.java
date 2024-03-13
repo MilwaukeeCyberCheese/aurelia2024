@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.util.PPLibTelemetry;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -25,7 +28,8 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
   private double m_currentTranslationMag = 0.0;
-
+  private PIDController m_thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+      Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(Constants.DriveConstants.kMagnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
@@ -162,6 +166,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  private double currentAngle;
+  private boolean turningCorrect = false;
+
   /**
    * Method to drive the robot relative to itself without limiters, etc.
    * 
@@ -169,11 +176,25 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
+    //correction for rotation due to pathplanner
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
         Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
 
-        
+    //correction for rotational slew
+    if (!Robot.inAuto) {
+      if (!turningCorrect) {
+        currentAngle = Constants.Sensors.gyro.getAngle();
+      }
+
+      if (adjusted.omegaRadiansPerSecond < 0.05) {
+        turningCorrect = true;
+        adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Constants.Sensors.gyro.getAngle(), currentAngle);
+      } else {
+        turningCorrect = false;
+      }
+    }
+
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
         .toSwerveModuleStates(adjusted);
