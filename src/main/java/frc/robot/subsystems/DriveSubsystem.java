@@ -171,9 +171,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
-        Rotation2d
-            .fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
+        Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
 
+        
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
         .toSwerveModuleStates(adjusted);
@@ -249,7 +249,7 @@ public class DriveSubsystem extends SubsystemBase {
     rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
         * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
-        drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
   }
 
