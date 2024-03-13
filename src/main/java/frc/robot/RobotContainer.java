@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveAndOrientToTarget;
+import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.SnapToAndAlign;
@@ -167,7 +167,7 @@ public class RobotContainer {
                                                 m_shooterSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
-                                .whileTrue(new DriveAndOrientToTarget(m_driveSubsystem, m_intakeCamera,
+                                .whileTrue(new DriveAndOrientToNote(m_driveSubsystem, m_intakeCamera,
                                                 m_rightJoystick::getX,
                                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                                 () -> (!m_rightJoystick.getTriggerActive()

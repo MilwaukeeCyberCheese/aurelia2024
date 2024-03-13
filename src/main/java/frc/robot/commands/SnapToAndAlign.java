@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterCameraSubsystem;
-import frc.robot.subsystems.DriveSubsystem; 
+import frc.robot.subsystems.DriveSubsystem;
 
 public class SnapToAndAlign extends Command {
     private final DriveSubsystem m_driveSubsystem;
@@ -24,17 +24,17 @@ public class SnapToAndAlign extends Command {
             Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
 
     /**
-     * Point towards, and move towards, a detected
-     * {@link org.photonvision.targeting.PhotonTrackedTarget#PhotonTrackedTarget()
-     * PhotonTrackedTarget}
+     * Snap to a certain angle relative to the field, and then line up laterally with
+     * the apriltag indicated
      * 
-     * @param driveSubsystem  subsystem used for driving
-     * @param cameraSubsystem subsystem containing the camera
-     * @param id              id of the target to track
-     * @param angle           angle to point towards (in degrees)
-     * @param speed          speed to move towards the target
+     * @param driveSubsystem
+     * @param cameraSubsystem
+     * @param id              id of the apriltag to line up with
+     * @param angle           angle to snap to
+     * @param speed           speed to move forwards and backwards (robot relative)
      */
-    public SnapToAndAlign(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem, IntSupplier id, DoubleSupplier angle, DoubleSupplier speed) {
+    public SnapToAndAlign(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem, IntSupplier id,
+            DoubleSupplier angle, DoubleSupplier speed) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_id = id;

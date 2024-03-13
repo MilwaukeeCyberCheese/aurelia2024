@@ -5,18 +5,19 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
+import frc.robot.utils.LivePIDTuner;
 
 public class ShooterSubsystem extends SubsystemBase {
         private double upperRPM = 0;
         private double lowerRPM = 0;
         private double position = 150;
         // private LivePIDTuner shooterTuner;
-        // private LivePIDTuner wristTuner;
+        private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
-        private DashboardUpdater<Double> rpmUpdater;
+        // private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
                 Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
@@ -70,11 +71,11 @@ public class ShooterSubsystem extends SubsystemBase {
                 // shooterTuner = new LivePIDTuner("Shooter",
                 // Constants.ShooterConstants.kShooterController,
                 // Constants.ShooterConstants.kShooterPIDConstants);
-                // wristTuner = new LivePIDTuner("Wrist Tuner",
-                // Constants.ShooterConstants.kWristController,
-                // Constants.ShooterConstants.kWristPIDConstants);
+                wristTuner = new LivePIDTuner("Wrist Tuner",
+                                Constants.ShooterConstants.kWristController,
+                                Constants.ShooterConstants.kWristPIDConstants);
                 positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
-                rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
+                // rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
         /**
@@ -115,16 +116,18 @@ public class ShooterSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 MathUtil.clamp(position, Constants.ShooterConstants.kWristLimits[0],
                                 Constants.ShooterConstants.kWristLimits[1]);
-                // TODO: make these constants and add more limits if needed
-                // if (RobotContainer.m_liftSubsystem.getPosition() > 3 || (position > 60 &&
-                // this.position > 60)) {
+                                
+                if (RobotContainer.m_liftSubsystem.getPosition() > Constants.LiftConstants.kClearOfObstructions) {
+                        this.position = position;
+                } else if (RobotContainer.m_intakeSubsystem.getPosition() <= 160 && position > 0 && position < 0) {
+                        this.position = position;// TODO: determine limits while lift is down and intake stowed
+                } else if (position > 0 && position < 0) {
+                        this.position = position;// TODO: determine limits while lift is down and intake lift
+                }
 
-                this.position = position;
-                // }
         }
 
         /**
-         * 
          * @return whether the wrist is at the commanded position
          */
         public boolean atPosition() {
@@ -143,28 +146,25 @@ public class ShooterSubsystem extends SubsystemBase {
                 log();
 
                 // shooterTuner.update();
-                // wristTuner.update();
+                wristTuner.update();
                 positionUpdater.update();
-                rpmUpdater.update();
+                // rpmUpdater.update();
 
                 Constants.ShooterConstants.kUpperShooterController.setReference(upperRPM,
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kLowerShooterController.setReference(lowerRPM,
                                 CANSparkMax.ControlType.kVelocity);
-                // Constants.ShooterConstants.kShooterMotor.set(0.1);
-                Constants.ShooterConstants.kWristController.setReference(position,
+                Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
                                 CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
-                SmartDashboard.putBoolean("Shooter at Position", atPosition());
-                SmartDashboard.putNumber("Shooter Speed",
+                SmartDashboard.putBoolean("Wrist at Position", atPosition());
+                SmartDashboard.putNumber("Upper Shooter Speed",
                                 Constants.ShooterConstants.kUpperShooterMotor.getEncoder().getVelocity());
-                SmartDashboard.putNumber("Shooter Speed",
+                SmartDashboard.putNumber("Lower Shooter Speed",
                                 Constants.ShooterConstants.kLowerShooterMotor.getEncoder().getVelocity());
-                SmartDashboard.putNumber("Wrist Position Actual",
+                SmartDashboard.putNumber("Wrist Position",
                                 Constants.ShooterConstants.kWristEncoder.getPosition());
-                // SmartDashboard.putNumber("Wrist Speed",
-                // Constants.ShooterConstants.kWristMotor.getEncoder().getVelocity());
         }
 }

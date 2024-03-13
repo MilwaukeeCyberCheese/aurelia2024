@@ -12,7 +12,7 @@ public class SetLiftPosition extends Command {
     /**
      * Command to set the lift to a given position
      * 
-     * @param position position to set the lift to (measured in inches of travel)
+     * @param position position to set the lift to (measured in inches of travel(not really))
      * @param liftSubsystem
      */
     public SetLiftPosition(DoubleSupplier position, LiftSubsystem liftSubsystem) {

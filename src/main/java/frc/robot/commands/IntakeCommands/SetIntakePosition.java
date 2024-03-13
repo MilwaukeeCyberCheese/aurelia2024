@@ -12,7 +12,7 @@ public class SetIntakePosition extends Command {
     /**
      * Command to set the position of the intake
      * 
-     * @param position angle to set the intake to (0 is ground position)
+     * @param position angle to set the intake to
      * @param intakeSubsystem
      */
     public SetIntakePosition(DoubleSupplier position, IntakeSubsystem intakeSubsystem) {

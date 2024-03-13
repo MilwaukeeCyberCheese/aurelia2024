@@ -14,10 +14,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.WaitCommandMilli;
 
 public class Shoot extends SequentialCommandGroup {
-        public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem,
+        /**
+         * Command to shoot to the speaker
+         * 
+         * @param rpm
+         * @param angle
+         * @param intakeSubsystem
+         * @param shooterSubsystem
+         * @param liftSubsystem
+         */
+        public Shoot(DoubleSupplier rpm, DoubleSupplier angle, IntakeSubsystem intakeSubsystem,
                         ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
-                addCommands(new SetSpinAndAngle(shootAngle, rpm, shooterSubsystem),
+                addCommands(new SetSpinAndAngle(angle, rpm, shooterSubsystem),
                                 Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kLoadSpeed,
                                                 intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),

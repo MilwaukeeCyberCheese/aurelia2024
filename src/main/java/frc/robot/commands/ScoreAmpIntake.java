@@ -9,11 +9,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ScoreAmpIntake extends SequentialCommandGroup {
+    /**
+     * Command to score in the amp using the intake
+     * 
+     * @param shooterSubsystem
+     * @param intakeSubsystem
+     */
     public ScoreAmpIntake(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         addCommands(
                 new SetWristAngle(() -> Constants.ShooterConstants.kIntakeSafeAngle, shooterSubsystem),
                 new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeAmpPosition, intakeSubsystem),
                 new SetIntakeSpeed(() -> Constants.IntakeConstants.kAmpSpeed, intakeSubsystem));
     }
-
 }

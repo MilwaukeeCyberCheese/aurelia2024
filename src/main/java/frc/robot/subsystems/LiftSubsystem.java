@@ -6,15 +6,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
-
 
 public class LiftSubsystem extends SubsystemBase {
     public double position;
 
     public LiftSubsystem() {
         Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
-        // TODO: determine whether to invert this or not
+
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
         // idle mode
@@ -27,6 +27,7 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftEncoder.setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactor);
         Constants.LiftConstants.kLiftMotor.getEncoder()
                 .setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactorOnboard);
+
         Constants.LiftConstants.kLiftMotor.getEncoder()
                 .setPosition((Constants.LiftConstants.kLiftEncoder.getPosition() < 2.5)
                         ? Constants.LiftConstants.kLiftEncoder.getPosition()
@@ -46,11 +47,16 @@ public class LiftSubsystem extends SubsystemBase {
      * @param position (inches)
      */
     public void setPosition(double position) {
-        
 
         position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                 Constants.LiftConstants.kLiftLimits[1]);
-        this.position = position;
+
+        if (getPosition() > Constants.LiftConstants.kClearOfObstructions) {
+            this.position = position;
+        } else if (RobotContainer.m_intakeSubsystem.getPosition() < 160
+                && RobotContainer.m_shooterSubsystem.getPosition() == 90) {
+            this.position = position;
+        }
 
     }
 
@@ -81,11 +87,11 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public boolean atPosition() {
         return Math.abs(
-                Constants.LiftConstants.kLiftMotor.getEncoder().getPosition() - position) < Constants.LiftConstants.kLiftTolerance;
+                Constants.LiftConstants.kLiftMotor.getEncoder().getPosition()
+                        - position) < Constants.LiftConstants.kLiftTolerance;
     }
 
     public void log() {
         SmartDashboard.putNumber("Lift Position: ", Constants.LiftConstants.kLiftMotor.getEncoder().getPosition());
-        SmartDashboard.putBoolean("Lift at position", atPosition());
     }
 }

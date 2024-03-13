@@ -14,8 +14,8 @@ public class SetSpinAndAngle extends Command {
      * Set angle of the shooter
      * 
      * @param angle            angle to set the shooter to
-     * @param shooterSubsystem subsystem for controlling the shooter
-     *                         {@link frc.robot.subsystems.ShooterSubsystem link}
+     * @param RPM              RPM to set the shooter to
+     * @param shooterSubsystem
      */
     public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier RPM, ShooterSubsystem shooterSubsystem) {
         m_angle = angle;

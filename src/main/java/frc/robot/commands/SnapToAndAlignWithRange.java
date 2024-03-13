@@ -28,15 +28,14 @@ public class SnapToAndAlignWithRange extends Command {
             Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
 
     /**
-     * Point towards, and move towards, a detected
-     * {@link org.photonvision.targeting.PhotonTrackedTarget#PhotonTrackedTarget()
-     * PhotonTrackedTarget}
+     * Snap to a certain angle relative to the field, and then line up with
+     * the apriltag indicated in the x and y plane
      * 
-     * @param driveSubsystem  subsystem used for driving
-     * @param cameraSubsystem subsystem containing the camera
-     * @param id              id of the target to track
-     * @param angle           angle to point towards (in degrees)
-     * @param speed           speed to move towards the target
+     * @param driveSubsystem
+     * @param cameraSubsystem
+     * @param id              id of the apriltag to orient to
+     * @param angle           angle to snap to on the field
+     * @param goalRange       range to achieve from the apriltag
      */
     public SnapToAndAlignWithRange(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem,
             IntSupplier id, DoubleSupplier angle, DoubleSupplier goalRange) {
@@ -84,7 +83,8 @@ public class SnapToAndAlignWithRange extends Command {
             yOutput = m_yController.calculate(range);
         }
 
-        thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getYaw()));
+        //snap to theta using gyro
+        thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()));
 
         m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, yOutput, thetaOutput));
 

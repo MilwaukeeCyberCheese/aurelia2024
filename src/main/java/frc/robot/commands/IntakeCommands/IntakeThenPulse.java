@@ -11,9 +11,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class IntakeThenPulse extends SequentialCommandGroup {
         /**
-         * Overall command for going to the intake position, and then intaking
+         * Overall command for intaking, then storing and centering the note
          * 
          * @param intakeSubsystem
+         * @param liftSubsystem
+         * @param shooterSubsystem
          */
         public IntakeThenPulse(IntakeSubsystem intakeSubsystem, LiftSubsystem liftSubsystem,
                         ShooterSubsystem shooterSubsystem) {
@@ -24,7 +26,7 @@ public class IntakeThenPulse extends SequentialCommandGroup {
                                                                 shooterSubsystem)),
                                 new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeOutPosition,
                                                 intakeSubsystem),
-                                new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,intakeSubsystem),
+                                new IntakeCommand(intakeSubsystem),
                                 Commands.parallel(
                                                 new SetIntakePosition(
                                                                 () -> Constants.IntakeConstants.kIntakeStowedPosition,

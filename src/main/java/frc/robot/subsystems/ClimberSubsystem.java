@@ -18,7 +18,6 @@ public class ClimberSubsystem extends SubsystemBase {
         Constants.ClimberConstants.kRightMotor.setIdleMode(Constants.ClimberConstants.kRightIdleMode);
 
         zero();
-
     }
 
     public void setSpeeds(double speed, boolean override) {
@@ -29,37 +28,30 @@ public class ClimberSubsystem extends SubsystemBase {
     public void setLeftSpeed(double speed, boolean override) {
         if (override) {
             this.leftSpeed = speed;
-        } else if (speed >= 0.0) {
-            if (getLeftPosition() <= Constants.ClimberConstants.kUpperLimit) {
-                this.leftSpeed = speed;
-            } else {
-                this.leftSpeed = 0.0;
-            }
+        } else if (speed >= 0.0 && getLeftPosition() <= Constants.ClimberConstants.kUpperLimit) {
+            this.leftSpeed = speed;
+        } else if (getLeftPosition() > 0.0) {
+            this.leftSpeed = speed;
         } else {
-            if (getLeftPosition() > 0.0) {
-                this.leftSpeed = speed;
-            } else {
-                this.leftSpeed = 0.0;
-            }
+            this.leftSpeed = 0.0;
         }
     }
 
     public void setRightSpeed(double speed, boolean override) {
         if (override) {
             this.rightSpeed = speed;
-        } else if (speed >= 0.0) {
-            if (getRightPosition() <= Constants.ClimberConstants.kUpperLimit) {
-                this.rightSpeed = speed;
-            } else {
-                this.rightSpeed = 0.0;
-            }
+        } else if (speed >= 0.0 && getRightPosition() <= Constants.ClimberConstants.kUpperLimit) {
+            this.rightSpeed = speed;
+        } else if (getRightPosition() > 0.0) {
+            this.rightSpeed = speed;
         } else {
-            if (getRightPosition() > 0.0) {
-                this.rightSpeed = speed;
-            } else {
-                this.rightSpeed = 0.0;
-            }
+            this.rightSpeed = 0.0;
         }
+    }
+
+    public void zero() {
+        zeroLeft();
+        zeroRight();
     }
 
     public void zeroLeft() {
@@ -76,11 +68,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public double getRightPosition() {
         return Constants.ClimberConstants.kRightEncoder.getPosition();
-    }
-
-    public void zero() {
-        zeroLeft();
-        zeroRight();
     }
 
     public void periodic() {

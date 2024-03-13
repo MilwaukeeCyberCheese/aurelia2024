@@ -8,13 +8,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
-import frc.robot.utils.DashboardUpdater;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed = 0.0;
         private double position = Constants.IntakeConstants.kIntakeLoadPosition;
-        private DashboardUpdater<Double> positionUpdater;
-        private DashboardUpdater<Double> speedUpdater;
 
         /**
          * Subsystem for controlling the intake
@@ -51,20 +48,14 @@ public class IntakeSubsystem extends SubsystemBase {
                 Constants.IntakeConstants.kIntakePositionEncoder
                                 .setInverted(Constants.IntakeConstants.kIntakePositionEncoderInverted);
 
-                positionUpdater = new DashboardUpdater<Double>("Intake Position Updater", 15.0);
-                speedUpdater = new DashboardUpdater<Double>("Intake Speed Updater", 0.0);
-
         }
 
         public void periodic() {
                 log();
-                positionUpdater.update();
-                speedUpdater.update();
-                // if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
+
                 Constants.IntakeConstants.kIntakePositionController.setReference(position,
                                 CANSparkMax.ControlType.kPosition);
 
-                // }
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
 
@@ -86,6 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
+
                 if (position < 160) {
                         this.position = position;
                 } else if (Math.abs(
@@ -96,7 +88,6 @@ public class IntakeSubsystem extends SubsystemBase {
         }
 
         /**
-         * 
          * @return whether the intake is at the set position
          */
         public boolean atPosition() {
@@ -115,15 +106,5 @@ public class IntakeSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Intake Angle",
                                 Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
-                SmartDashboard.putNumber("Pivot Applied Output",
-                                Constants.IntakeConstants.kIntakePivotMotor.getAppliedOutput());
-                // SmartDashboard.putNumber("Intake P: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getP());
-                // SmartDashboard.putNumber("Intake I: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getI());
-                // SmartDashboard.putNumber("Intake D: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getD());
-                // SmartDashboard.putNumber("Intake FF: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getFF());
         }
 }

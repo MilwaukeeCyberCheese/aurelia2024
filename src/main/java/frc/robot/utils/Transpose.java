@@ -5,7 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 public class Transpose {
     private static final double fieldLength = 16.54;
-    private static final double fieldWidth = 8.21;
+    // private static final double fieldWidth = 8.21;
 
     public static Pose2d transposeToRed(Pose2d input) {
         double newX = (input.getX() > fieldLength / 2.0) ? input.getX() + (fieldLength / 2.0) : input.getX() - (fieldLength / 2.0);

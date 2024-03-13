@@ -10,6 +10,15 @@ import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class FollowAndIntake extends SequentialCommandGroup {
+    /**
+     * Follow a note using vision and intake it
+     * 
+     * @param intakeSubsystem
+     * @param driveSubsystem
+     * @param intakeCameraSubsystem
+     * @param liftSubsystem
+     * @param shooterSubsystem
+     */
     public FollowAndIntake(IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem,
             IntakeCameraSubsystem intakeCameraSubsystem, LiftSubsystem liftSubsystem,
             ShooterSubsystem shooterSubsystem) {

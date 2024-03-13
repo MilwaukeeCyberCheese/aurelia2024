@@ -11,7 +11,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.IntakeCameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveAndOrientToTarget extends Command {
+public class DriveAndOrientToNote extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final IntakeCameraSubsystem m_cameraSubsytem;
     private final DoubleSupplier m_xSpeed;
@@ -27,9 +27,7 @@ public class DriveAndOrientToTarget extends Command {
             Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
 
     /**
-     * Point towards, and move towards, a detected
-     * {@link org.photonvision.targeting.PhotonTrackedTarget#PhotonTrackedTarget()
-     * PhotonTrackedTarget}
+     * Change theta to point at a note, while retaining control over x and y
      * 
      * @param driveSubsystem  subsystem used for driving
      * @param cameraSubsystem subsystem containing the camera
@@ -40,7 +38,7 @@ public class DriveAndOrientToTarget extends Command {
      * @param slow
      * @param throttle
      */
-    public DriveAndOrientToTarget(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem,
+    public DriveAndOrientToNote(DriveSubsystem driveSubsystem, IntakeCameraSubsystem cameraSubsystem,
             DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rot,
             BooleanSupplier fieldRelative,
             BooleanSupplier rateLimit, BooleanSupplier slow, DoubleSupplier throttle) {

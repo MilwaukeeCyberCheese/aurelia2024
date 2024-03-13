@@ -10,11 +10,10 @@ public class SetSpin extends Command {
     public final ShooterSubsystem m_shooterSubsystem;
 
     /**
-     * Runs the shooter at a specific RPMs
+     * Runs the shooter at a specific RPM
      * 
-     * @param RPM              RPMs to spin the shooter at
-     * @param ShooterSubsystem subsystem for controlling the shooter
-     *                         {@link frc.robot.subsystems.ShooterSubsystem link}
+     * @param RPM              RPM to spin the shooter at
+     * @param ShooterSubsystem
      */
     public SetSpin(DoubleSupplier RPM, ShooterSubsystem shooterSubsystem) {
         m_rpm = RPM;
