@@ -284,10 +284,10 @@ public final class Constants {
 
                 public static final class ShooterCamera {
                         public static final PhotonCamera kCamera = new PhotonCamera("ShooterCamera");
-                        public static final double kCameraHeight = Units.inchesToMeters(14); // TODO: find this, very
+                        public static final double kCameraHeight = Units.inchesToMeters(11); // TODO: find this, very
                                                                                              // important
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
-                                        new Rotation3d(0, 0, 0));
+                                        new Rotation3d(0, 50, 0));
 
                 }
 
