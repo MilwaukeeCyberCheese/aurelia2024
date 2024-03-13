@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
    * True if red, false if blue
    */
   public static boolean allianceColor;
+  public static boolean inAuto;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -91,6 +92,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    inAuto = true;
+
     RobotContainer.m_driveSubsystem.runOnce(() -> RobotContainer.m_driveSubsystem.zeroHeading());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -115,6 +118,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    inAuto = false;
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -136,6 +141,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    inAuto = false;
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
