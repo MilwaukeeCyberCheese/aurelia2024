@@ -414,6 +414,7 @@ public final class Constants {
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.7;
                 public static final double kLoadSpeed = -1.0;
+                public static final double kAmpSpeed = -0.6;
 
                 // TODO: determine range
                 public static final double kDeployRange = 2;

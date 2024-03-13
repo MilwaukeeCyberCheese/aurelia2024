@@ -148,8 +148,8 @@ public class RobotContainer {
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive)
                                 .onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.zeroHeading()));
 
-                // // set speeds for the shooter
-                new Trigger(m_operatorController::getAButton).onTrue(new SetSpin(() -> 0, m_shooterSubsystem));
+                // set shooter to 0
+                new Trigger(m_operatorController::getAButton).onTrue(new SetSpin(() -> 0.0, m_shooterSubsystem));
 
                 // set intake speeds
                 new Trigger(m_operatorController::getLeftTriggerActive)
