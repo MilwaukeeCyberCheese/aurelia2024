@@ -93,10 +93,10 @@ public final class Constants {
 
                 // Angular offsets of the modules relative to the chassis in radians
                 // ccw is positive
-                public static final double kFrontRightChassisAngularOffset = Math.PI;
-                public static final double kBackRightChassisAngularOffset = 3 * Math.PI / 2;
-                public static final double kFrontLeftChassisAngularOffset = Math.PI / 2;
-                public static final double kBackLeftChassisAngularOffset = 0;
+                public static final double kBackLeftChassisAngularOffset = Math.PI;
+                public static final double kFrontLeftChassisAngularOffset = 3 * Math.PI / 2;
+                public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+                public static final double kFrontRightChassisAngularOffset = 0;
 
                 public static final boolean kRotInverted = true;
 
@@ -123,10 +123,10 @@ public final class Constants {
                                                 Constants.Sensors.gyro.getAngle()
                                                                 * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
                                 new SwerveModulePosition[] {
-                                                ModuleConstants.m_frontRight.getPosition(),
-                                                ModuleConstants.m_backRight.getPosition(),
+                                                ModuleConstants.m_backLeft.getPosition(),
                                                 ModuleConstants.m_frontLeft.getPosition(),
-                                                ModuleConstants.m_backLeft.getPosition()
+                                                ModuleConstants.m_backRight.getPosition(),
+                                                ModuleConstants.m_frontRight.getPosition()
                                 }, kStartingPose);
         }
 
@@ -250,9 +250,11 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
+                                put("Copy of RightFiveFour",
+                                                new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                                 put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
-                                put("Copy of RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
