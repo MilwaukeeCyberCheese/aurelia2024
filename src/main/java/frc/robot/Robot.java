@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.GyroReset;
+import frc.robot.utils.Transpose;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -97,7 +98,9 @@ public class Robot extends TimedRobot {
     // reset the pose of the robot to the starting pose of the autonomous command
     System.out.println(m_autonomousCommand.getName() + "da name");
     Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
-    RobotContainer.m_robotDrive.resetOdometry((initialPose != null) ? initialPose : new Pose2d(0, 0, new Rotation2d(0)));
+    RobotContainer.m_robotDrive
+        .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
+            : new Pose2d(0, 0, new Rotation2d(0))); //TOOD: make sure that flipping pose works
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null && initialPose != null) {
