@@ -93,10 +93,10 @@ public final class Constants {
 
                 // Angular offsets of the modules relative to the chassis in radians
                 // ccw is positive
-                public static final double kFrontLeftChassisAngularOffset = Math.PI;
-                public static final double kFrontRightChassisAngularOffset = 3 * Math.PI / 2;
-                public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
-                public static final double kBackRightChassisAngularOffset = 0;
+                public static final double kBackLeftChassisAngularOffset = Math.PI;
+                public static final double kFrontLeftChassisAngularOffset = 3 * Math.PI / 2;
+                public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+                public static final double kFrontRightChassisAngularOffset = 0;
 
                 public static final boolean kRotInverted = true;
 
@@ -123,10 +123,10 @@ public final class Constants {
                                                 Constants.Sensors.gyro.getAngle()
                                                                 * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
                                 new SwerveModulePosition[] {
-                                                ModuleConstants.m_frontLeft.getPosition(),
-                                                ModuleConstants.m_frontRight.getPosition(),
                                                 ModuleConstants.m_backLeft.getPosition(),
-                                                ModuleConstants.m_backRight.getPosition()
+                                                ModuleConstants.m_frontLeft.getPosition(),
+                                                ModuleConstants.m_backRight.getPosition(),
+                                                ModuleConstants.m_frontRight.getPosition()
                                 }, kStartingPose);
         }
 
@@ -250,9 +250,11 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
+                                put("Copy of RightFiveFour",
+                                                new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                                 put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
-                                put("Copy of RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
@@ -300,22 +302,28 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 14;
-                public static final boolean kShooterInverted = true;
-                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
+                public static final int kUpperShooterCanId = 14;
+                public static final boolean kUpperShooterInverted = true;
+                public static final CANSparkMax kUpperShooterMotor = new CANSparkMax(kUpperShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final int kCurrentLimit = 40;
-                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
-                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
+                public static final int kUpperCurrentLimit = 40;
+                public static final RelativeEncoder kUpperShooterEncoder = kUpperShooterMotor.getEncoder();
+                public static final SparkPIDController kUpperShooterController = kUpperShooterMotor.getPIDController();
+
+                public static final int kLowerShooterCanId = 16;
+                public static final boolean kLowerShooterInverted = false;
+                public static final CANSparkMax kLowerShooterMotor = new CANSparkMax(kLowerShooterCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final int kLowerCurrentLimit = 40;
+                public static final RelativeEncoder kLowerShooterEncoder = kLowerShooterMotor.getEncoder();
+                public static final SparkPIDController kLowerShooterController = kLowerShooterMotor.getPIDController();
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
-                                                                                                                     // 0.00062
-                                                                                                                     // is
-                                                                                                                     // for
-                                                                                                                     // 3:1
-                                                                                                                     // retune
+                public static final PIDConstants kUpperShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
+                public static final PIDConstants kLowerShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 

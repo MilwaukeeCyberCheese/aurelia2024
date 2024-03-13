@@ -120,6 +120,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // TODO: Take teleop pose from final auto pose
+    RobotContainer.m_robotDrive.resetOdometry(new Pose2d(2, 2, new Rotation2d(0)));
+
   }
 
   /** This function is called periodically during operator control. */

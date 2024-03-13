@@ -44,6 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    Constants.Sensors.gyro.setAngleAdjustment(90.0);
 
   }
 
@@ -53,10 +54,10 @@ public class DriveSubsystem extends SubsystemBase {
     Constants.DriveConstants.m_odometry.update(
         Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
         new SwerveModulePosition[] {
-            Constants.ModuleConstants.m_frontLeft.getPosition(),
-            Constants.ModuleConstants.m_frontRight.getPosition(),
             Constants.ModuleConstants.m_backLeft.getPosition(),
-            Constants.ModuleConstants.m_backRight.getPosition()
+            Constants.ModuleConstants.m_frontLeft.getPosition(),
+            Constants.ModuleConstants.m_backRight.getPosition(),
+            Constants.ModuleConstants.m_frontRight.getPosition()
         });
 
     log();
@@ -87,10 +88,10 @@ public class DriveSubsystem extends SubsystemBase {
     Constants.DriveConstants.m_odometry.resetPosition(
         Rotation2d.fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
         new SwerveModulePosition[] {
-            Constants.ModuleConstants.m_frontLeft.getPosition(),
-            Constants.ModuleConstants.m_frontRight.getPosition(),
             Constants.ModuleConstants.m_backLeft.getPosition(),
-            Constants.ModuleConstants.m_backRight.getPosition()
+            Constants.ModuleConstants.m_frontLeft.getPosition(),
+            Constants.ModuleConstants.m_backRight.getPosition(),
+            Constants.ModuleConstants.m_frontRight.getPosition()
         },
         pose);
   }
@@ -175,10 +176,10 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -188,9 +189,9 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
-    chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
-    chassisSpeeds.vyMetersPerSecond = temp;
+    // double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
+    // chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
+    // chassisSpeeds.vyMetersPerSecond = temp;
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
@@ -198,10 +199,10 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -272,10 +273,10 @@ public class DriveSubsystem extends SubsystemBase {
         new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[3]);
+    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
+    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
+    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
+    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -298,14 +299,14 @@ public class DriveSubsystem extends SubsystemBase {
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
+    Constants.ModuleConstants.m_backLeft
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
     Constants.ModuleConstants.m_frontLeft
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
     Constants.ModuleConstants.m_frontRight
-        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_backLeft
-        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
-    Constants.ModuleConstants.m_backRight
         .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(-Math.PI / 4)));
+    Constants.ModuleConstants.m_backRight
+        .setDesiredState(new SwerveModuleState(0, Rotation2d.fromRadians(Math.PI / 4)));
   }
 
   /*
@@ -314,9 +315,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return SwerveModuleState[] frontLeft, frontRight, backLeft, backRight
    */
   public static SwerveModuleState[] getModuleStates() {
-    SwerveModuleState[] states = { Constants.ModuleConstants.m_frontLeft.getState(),
-        Constants.ModuleConstants.m_frontRight.getState(), Constants.ModuleConstants.m_backLeft.getState(),
-        Constants.ModuleConstants.m_backRight.getState() };
+    SwerveModuleState[] states = { Constants.ModuleConstants.m_backLeft.getState(),
+        Constants.ModuleConstants.m_frontLeft.getState(), Constants.ModuleConstants.m_backRight.getState(),
+        Constants.ModuleConstants.m_frontRight.getState() };
     return states;
   }
 
