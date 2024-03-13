@@ -15,6 +15,7 @@ import frc.robot.commands.DriveAndOrientToTarget;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.GyroReset;
+import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.IntakePositionCommand;
@@ -218,7 +219,11 @@ public class RobotContainer {
                 new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
                                 .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
 
+                // pulse intake to center note
                 new Trigger(m_operatorController::getRightStickPressed).onTrue(new Pulse(m_intakeSubsystem));
+
+                //orient to speaker
+                new Trigger(() -> m_rightJoystick.getPovState() == 180).whileTrue(new SnapToAndAlign(m_robotDrive, m_shooterCamera, () -> (Robot.allianceColor) ? 4 : 7, () -> 180, m_rightJoystick::getY));
         }
 
         public Command getAutonomousCommand() {

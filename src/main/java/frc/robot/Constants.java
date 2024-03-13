@@ -16,6 +16,8 @@ import com.revrobotics.SparkPIDController;
 
 import java.util.HashMap;
 import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import org.photonvision.PhotonCamera;
@@ -23,6 +25,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -284,7 +287,8 @@ public final class Constants {
 
                 public static final class ShooterCamera {
                         public static final PhotonCamera kCamera = new PhotonCamera("ShooterCamera");
-                        public static final double kCameraHeight = Units.inchesToMeters(14);
+                        public static final double kCameraHeight = Units.inchesToMeters(14); // TODO: find this, very
+                                                                                             // important
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
                                         new Rotation3d(0, 0, 0));
 
@@ -297,6 +301,21 @@ public final class Constants {
                                         kTagLayout,
                                         PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ShooterCamera.kCamera,
                                         ShooterCamera.kRobotToCam);
+
+                }
+
+                public static final class TagPositions {
+                        private static final Pose3d kTagSeven = new Pose3d(-1.5, 218.42, 57.13,
+                                        new Rotation3d(0, 0, 0));
+                        private static final Pose3d kTagFour = new Pose3d(652.73, 218.42, 57.13,
+                                        new Rotation3d(0, 0, 180));
+
+                        public static final HashMap<Integer, Pose3d> kTagPositions = new HashMap<Integer, Pose3d>() {
+                                {
+                                        put(4, kTagFour);
+                                        put(7, kTagSeven);
+                                }
+                        };
 
                 }
         }
