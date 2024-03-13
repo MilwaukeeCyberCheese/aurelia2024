@@ -175,8 +175,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
-
-    //correction for rotation due to pathplanner
+    
+    //correct for pathplanner necessitated rotation
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
         Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
