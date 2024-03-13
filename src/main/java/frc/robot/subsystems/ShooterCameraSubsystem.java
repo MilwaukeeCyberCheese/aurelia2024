@@ -7,7 +7,6 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class ShooterCameraSubsystem extends SubsystemBase {
     private PhotonTrackedTarget target;
@@ -81,28 +80,20 @@ public class ShooterCameraSubsystem extends SubsystemBase {
         }
     }
 
-    public PhotonTrackedTarget[] getSpeakerTargets() {
-        PhotonTrackedTarget[] returnTargets = new PhotonTrackedTarget[2];
+    /**
+     * Get a specific april tag from the camera
+     * 
+     * @param id the id of the april tag
+     * @return a photon tracked target representing the requested april tag, or null if not found
+     */
+    public PhotonTrackedTarget getAprilTag(int id) {
         var result = Constants.VisionConstants.ShooterCamera.kCamera.getLatestResult();
         List<PhotonTrackedTarget> targets = result.getTargets();
         for (PhotonTrackedTarget target : targets) {
-            if (Robot.allianceColor){
-                if (target.getFiducialId() == 4){
-                    returnTargets[0] = target;
-                } else if (target.getFiducialId() == 3){
-                    returnTargets[1] = target;
-                }
-            } else{
-                if (target.getFiducialId() == 8){
-                    returnTargets[0] = target;
-                } else if (target.getFiducialId() == 7){
-                    returnTargets[1] = target;
-                }
+            if (target.getFiducialId() == id) {
+                return target;
             }
         }
-
-        return returnTargets;
-        
+        return null;
     }
-
 }

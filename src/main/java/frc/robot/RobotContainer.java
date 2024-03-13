@@ -21,7 +21,6 @@ import frc.robot.commands.IntakeCommands.IntakePositionCommand;
 import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
 import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLiftCommand;
-import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
 import frc.robot.commands.ShooterCommands.SpinDownCommand;
 import frc.robot.commands.ShooterCommands.SpinUpCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -150,9 +149,6 @@ public class RobotContainer {
                 new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
 
                 // // set speeds for the shooter
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> 2000, m_shooterSubsystem));
-                new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
 
                 // set intake speeds
@@ -164,14 +160,11 @@ public class RobotContainer {
 
                 // set intake positions
                 new Trigger(m_operatorController::getLeftBumper)
-                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition,
                                                 m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightBumper)
                                 .whileTrue(new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
                                                 m_shooterSubsystem));
-                new Trigger(m_operatorController::getRightStickPressed)
-                                .onTrue(new IntakePositionCommand(() -> 130,
-                                                m_intakeSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera,
@@ -182,20 +175,6 @@ public class RobotContainer {
                                                 Constants.DriveConstants.kRateLimitsEnabled,
                                                 m_rightJoystick::getButtonTwo,
                                                 m_rightJoystick::getThrottle));
-
-                new Trigger(() -> m_operatorController.getPOVButton() == 2)
-                                .onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 4)
-                                .onTrue(new SetWristAngleCommand(() -> 150, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 6)
-                                .onTrue(new SetWristAngleCommand(() -> 108, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 8)
-                                .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
-
-                // new Trigger(m_operatorController::getRightStickPressed)
-                // .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem,
-                // m_shooterSubsystem,
-                // m_liftSubsystem));
 
                 // climber bindings
                 new Trigger(m_leftJoystick::getButtonFour)
