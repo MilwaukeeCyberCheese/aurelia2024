@@ -33,6 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.subsystems.MAXSwerveModule;
 
@@ -57,6 +58,7 @@ public final class Constants {
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
                 // TODO: Limit switch for intake
+                public static final DigitalInput intakeLimitSwitch = new DigitalInput(0);
 
                 // public static final ColorSensorV3 shooterColorSensor = new
                 // ColorSensorV3(I2C.Port.kOnboard);
@@ -91,10 +93,10 @@ public final class Constants {
 
                 // Angular offsets of the modules relative to the chassis in radians
                 // ccw is positive
-                public static final double kFrontLeftChassisAngularOffset = Math.PI;
-                public static final double kFrontRightChassisAngularOffset = 3 * Math.PI / 2;
-                public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
-                public static final double kBackRightChassisAngularOffset = 0;
+                public static final double kBackLeftChassisAngularOffset = Math.PI;
+                public static final double kFrontLeftChassisAngularOffset = 3 * Math.PI / 2;
+                public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+                public static final double kFrontRightChassisAngularOffset = 0;
 
                 public static final boolean kRotInverted = true;
 
@@ -121,10 +123,10 @@ public final class Constants {
                                                 Constants.Sensors.gyro.getAngle()
                                                                 * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
                                 new SwerveModulePosition[] {
-                                                ModuleConstants.m_frontLeft.getPosition(),
-                                                ModuleConstants.m_frontRight.getPosition(),
                                                 ModuleConstants.m_backLeft.getPosition(),
-                                                ModuleConstants.m_backRight.getPosition()
+                                                ModuleConstants.m_frontLeft.getPosition(),
+                                                ModuleConstants.m_backRight.getPosition(),
+                                                ModuleConstants.m_frontRight.getPosition()
                                 }, kStartingPose);
         }
 
@@ -225,7 +227,7 @@ public final class Constants {
                                 0.05, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI / 10.0, 0.0, 0.0);
+                                Math.PI / 3.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -248,10 +250,13 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
-                                put("RightFiveFour.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
-                                put("Left.auto", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFourThree.auto", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
-                                put("Middle.auto", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
+                                put("Copy of RightFiveFour",
+                                                new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFourThree", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }
@@ -297,21 +302,28 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 14;
-                public static final boolean kShooterInverted = true;
-                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
+                public static final int kUpperShooterCanId = 14;
+                public static final boolean kUpperShooterInverted = true;
+                public static final CANSparkMax kUpperShooterMotor = new CANSparkMax(kUpperShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
-                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
+                public static final int kUpperCurrentLimit = 40;
+                public static final RelativeEncoder kUpperShooterEncoder = kUpperShooterMotor.getEncoder();
+                public static final SparkPIDController kUpperShooterController = kUpperShooterMotor.getPIDController();
+
+                public static final int kLowerShooterCanId = 16;
+                public static final boolean kLowerShooterInverted = false;
+                public static final CANSparkMax kLowerShooterMotor = new CANSparkMax(kLowerShooterCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final int kLowerCurrentLimit = 40;
+                public static final RelativeEncoder kLowerShooterEncoder = kLowerShooterMotor.getEncoder();
+                public static final SparkPIDController kLowerShooterController = kLowerShooterMotor.getPIDController();
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
-                                                                                                                     // 0.00062
-                                                                                                                     // is
-                                                                                                                     // for
-                                                                                                                     // 3:1
-                                                                                                                     // retune
+                public static final PIDConstants kUpperShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
+                public static final PIDConstants kLowerShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
@@ -325,18 +337,18 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.003, 0.0, 0.0, 0.0); // TODO:
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.006, 0.0, 0.0, 0.0); // TODO:
                                                                                                               // retune
                 public static final double kWristMaxOutput = 0.15;
-                public static final double kWristTolerance = 2; // TODO: find tolerance
+                public static final double kWristTolerance = 3; // TODO: find tolerance
 
                 public static final double[] kWristLimits = { 15, 270 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
-                // TODO: find actual values
-                public static final double kStowAngle = 0;
-                public static final double kLoadAngle = 0;
-                public static final double kAmpAngle = 0;
+                // angles
+                public static final double kIntakeInAngle = 150;
+                public static final double kShootAngle = 108;
+                public static final double kLiftSafeAngle = 90;
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
@@ -353,6 +365,7 @@ public final class Constants {
                 public static final boolean kIntakeInverted = false;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final int kIntakeCurrentLimit = 80;
 
                 public static final int kIntakeAngleCanId = 11;
                 public static final boolean kIntakePivotInverted = false;
@@ -404,10 +417,10 @@ public final class Constants {
                 public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
 
                 // TODO: find tolerance
-                public static final double kTolerance = 0.1;
+                public static final double kLiftTolerance = 0.3;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0, 11 };
+                public static final double[] kLiftLimits = { 0.0, 11 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;
@@ -440,13 +453,5 @@ public final class Constants {
                 public static final double kFastSpeed = 0.7;
 
                 public static final double kStopCounts = 300;
-        }
-
-        // the naming convention for these limits is the subsystem moving, whether the
-        // limit is at the top or bottom of the range, and what the limit is to protect
-        public class SafetyLimits {
-                // TODO: find the rest of the limits
-                public static final double kIntakeUpperLift = 180;
-                public static final double kWristLowerLift = 60;
         }
 }

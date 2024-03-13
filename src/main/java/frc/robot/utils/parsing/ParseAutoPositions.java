@@ -12,7 +12,7 @@ public class ParseAutoPositions {
     public static void main(String args[]) {
         List<String> notFound = new LinkedList<>();
         // YMMV, change the path
-        Path start = Paths.get("/home/sam/gitClones/aurelia2024/src/main/deploy/pathplanner/autos");
+        Path start = Paths.get("C:\\Users\\event\\code\\aurelia2024\\src\\main\\deploy\\pathplanner\\autos");
         // this is the first line of the hashmap path
         System.out.print(
                 "public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {{");
@@ -23,7 +23,9 @@ public class ParseAutoPositions {
                         try {
                             String content = new String(Files.readAllBytes(file));
                             double[] pose = parseJson(content);
-                            System.out.println("put(\"" + file.getFileName() + "\", new Pose2d(" + pose[0] + ", "
+                            String filename = file.getFileName().toString();
+                            System.out.println("put(\"" + filename.substring(0, filename.length() - 5)
+                                    + "\", new Pose2d(" + pose[0] + ", "
                                     + pose[1] + ", new Rotation2d(Math.toRadians(" + pose[2] + "))));");
                         } catch (Exception e) {
                             notFound.add(file.getFileName().toString());
@@ -34,7 +36,7 @@ public class ParseAutoPositions {
         }
         System.out.println("}};");
 
-        for(String filename : notFound){
+        for (String filename : notFound) {
             System.out.println("We didn't find a starting pose for " + filename + ", you should fix that");
         }
     }

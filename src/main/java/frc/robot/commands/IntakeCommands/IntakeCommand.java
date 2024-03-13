@@ -24,7 +24,7 @@ public class IntakeCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        return false; //TODO: return limit switch
+        return Constants.Sensors.intakeLimitSwitch.get();
     }
 
     @Override

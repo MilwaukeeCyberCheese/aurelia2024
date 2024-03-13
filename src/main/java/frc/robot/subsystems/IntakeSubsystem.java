@@ -13,7 +13,7 @@ import frc.robot.utils.DashboardUpdater;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed = 0.0;
-        private double position = 15.0;
+        private double position = Constants.IntakeConstants.kIntakeLoadPosition;
         private DashboardUpdater<Double> positionUpdater;
         private DashboardUpdater<Double> speedUpdater;
 
@@ -30,6 +30,10 @@ public class IntakeSubsystem extends SubsystemBase {
                 // set idle mode
                 Constants.IntakeConstants.kIntakePivotMotor.setIdleMode(Constants.IntakeConstants.kIntakePivotIdleMode);
                 Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
+
+                // current limits
+                Constants.IntakeConstants.kIntakeMotor
+                                .setSmartCurrentLimit(Constants.IntakeConstants.kIntakeCurrentLimit);
 
                 // setup PID
                 CustomUtils.setSparkPID(Constants.IntakeConstants.kIntakePositionController,
@@ -57,11 +61,11 @@ public class IntakeSubsystem extends SubsystemBase {
                 log();
                 positionUpdater.update();
                 speedUpdater.update();
-                if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
-                        Constants.IntakeConstants.kIntakePositionController.setReference(position,
-                                        CANSparkMax.ControlType.kPosition);
-                        
-                }
+                // if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
+                Constants.IntakeConstants.kIntakePositionController.setReference(position,
+                                CANSparkMax.ControlType.kPosition);
+
+                // }
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
 
@@ -83,12 +87,13 @@ public class IntakeSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
-                // if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
-                // && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift
-                // safety checks
-                // ) {
-                this.position = position;
-                // }
+                if (position < 160) {
+                        this.position = position;
+                } else if (Math.abs(
+                                RobotContainer.m_liftSubsystem.getPosition()) < Constants.LiftConstants.kLiftTolerance
+                                && RobotContainer.m_shooterSubsystem.getPosition() > 115) {
+                        this.position = position;
+                }
         }
 
         /**

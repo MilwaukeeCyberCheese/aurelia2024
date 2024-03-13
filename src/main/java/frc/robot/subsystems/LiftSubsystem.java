@@ -9,12 +9,10 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
+
 
 public class LiftSubsystem extends SubsystemBase {
     public double position;
-    private final LivePIDTuner tuner;
-    private final DashboardUpdater<Double> positionUpdater;
 
     public LiftSubsystem() {
         Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
@@ -36,16 +34,10 @@ public class LiftSubsystem extends SubsystemBase {
                         ? Constants.LiftConstants.kLiftEncoder.getPosition()
                         : Constants.LiftConstants.kLiftConversionFactor * -1.0
                                 + Constants.LiftConstants.kLiftEncoder.getPosition());
-
-        tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController,
-                Constants.LiftConstants.kLiftPIDConstants);
-        positionUpdater = new DashboardUpdater<Double>("Lift Position Updater", 0.0);
     }
 
     public void periodic() {
         log();
-        tuner.update();
-        positionUpdater.update();
 
         Constants.LiftConstants.kLiftController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
@@ -56,13 +48,7 @@ public class LiftSubsystem extends SubsystemBase {
      * @param position (inches)
      */
     public void setPosition(double position) {
-        if ((RobotContainer.m_shooterSubsystem.getPosition() > Constants.SafetyLimits.kWristLowerLift &&
-                RobotContainer.m_intakeSubsystem.getPosition() < Constants.SafetyLimits.kIntakeUpperLift)
-                || (this.position > Constants.LiftConstants.kClearOfObstructions
-                        && Constants.LiftConstants.kClearOfObstructions > 3)/*
-                                                                             * TODO protect from the wrist hitting stuff
-                                                                             */) {
-        }
+        
 
         position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                 Constants.LiftConstants.kLiftLimits[1]);
@@ -86,7 +72,9 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(0);
         double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
                 + Constants.LiftConstants.kLiftEncoder.getPosition();
+        position = 0.0;
         Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
+
     }
 
     /**
@@ -95,10 +83,11 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public boolean atPosition() {
         return Math.abs(
-                Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
+                Constants.LiftConstants.kLiftMotor.getEncoder().getPosition() - position) < Constants.LiftConstants.kLiftTolerance;
     }
 
     public void log() {
         SmartDashboard.putNumber("Lift Position: ", Constants.LiftConstants.kLiftMotor.getEncoder().getPosition());
+        SmartDashboard.putBoolean("Lift at position", atPosition());
     }
 }

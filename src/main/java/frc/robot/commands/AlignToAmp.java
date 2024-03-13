@@ -57,7 +57,7 @@ public class AlignToAmp extends Command {
 
         }
 
-        thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getYaw()));
+        thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()));
 
         m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, 0.0, thetaOutput));
 
