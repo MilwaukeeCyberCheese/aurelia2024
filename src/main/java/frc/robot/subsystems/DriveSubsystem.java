@@ -11,12 +11,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.utils.GeometryUtils;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -69,14 +71,15 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    // return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
-    //     Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
-    //     Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation().rotateBy(
-    //         ((Constants.DriveConstants.kGyroReversed) ? new Rotation2d(Math.PI) : new Rotation2d())));
-    return new
-    Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
-    Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
-    Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
+    // return new
+    // Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
+    // Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
+    // Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation().rotateBy(
+    // ((Constants.DriveConstants.kGyroReversed) ? new Rotation2d(Math.PI) : new
+    // Rotation2d())));
+    return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
   }
 
   /**
@@ -165,21 +168,11 @@ public class DriveSubsystem extends SubsystemBase {
     rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
         * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
-    // Convert the commanded speeds into the correct units for the drivetrain
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d
-                    .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
+    drive(fieldRelative
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+            Rotation2d
+                .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
+        : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
   }
 
   /**
@@ -188,14 +181,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
+    //correct for the drift and shit
+    ChassisSpeeds corrected = correctForDynamics(chassisSpeeds);
 
-    // double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
-    // chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
-    // chassisSpeeds.vyMetersPerSecond = temp;
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
-        .toSwerveModuleStates(chassisSpeeds);
+        .toSwerveModuleStates(corrected);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
@@ -269,14 +261,7 @@ public class DriveSubsystem extends SubsystemBase {
         * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
+    drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
   }
 
   /**
@@ -336,13 +321,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
-
-    SwerveModuleState[] states = getModuleStates();
     SmartDashboard.putNumber("Gyro", Constants.Sensors.gyro.getAngle());
-    // SmartDashboard.putNumber("FrontLeft", states[0].angle.getDegrees());
-    // SmartDashboard.putNumber("FrontRight", states[1].angle.getDegrees());
-    // SmartDashboard.putNumber("BackLeft", states[2].angle.getDegrees());
-    // SmartDashboard.putNumber("BackRight", states[3].angle.getDegrees());
+    
   }
 
   /**
@@ -352,5 +332,27 @@ public class DriveSubsystem extends SubsystemBase {
   public ChassisSpeeds getRobotRelativeSpeeds() {
     return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
   }
+
+  /**
+   * Correction for swerve second order dynamics issue. Borrowed from 254:
+   * https://github.com/Team254/FRC-2022-Public/blob/main/src/main/java/com/team254/frc2022/subsystems/Drive.java#L325
+   * Discussion:
+   * https://www.chiefdelphi.com/t/whitepaper-swerve-drive-skew-and-second-order-kinematics/416964
+   */
+  private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
+    final double LOOP_TIME_S = 0.02;
+    Pose2d futureRobotPose =
+        new Pose2d(
+            originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+            originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+            Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+    Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
+    ChassisSpeeds updatedSpeeds =
+        new ChassisSpeeds(
+            twistForPose.dx / LOOP_TIME_S,
+            twistForPose.dy / LOOP_TIME_S,
+            twistForPose.dtheta / LOOP_TIME_S);
+    return updatedSpeeds;
+  } 
 
 }
