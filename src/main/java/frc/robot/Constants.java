@@ -302,22 +302,28 @@ public final class Constants {
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 14;
-                public static final boolean kShooterInverted = true;
-                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
+                public static final int kUpperShooterCanId = 14;
+                public static final boolean kUpperShooterInverted = true;
+                public static final CANSparkMax kUpperShooterMotor = new CANSparkMax(kUpperShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final int kCurrentLimit = 40;
-                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
-                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
+                public static final int kUpperCurrentLimit = 40;
+                public static final RelativeEncoder kUpperShooterEncoder = kUpperShooterMotor.getEncoder();
+                public static final SparkPIDController kUpperShooterController = kUpperShooterMotor.getPIDController();
+
+                public static final int kLowerShooterCanId = 16;
+                public static final boolean kLowerShooterInverted = false;
+                public static final CANSparkMax kLowerShooterMotor = new CANSparkMax(kLowerShooterCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final int kLowerCurrentLimit = 40;
+                public static final RelativeEncoder kLowerShooterEncoder = kLowerShooterMotor.getEncoder();
+                public static final SparkPIDController kLowerShooterController = kLowerShooterMotor.getPIDController();
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
-                                                                                                                     // 0.00062
-                                                                                                                     // is
-                                                                                                                     // for
-                                                                                                                     // 3:1
-                                                                                                                     // retune
+                public static final PIDConstants kUpperShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
+                public static final PIDConstants kLowerShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.00021); // TODO:
                 public static final double kShooterTolerance = 10;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
