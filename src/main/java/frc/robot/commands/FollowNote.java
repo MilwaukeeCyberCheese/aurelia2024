@@ -5,8 +5,8 @@ import java.util.function.DoubleSupplier;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +18,14 @@ public class FollowNote extends Command {
     private final DriveSubsystem m_driveSubsystem;
     private final IntakeCameraSubsystem m_cameraSubsytem;
     private final DoubleSupplier m_goalRange;
+    private int counter;
+    private PhotonTrackedTarget target;
+    private double goalYaw;
     private double range = 0;
+    private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+            Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
+    private PIDController yController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
+            Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
     /**
      * Point towards, and move towards, a detected
@@ -37,31 +44,42 @@ public class FollowNote extends Command {
     }
 
     @Override
+    public void initialize() {
+        yController.reset();
+        yController.setSetpoint(m_goalRange.getAsDouble());
+
+        thetaController.reset();
+    }
+
+    @Override
     public void execute() {
         double thetaOutput = 0;
-        // TODO: like everything here needs a revamp, maybe use PPLib?
         double yOutput = 0;
-        PhotonTrackedTarget target = m_cameraSubsytem.getTarget();
+
+        if (counter % 5 == 0) {
+            target = m_cameraSubsytem.getTarget();
+            if (target != null) {
+                // set theta based on yaw
+                goalYaw = Math.toRadians(target.getYaw() + Constants.Sensors.gyro.getAngle());
+                range = PhotonUtils.calculateDistanceToTargetMeters(
+                        Constants.VisionConstants.IntakeCamera.kCameraHeight,
+                        Constants.VisionConstants.Note.kHeight,
+                        Constants.VisionConstants.IntakeCamera.kRobotToCam.getRotation().getY(),
+                        Units.degreesToRadians(target.getPitch()));
+            }
+        }
 
         // check if target is present
         if (target != null) {
             // set theta based on yaw
-            thetaOutput = Math.toRadians(target.getYaw() * -1.0);
-
-            // calculate range
-            range = PhotonUtils.calculateDistanceToTargetMeters(
-                    Constants.VisionConstants.IntakeCamera.kCameraHeight,
-                    Constants.VisionConstants.Note.kHeight,
-                    Constants.VisionConstants.IntakeCamera.kRobotToCam.getRotation().getY(),
-                    Units.degreesToRadians(target.getPitch()));
+            thetaOutput = thetaController.calculate(Constants.Sensors.gyro.getAngle(), goalYaw);
 
             // set y based on range
-            yOutput = (range > m_goalRange.getAsDouble()) ? range - m_goalRange.getAsDouble() : 0.0;
-
+            yOutput = yController.calculate(range);
         }
         SmartDashboard.putNumber("Range to Note", yOutput);
 
-        m_driveSubsystem.drive(new Pose2d(0.0, yOutput, new Rotation2d(thetaOutput)));
+        m_driveSubsystem.drive(new ChassisSpeeds(0.0, yOutput, thetaOutput));
 
     }
 

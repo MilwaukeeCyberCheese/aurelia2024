@@ -280,22 +280,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Drive to a pose, assuming the robot is always at (0, 0)
-   * 
-   * @param pose position to drive to
-   */
-  public void drive(Pose2d pose) {
-    double limit = 0.4;
-    double x = MathUtil.clamp(xController.calculate(0.0, pose.getX()), -1.0, 1.0) * limit;
-    double y = MathUtil.clamp(yController.calculate(0.0, pose.getY()), -1.0, 1.0) * limit;
-    double theta = MathUtil.clamp(thetaController.calculate(0.0, pose.getRotation().getRadians()), -1.0, 1.0)
-        * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0) * limit;
-    // double theta = 0 * limit;
-
-    driveLimited(new ChassisSpeeds(x, y, theta));
-  }
-
-  /**
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {

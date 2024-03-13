@@ -79,7 +79,7 @@ public class DriveAndOrientToNote extends Command {
             System.out.println("hey it works");
         }
 
-        m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), thetaOutput,
+        m_driveSubsystem.drive(-1 * m_xSpeed.getAsDouble(), -1 * m_ySpeed.getAsDouble(), thetaOutput,
                 m_fieldRelative.getAsBoolean(),
                 m_rateLimit.getAsBoolean());
         counter++;
