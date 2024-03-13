@@ -58,7 +58,7 @@ public class ShooterCameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
-        updateOdometry();
+        // updateOdometry();
     }
 
     /**

@@ -157,7 +157,7 @@ public class RobotContainer {
 
                 // set intake speeds
                 new Trigger(m_operatorController::getLeftTriggerActive)
-                                .whileTrue(new IntakeSpeedCommand(() -> -1.0, m_intakeSubsystem));
+                                .whileTrue(new IntakeSpeedCommand(() -> -0.6, m_intakeSubsystem));
                 new Trigger(m_operatorController::getRightTriggerActive)
                                 .whileTrue(new IntakeSpeedCommand(() -> Constants.IntakeConstants.kIntakeSpeed,
                                                 m_intakeSubsystem));
@@ -170,7 +170,7 @@ public class RobotContainer {
                                 .whileTrue(new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
                                                 m_shooterSubsystem));
                 new Trigger(m_operatorController::getRightStickPressed)
-                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                .onTrue(new IntakePositionCommand(() -> 130,
                                                 m_intakeSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
@@ -205,7 +205,7 @@ public class RobotContainer {
                                 .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroRight()));
 
                 new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setSpeeds(-0.6,
+                                .run(() -> m_climberSubsystem.setSpeeds(-0.4,
                                                 false)));
                 new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
                                 .run(() -> m_climberSubsystem.setSpeeds(1.0, false)));

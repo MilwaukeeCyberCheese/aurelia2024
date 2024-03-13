@@ -88,12 +88,13 @@ public class ClimberSubsystem extends SubsystemBase {
         Constants.ClimberConstants.kLeftMotor.set(leftSpeed);
         Constants.ClimberConstants.kRightMotor.set(rightSpeed);
 
-        SmartDashboard.putNumber("Left Climber Position", Constants.ClimberConstants.kLeftMotorEncoder.getPosition());
-        SmartDashboard.putNumber("Right Climber Position", Constants.ClimberConstants.kRightMotorEncoder.getPosition());
     }
 
     public void log() {
         SmartDashboard.putNumber("Left Climber Speed", Constants.ClimberConstants.kLeftMotor.get());
         SmartDashboard.putNumber("Right Climber Speed", Constants.ClimberConstants.kRightMotor.get());
+        SmartDashboard.putNumber("Left Climber Position", Constants.ClimberConstants.kLeftMotorEncoder.getPosition());
+        SmartDashboard.putNumber("Right Climber Position", Constants.ClimberConstants.kRightMotorEncoder.getPosition());
+
     }
 }

@@ -252,9 +252,9 @@ public final class Constants {
                         {
                                 put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                                 put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
+                                put("Copy of RightFiveFour", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.11, 1.99, new Rotation2d(Math.toRadians(0.0))));
-                                put("TestAuto", new Pose2d(3.6, 3.23, new Rotation2d(Math.toRadians(0.0))));
+                                put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }

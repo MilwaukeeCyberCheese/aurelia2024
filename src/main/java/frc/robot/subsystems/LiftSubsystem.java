@@ -9,12 +9,10 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
+
 
 public class LiftSubsystem extends SubsystemBase {
     public double position;
-    private final LivePIDTuner tuner;
-    private final DashboardUpdater<Double> positionUpdater;
 
     public LiftSubsystem() {
         Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
@@ -36,16 +34,10 @@ public class LiftSubsystem extends SubsystemBase {
                         ? Constants.LiftConstants.kLiftEncoder.getPosition()
                         : Constants.LiftConstants.kLiftConversionFactor * -1.0
                                 + Constants.LiftConstants.kLiftEncoder.getPosition());
-
-        tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController,
-                Constants.LiftConstants.kLiftPIDConstants);
-        positionUpdater = new DashboardUpdater<Double>("Lift Position Updater", 0.0);
     }
 
     public void periodic() {
         log();
-        tuner.update();
-        positionUpdater.update();
 
         Constants.LiftConstants.kLiftController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
