@@ -172,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase {
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
         Rotation2d
-            .fromDegrees((Robot.inAuto) ? 0.0 : 90.0));
+            .fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics

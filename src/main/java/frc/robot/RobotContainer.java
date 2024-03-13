@@ -98,7 +98,7 @@ public class RobotContainer {
                                 () -> -1.0 * m_rightJoystick.getY(), m_leftJoystick::getX,
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
-                                m_rightJoystick::getThrottle));
+                                m_rightJoystick::getThrottle)); //TODO: determine what inversion is needed
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(

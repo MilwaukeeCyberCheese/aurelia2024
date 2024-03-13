@@ -79,7 +79,7 @@ public class FollowNote extends Command {
         }
         SmartDashboard.putNumber("Range to Note", yOutput);
 
-        m_driveSubsystem.drive(new ChassisSpeeds(-2 * yOutput, 0.0, thetaOutput));
+        m_driveSubsystem.drive(new ChassisSpeeds(0.0, 2 * yOutput, thetaOutput));
 
     }
 
