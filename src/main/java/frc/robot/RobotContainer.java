@@ -14,6 +14,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
+import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.SnapToAndAlignWithRange;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
@@ -95,8 +96,8 @@ public class RobotContainer {
                 // set default command for drive
                 // TODO: inversion may be needed
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
-                                () -> -1.0 * m_rightJoystick.getX(),
-                                () -> -1.0 * m_rightJoystick.getY(), m_leftJoystick::getX,
+                                m_rightJoystick::getX,
+                                m_rightJoystick::getY, m_leftJoystick::getX,
                                 () -> !m_buttons.getTopSwitch(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
@@ -247,11 +248,16 @@ public class RobotContainer {
 
                 // orient to amp blue
                 new Trigger(() -> m_rightJoystick.getPovState() == 270)
-                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
-                                                () -> 6, () -> 90/* TODO */, () -> 0.5));
+                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                                                () -> 6, () -> 90/*
+                                                                  * TODO:may need 270, and may need to invert joystick
+                                                                  */, m_rightJoystick::getX));
+
                 new Trigger(() -> m_rightJoystick.getPovState() == 90)
-                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
-                                                () -> 5, () -> 270/* TODO */, () -> 0.5));
+                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                                                () -> 5, () -> 270/*
+                                                                   * TODO:may need 90, and may need to invert joystick
+                                                                   */, m_rightJoystick::getX));
         }
 
         public Command getAutonomousCommand() {
