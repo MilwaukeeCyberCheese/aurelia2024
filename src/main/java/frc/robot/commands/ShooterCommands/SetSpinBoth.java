@@ -5,21 +5,18 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class SetSpinAndAngle extends Command {
-    public final ShooterSubsystem m_shooterSubsystem;
-    public final DoubleSupplier m_angle;
+public class SetSpinBoth extends Command {
     public final DoubleSupplier m_upperRPM;
     public final DoubleSupplier m_lowerRPM;
+    public final ShooterSubsystem m_shooterSubsystem;
 
     /**
-     * Set angle of the shooter
+     * Runs the shooter at a specific RPM
      * 
-     * @param angle            angle to set the shooter to
-     * @param RPM              RPM to set the shooter to
-     * @param shooterSubsystem
+     * @param RPM              RPM to spin the shooter at
+     * @param ShooterSubsystem
      */
-    public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier upperRPM, DoubleSupplier lowerRPM, ShooterSubsystem shooterSubsystem) {
-        m_angle = angle;
+    public SetSpinBoth(DoubleSupplier upperRPM, DoubleSupplier lowerRPM, ShooterSubsystem shooterSubsystem) {
         m_upperRPM = upperRPM;
         m_lowerRPM = lowerRPM;
         m_shooterSubsystem = shooterSubsystem;
@@ -28,12 +25,11 @@ public class SetSpinAndAngle extends Command {
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setPosition(m_angle.getAsDouble());
         m_shooterSubsystem.setRPM(m_upperRPM.getAsDouble(), m_lowerRPM.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return m_shooterSubsystem.atPosition() && m_shooterSubsystem.atRPM();
+        return m_shooterSubsystem.atRPM();
     }
 }

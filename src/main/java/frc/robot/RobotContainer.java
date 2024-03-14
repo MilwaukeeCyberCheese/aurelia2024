@@ -24,6 +24,7 @@ import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
 import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLift;
 import frc.robot.commands.ShooterCommands.SetSpin;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -99,7 +100,7 @@ public class RobotContainer {
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
                                 m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                () -> !m_rightJoystick.getTriggerActive(),
+                                () -> !m_buttons.getTopSwitch(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
 
@@ -253,14 +254,23 @@ public class RobotContainer {
                                                 () -> 6, () -> 90/*
                                                                   * TODO:may need 270, and may need to invert joystick
                                                                   */, m_rightJoystick::getX));
-                //orient to amp red
+                // orient to amp red
                 new Trigger(() -> m_rightJoystick.getPovState() == 90)
                                 .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
                                                 () -> 5, () -> 270/*
                                                                    * TODO:may need 90, and may need to invert joystick
                                                                    */, m_rightJoystick::getX));
 
-                new Trigger(m_operatorController::getPOVPressed).whileTrue(new Shoot(() -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(() -> m_operatorController.getPovState() == 180)
+                                .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 120,
+                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+
+                new Trigger(() -> m_operatorController.getPovState() == 0)
+                                .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
+                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(m_rightJoystick::getTriggerActive)
+                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
+                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
         }
 
         public Command getAutonomousCommand() {

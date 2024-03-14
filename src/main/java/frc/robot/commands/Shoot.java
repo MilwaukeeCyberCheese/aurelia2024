@@ -23,10 +23,10 @@ public class Shoot extends SequentialCommandGroup {
          * @param shooterSubsystem
          * @param liftSubsystem
          */
-        public Shoot(DoubleSupplier rpm, DoubleSupplier angle, IntakeSubsystem intakeSubsystem,
+        public Shoot(DoubleSupplier upperRPM, DoubleSupplier lowerRPM, DoubleSupplier angle, IntakeSubsystem intakeSubsystem,
                         ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
-                addCommands(new SetSpinAndAngle(angle, rpm, shooterSubsystem),
+                addCommands(new SetSpinAndAngle(angle, upperRPM, lowerRPM, shooterSubsystem),
                                 Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kLoadSpeed,
                                                 intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),

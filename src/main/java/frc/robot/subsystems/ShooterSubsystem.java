@@ -11,7 +11,7 @@ public class ShooterSubsystem extends SubsystemBase {
         private double upperRPM = 0.0;
         private double lowerRPM = 0.0;
         private double position = 90.0;
-        //private DashboardUpdater<Double> positionUpdater;
+        // private DashboardUpdater<Double> positionUpdater;
         // private LivePIDTuner upperShooterTuner;
         // private LivePIDTuner lowerShooterTuner;
         // private DashboardUpdater<Double> rpmUpdater;
@@ -72,9 +72,10 @@ public class ShooterSubsystem extends SubsystemBase {
                 // Constants.ShooterConstants.kLowerShooterController,
                 // Constants.ShooterConstants.kLowerShooterPIDConstants);
                 // wristTuner = new LivePIDTuner("Wrist Tuner",
-                //                 Constants.ShooterConstants.kWristController,
-                //                 Constants.ShooterConstants.kWristPIDConstants);
-                //positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
+                // Constants.ShooterConstants.kWristController,
+                // Constants.ShooterConstants.kWristPIDConstants);
+                // positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater",
+                // 90.0);
                 // rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
@@ -87,6 +88,21 @@ public class ShooterSubsystem extends SubsystemBase {
                 rpm = MathUtil.clamp(rpm, -Constants.ShooterConstants.kMaxRPM, Constants.ShooterConstants.kMaxRPM);
                 setUpperRPM(rpm);
                 setLowerRPM(rpm);
+        }
+
+        /**
+         * Set RPM of both sides of the shooter
+         * 
+         * @param rpm
+         */
+        public void setRPM(double upperRPM, double lowerRPM) {
+                upperRPM = MathUtil.clamp(upperRPM, -Constants.ShooterConstants.kMaxRPM,
+                                Constants.ShooterConstants.kMaxRPM);
+                lowerRPM = MathUtil.clamp(lowerRPM, -Constants.ShooterConstants.kMaxRPM,
+                                Constants.ShooterConstants.kMaxRPM);
+
+                setUpperRPM(upperRPM);
+                setLowerRPM(lowerRPM);
         }
 
         public void setUpperRPM(double rpm) {
@@ -117,13 +133,17 @@ public class ShooterSubsystem extends SubsystemBase {
                 MathUtil.clamp(position, Constants.ShooterConstants.kWristLimits[0],
                                 Constants.ShooterConstants.kWristLimits[1]);
                 this.position = position;
-                                
-                // if (RobotContainer.m_liftSubsystem.getPosition() > Constants.LiftConstants.kClearOfObstructions) {
-                //        this.position = position;
-                // } else if (RobotContainer.m_intakeSubsystem.getPosition() <= 160 && position > 0 && position < 0) {
-                //         this.position = position;// TODO: determine limits while lift is down and intake stowed
+
+                // if (RobotContainer.m_liftSubsystem.getPosition() >
+                // Constants.LiftConstants.kClearOfObstructions) {
+                // this.position = position;
+                // } else if (RobotContainer.m_intakeSubsystem.getPosition() <= 160 && position
+                // > 0 && position < 0) {
+                // this.position = position;// TODO: determine limits while lift is down and
+                // intake stowed
                 // } else if (position > 0 && position < 0) {
-                //         this.position = position;// TODO: determine limits while lift is down and intake lift
+                // this.position = position;// TODO: determine limits while lift is down and
+                // intake lift
                 // }
 
         }
@@ -150,20 +170,19 @@ public class ShooterSubsystem extends SubsystemBase {
                 // lowerShooterTuner.update();
                 // rpmUpdater.update();
                 // setPosition(120.0);
-                //positionUpdater.update();
+                // positionUpdater.update();
 
                 Constants.ShooterConstants.kUpperShooterController.setReference(upperRPM,
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kLowerShooterController.setReference(lowerRPM,
                                 CANSparkMax.ControlType.kVelocity);
-                Constants.ShooterConstants.kWristController.setReference(this.position,//positionUpdater.get(),
+                Constants.ShooterConstants.kWristController.setReference(this.position, // positionUpdater.get(),
                                 CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
                 SmartDashboard.putBoolean("Wrist at Position", atPosition());
-                SmartDashboard.putNumber("Wrist Position Going To", position);
-                SmartDashboard.putNumber("Wrist Get Position:", getPosition());
+                SmartDashboard.putBoolean("Shooter at speed", atRPM());
                 SmartDashboard.putNumber("Upper Shooter Speed",
                                 Constants.ShooterConstants.kUpperShooterMotor.getEncoder().getVelocity());
                 SmartDashboard.putNumber("Lower Shooter Speed",
