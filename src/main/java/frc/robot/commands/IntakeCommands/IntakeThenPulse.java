@@ -37,7 +37,7 @@ public class IntakeThenPulse extends SequentialCommandGroup {
                                                                 shooterSubsystem)),
                                 new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                 intakeSubsystem),
-                                new SetWristAngle(() -> 108, shooterSubsystem),
+                                new SetWristAngle(() -> Constants.ShooterConstants.kShootAngle, shooterSubsystem),
                                 new Pulse(intakeSubsystem), new Pulse(intakeSubsystem), new Pulse(intakeSubsystem));
         }
 }

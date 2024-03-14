@@ -13,7 +13,7 @@ import frc.robot.utils.LivePIDTuner;
 public class ShooterSubsystem extends SubsystemBase {
         private double upperRPM = 0;
         private double lowerRPM = 0;
-        private double position = 150;
+        private double position = Constants.ShooterConstants.kIntakeSafeAngle;
         // private LivePIDTuner shooterTuner;
         private LivePIDTuner wristTuner;
         private DashboardUpdater<Double> positionUpdater;
