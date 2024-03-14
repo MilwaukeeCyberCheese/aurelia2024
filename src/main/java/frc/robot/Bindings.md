@@ -2,7 +2,7 @@
 
 - Left Trigger: outtake
 - Right Trigger: intake
-- Left Bumper: while running intake then pulse, preempt limit switch on intake
+- Left Bumper: while running `IntakeThenPulse`, preempt limit switch on intake
 - Right Bumper: intake then pulse
 - Back and Start: zero lift
 - Left Stick Y: manual control of lift
