@@ -248,7 +248,10 @@ public class RobotContainer {
                 // orient to amp blue
                 new Trigger(() -> m_rightJoystick.getPovState() == 270)
                                 .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
-                                                () -> 6, () -> 90/*TODO */, () -> 0.5));
+                                                () -> 6, () -> 90/* TODO */, () -> 0.5));
+                new Trigger(() -> m_rightJoystick.getPovState() == 90)
+                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
+                                                () -> 5, () -> 270/* TODO */, () -> 0.5));
         }
 
         public Command getAutonomousCommand() {
