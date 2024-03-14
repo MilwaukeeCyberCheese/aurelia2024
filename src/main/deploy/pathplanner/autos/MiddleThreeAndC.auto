@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 7.0
+      "x": 1.1,
+      "y": 4.1
     },
     "rotation": 0
   },
@@ -14,37 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftForwardABit"
+            "pathName": "MiddleBackToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FollowAndIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LeftBackToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootFromLeft"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LeftGetMiddleNote"
+            "name": "ShootFromMiddle"
           }
         },
         {
@@ -56,19 +32,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftBackToShoot"
+            "pathName": "MiddleBackToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
+            "name": "ShootFromMiddle"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LeftGoToTwo"
+            "pathName": "RightGetFromMiddleThree"
           }
         },
         {
@@ -80,18 +56,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftBackFromTwo"
+            "pathName": "RightBackFromThree"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
+            "name": "ShootFromRight"
           }
         }
       ]
     }
   },
-  "folder": "LeftAutos",
+  "folder": "MiddleAutos",
   "choreoAuto": false
 }

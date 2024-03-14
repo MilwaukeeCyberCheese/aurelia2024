@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1252758132597287,
-      "y": 4.150881023737631
+      "x": 1.1,
+      "y": 4.1
     },
     "rotation": 0
   },
@@ -45,30 +45,6 @@
           "type": "named",
           "data": {
             "name": "ShootFromRight"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleBackToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FollowAndIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleBackToShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootFromMiddle"
           }
         }
       ]
