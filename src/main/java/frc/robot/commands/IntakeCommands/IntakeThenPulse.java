@@ -1,5 +1,7 @@
 package frc.robot.commands.IntakeCommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -18,7 +20,7 @@ public class IntakeThenPulse extends SequentialCommandGroup {
          * @param shooterSubsystem
          */
         public IntakeThenPulse(IntakeSubsystem intakeSubsystem, LiftSubsystem liftSubsystem,
-                        ShooterSubsystem shooterSubsystem) {
+                        ShooterSubsystem shooterSubsystem, BooleanSupplier finished) {
                 addCommands(
                                 Commands.parallel(new SetLiftPosition(() -> 0.0, liftSubsystem),
                                                 new SetWristAngle(
@@ -26,7 +28,7 @@ public class IntakeThenPulse extends SequentialCommandGroup {
                                                                 shooterSubsystem)),
                                 new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeOutPosition,
                                                 intakeSubsystem),
-                                new IntakeCommand(intakeSubsystem),
+                                new IntakeCommand(intakeSubsystem, finished),
                                 Commands.parallel(
                                                 new SetIntakePosition(
                                                                 () -> Constants.IntakeConstants.kIntakeStowedPosition,

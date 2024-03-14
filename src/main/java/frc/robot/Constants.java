@@ -302,16 +302,24 @@ public final class Constants {
                 }
 
                 public static final class TagPositions {
-                        private static final Pose3d kTagSeven = new Pose3d(Units.inchesToMeters(-1.5),
-                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
-                                        new Rotation3d(0, 0, 0));
                         private static final Pose3d kTagFour = new Pose3d(Units.inchesToMeters(652.73),
                                         Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
                                         new Rotation3d(0, 0, 180));
+                        private static final Pose3d kTagFive = new Pose3d(Units.inchesToMeters(578.77),
+                                        Units.inchesToMeters(323), Units.inchesToMeters(53.38),
+                                        new Rotation3d(0, 0, 270));
+                        private static final Pose3d kTagSix = new Pose3d(Units.inchesToMeters(72.5),
+                                        Units.inchesToMeters(323), Units.inchesToMeters(53.38),
+                                        new Rotation3d(0, 0, 270));
+                        private static final Pose3d kTagSeven = new Pose3d(Units.inchesToMeters(-1.5),
+                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
+                                        new Rotation3d(0, 0, 0));
 
                         public static final HashMap<Integer, Pose3d> kTagPositions = new HashMap<Integer, Pose3d>() {
                                 {
                                         put(4, kTagFour);
+                                        put(5, kTagFive);
+                                        put(6, kTagSix);
                                         put(7, kTagSeven);
                                 }
                         };
@@ -475,8 +483,8 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
 
-                public static final double kSlowSpeed = 0.3;
-                public static final double kFastSpeed = 0.7;
+                public static final double kSlowSpeed = 0.4;
+                public static final double kFastSpeed = 1.0;
 
                 public static final double kUpperLimit = 300;
         }

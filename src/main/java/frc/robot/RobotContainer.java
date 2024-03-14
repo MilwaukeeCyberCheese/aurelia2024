@@ -14,7 +14,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
-import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.SnapToAndAlignWithRange;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
@@ -78,7 +77,8 @@ public class RobotContainer {
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("FollowAndIntake",
-                                new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera, m_liftSubsystem,
+                                new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
+                                                m_liftSubsystem,
                                                 m_shooterSubsystem));
                 // NamedCommands.registerCommand("ShootFromRight",
                 // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
@@ -94,11 +94,12 @@ public class RobotContainer {
 
                 // set default command for drive
                 // TODO: inversion may be needed
-                m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem, () -> -1.0 * m_rightJoystick.getX(),
+                m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
+                                () -> -1.0 * m_rightJoystick.getX(),
                                 () -> -1.0 * m_rightJoystick.getY(), m_leftJoystick::getX,
                                 () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
-                                m_rightJoystick::getThrottle)); //TODO: determine what inversion is needed
+                                m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
@@ -141,76 +142,92 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
 
-                // // top left button and x button on controller sets wheels to x
-                new Trigger(m_buttons::getOneA).or(
-                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_driveSubsystem));
+                // button 7 on right joystick sets wheels to x
+                new Trigger(m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_driveSubsystem));
 
-                // // top right button resets gyro or right button five
-                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive)
+                // zero gyro on right joystick button 5
+                new Trigger(m_rightJoystick::getButtonFive)
                                 .onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.zeroHeading()));
 
                 // set shooter to 0
                 new Trigger(m_operatorController::getAButton).onTrue(new SetSpin(() -> 0.0, m_shooterSubsystem));
 
-                // set intake speeds
-                new Trigger(m_operatorController::getLeftTriggerActive)
-                                .whileTrue(new SetIntakeSpeed(() -> -0.6, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightTriggerActive)
-                                .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,
-                                                m_intakeSubsystem));
+                // intake controls
+                {
+                        // set intake speeds
+                        new Trigger(m_operatorController::getLeftTriggerActive)
+                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kLoadSpeed,
+                                                        m_intakeSubsystem));
+                        new Trigger(m_operatorController::getRightTriggerActive)
+                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,
+                                                        m_intakeSubsystem));
 
-                // set intake positions
-                new Trigger(m_operatorController::getLeftBumper)
-                                .onTrue(new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeStowedPosition,
-                                                m_intakeSubsystem));
+                        // set intake positions
+                        new Trigger(m_operatorController::getXButton)
+                                        .onTrue(new SetIntakePosition(
+                                                        () -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                                        m_intakeSubsystem));
+                        new Trigger(m_operatorController::getBButton)
+                                        .onTrue(new SetIntakePosition(
+                                                        () -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                                        m_intakeSubsystem));
+                }
+
+                // intake and pulse
                 new Trigger(m_operatorController::getRightBumper)
                                 .whileTrue(new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
-                                                m_shooterSubsystem));
+                                                m_shooterSubsystem, m_operatorController::getLeftBumper));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new DriveAndOrientToNote(m_driveSubsystem, m_intakeCamera,
                                                 m_rightJoystick::getX,
                                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                                () -> (!m_rightJoystick.getTriggerActive()
-                                                                && !m_buttons.getTopSwitch()),
+                                                () -> false,
                                                 Constants.DriveConstants.kRateLimitsEnabled,
                                                 m_rightJoystick::getButtonTwo,
                                                 m_rightJoystick::getThrottle));
 
-                // climber bindings
+                // climber bindings (all on left joystick)
+                {
+                        // hold button three and press four to zero left
+                        new Trigger(m_leftJoystick::getButtonFour).and(m_leftJoystick::getButtonThree)
+                                        .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroLeft()));
 
-                // zeroes
-                new Trigger(m_leftJoystick::getButtonFour).and(m_leftJoystick::getButtonThree)
-                                .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroLeft()));
+                        // hold button three and press five to zero right
+                        new Trigger(m_leftJoystick::getButtonFive).and(m_leftJoystick::getButtonThree)
+                                        .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroRight()));
 
-                new Trigger(m_leftJoystick::getButtonFive).and(m_leftJoystick::getButtonThree)
-                                .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroRight()));
+                        // button eight controls both down
+                        new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setSpeeds(-Constants.ClimberConstants.kSlowSpeed,
+                                                        false)));
+                        // button nine controls both up
+                        new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed,
+                                                        false)));
 
-                // controls both
-                new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setSpeeds(-0.4,
-                                                false)));
+                        // button six moves left up
+                        new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setLeftSpeed(
+                                                        Constants.ClimberConstants.kSlowSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+                        // button seven moves left down
+                        new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setLeftSpeed(
+                                                        -Constants.ClimberConstants.kSlowSpeed,
+                                                        m_leftJoystick.getButtonThree())));
 
-                new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setSpeeds(1.0, false)));
-
-                // controls left
-                new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed,
-                                                m_leftJoystick.getButtonThree())));
-                new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setLeftSpeed(-Constants.ClimberConstants.kSlowSpeed,
-                                                m_leftJoystick.getButtonThree())));
-
-                // controls right
-                new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem.setRightSpeed(-Constants.ClimberConstants.kSlowSpeed,
-                                                m_leftJoystick.getButtonThree())));
-                new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
-                                .run(() -> m_climberSubsystem
-                                                .setRightSpeed(Constants.ClimberConstants.kSlowSpeed,
-                                                                m_leftJoystick.getButtonThree())));
-
+                        // button ten moves right up
+                        new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setRightSpeed(
+                                                        Constants.ClimberConstants.kSlowSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+                        // button eleven moves right down
+                        new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem
+                                                        .setRightSpeed(-Constants.ClimberConstants.kSlowSpeed,
+                                                                        m_leftJoystick.getButtonThree())));
+                }
                 // follow and intake note: this is a test
                 new Trigger(m_operatorController::getLeftStickPressed)
                                 .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
@@ -226,7 +243,12 @@ public class RobotContainer {
                 // orient to speaker
                 new Trigger(() -> m_rightJoystick.getPovState() == 180)
                                 .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
-                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 90, () -> 0.5));
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, () -> 0.5));
+
+                // orient to amp blue
+                new Trigger(() -> m_rightJoystick.getPovState() == 270)
+                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
+                                                () -> 6, () -> 90/*TODO */, () -> 0.5));
         }
 
         public Command getAutonomousCommand() {
