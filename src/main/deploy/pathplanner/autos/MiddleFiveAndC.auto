@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1,
-      "y": 2
+      "x": 1.1252758132597287,
+      "y": 4.150881023737631
     },
     "rotation": 0
   },
@@ -14,19 +14,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightForwardABit"
+            "pathName": "MiddleBackToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromRight"
+            "name": "ShootFromMiddle"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RightGetFromMiddleFour"
+            "pathName": "RightGetFromMiddleThree"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightBackFromFour"
+            "pathName": "RightBackFromThree"
           }
         },
         {
@@ -46,10 +46,34 @@
           "data": {
             "name": "ShootFromRight"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromMiddle"
+          }
         }
       ]
     }
   },
-  "folder": "RightAutos",
+  "folder": "MiddleAutos",
   "choreoAuto": false
 }

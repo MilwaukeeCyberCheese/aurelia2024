@@ -251,14 +251,21 @@ public final class Constants {
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
                                 put("RightThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftABTwo", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOneTwo", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFiveFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFour", new Pose2d(2.0, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftBOneTwo", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightShootOnly", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("Left", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleFiveAndC", new Pose2d(1.1252758132597287, 4.150881023737631,
+                                                new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleGetFive", new Pose2d(1.1252758132597287, 4.150881023737631,
+                                                new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("Middle", new Pose2d(1.33, 5.53, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFive", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftABOne", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAB", new Pose2d(1.29, 7.02, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }
