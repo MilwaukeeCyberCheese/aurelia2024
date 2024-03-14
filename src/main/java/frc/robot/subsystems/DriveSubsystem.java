@@ -175,25 +175,28 @@ public class DriveSubsystem extends SubsystemBase {
    * @param ChassisSpeeds: chassisSpeeds to run the robot
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
-    
-    //correct for pathplanner necessitated rotation
+
+    // correct for pathplanner necessitated rotation
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
         Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
 
     // //correction for rotational slew
     // if (!Robot.inAuto) {
-    //   if (!turningCorrect) {
-    //     currentAngle = Constants.Sensors.gyro.getAngle();
-    //   }
+    if (!turningCorrect) {
+      currentAngle = Math.toRadians(Constants.Sensors.gyro.getAngle());
+    }
 
-    //   if (adjusted.omegaRadiansPerSecond < 0.05) {
-    //     turningCorrect = true;
-    //     adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Constants.Sensors.gyro.getAngle(), currentAngle);
-    //   } else {
-    //     turningCorrect = false;
-    //   }
+    if (adjusted.omegaRadiansPerSecond < 0.05) {
+      turningCorrect = true;
+      adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()),
+          currentAngle);
+    } else {
+      turningCorrect = false;
+    }
     // }
+
+    ChassisSpeeds.discretize(adjusted, 20.0 / 1000.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
