@@ -252,7 +252,7 @@ public class RobotContainer {
                                                 () -> 6, () -> 90/*
                                                                   * TODO:may need 270, and may need to invert joystick
                                                                   */, m_rightJoystick::getX));
-
+                //orient to amp red
                 new Trigger(() -> m_rightJoystick.getPovState() == 90)
                                 .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
                                                 () -> 5, () -> 270/*
