@@ -354,20 +354,20 @@ public final class Constants {
                 public static final boolean kWristEncoderInverted = false;
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.006, 0.0, 0.0, 0.0); // TODO:
+                public static final double kWristConversionFactor = 360.0;
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.0, 0.0); // TODO:
                                                                                                               // retune
                 public static final double kWristMaxOutput = 0.15;
-                public static final double kWristTolerance = 3; // TODO: find tolerance
+                public static final double kWristTolerance = 3.0; // TODO: find tolerance
 
-                public static final double[] kWristLimits = { 15, 270 }; // TODO: set limits
+                public static final double[] kWristLimits = { 50.0, 170.0 }; // TODO: set limits
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // angles
-                public static final double kIntakeSafeAngle = 150;
-                public static final double kShootAngle = 108;
-                public static final double kLiftSafeAngle = 90;
-                public static final double kAmpAngle = 70; // TODO: confirm that
+                public static final double kIntakeSafeAngle = 140.0;
+                public static final double kShootAngle = 110.0;
+                public static final double kLiftSafeAngle = 80.0;
+                public static final double kAmpAngle = 60.0; // TODO: confirm that
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;

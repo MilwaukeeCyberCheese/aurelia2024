@@ -5,19 +5,18 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 import frc.robot.utils.DashboardUpdater;
 import frc.robot.utils.LivePIDTuner;
 
 public class ShooterSubsystem extends SubsystemBase {
-        private double upperRPM = 0;
-        private double lowerRPM = 0;
-        private double position = Constants.ShooterConstants.kIntakeSafeAngle;
-        // private LivePIDTuner shooterTuner;
-        private LivePIDTuner wristTuner;
-        private DashboardUpdater<Double> positionUpdater;
-        // private DashboardUpdater<Double> rpmUpdater;
+        private double upperRPM = 0.0;
+        private double lowerRPM = 0.0;
+        private double position = 90.0;
+        //private DashboardUpdater<Double> positionUpdater;
+        private LivePIDTuner upperShooterTuner;
+        private LivePIDTuner lowerShooterTuner;
+        private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
                 Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
@@ -68,14 +67,17 @@ public class ShooterSubsystem extends SubsystemBase {
                                 Constants.ShooterConstants.kWristMaxOutput);
 
                 // live PID tuner
-                // shooterTuner = new LivePIDTuner("Shooter",
-                // Constants.ShooterConstants.kShooterController,
-                // Constants.ShooterConstants.kShooterPIDConstants);
-                wristTuner = new LivePIDTuner("Wrist Tuner",
-                                Constants.ShooterConstants.kWristController,
-                                Constants.ShooterConstants.kWristPIDConstants);
-                positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
-                // rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
+                upperShooterTuner = new LivePIDTuner("Upper Shooter Tuner",
+                Constants.ShooterConstants.kUpperShooterController,
+                Constants.ShooterConstants.kUpperShooterPIDConstants);
+                lowerShooterTuner = new LivePIDTuner("Lower Shooter Tuner",
+                Constants.ShooterConstants.kLowerShooterController,
+                Constants.ShooterConstants.kLowerShooterPIDConstants);
+                // wristTuner = new LivePIDTuner("Wrist Tuner",
+                //                 Constants.ShooterConstants.kWristController,
+                //                 Constants.ShooterConstants.kWristPIDConstants);
+                //positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
+                rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
         /**
@@ -116,14 +118,15 @@ public class ShooterSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 MathUtil.clamp(position, Constants.ShooterConstants.kWristLimits[0],
                                 Constants.ShooterConstants.kWristLimits[1]);
+                this.position = position;
                                 
-                if (RobotContainer.m_liftSubsystem.getPosition() > Constants.LiftConstants.kClearOfObstructions) {
-                        this.position = position;
-                } else if (RobotContainer.m_intakeSubsystem.getPosition() <= 160 && position > 0 && position < 0) {
-                        this.position = position;// TODO: determine limits while lift is down and intake stowed
-                } else if (position > 0 && position < 0) {
-                        this.position = position;// TODO: determine limits while lift is down and intake lift
-                }
+                // if (RobotContainer.m_liftSubsystem.getPosition() > Constants.LiftConstants.kClearOfObstructions) {
+                //        this.position = position;
+                // } else if (RobotContainer.m_intakeSubsystem.getPosition() <= 160 && position > 0 && position < 0) {
+                //         this.position = position;// TODO: determine limits while lift is down and intake stowed
+                // } else if (position > 0 && position < 0) {
+                //         this.position = position;// TODO: determine limits while lift is down and intake lift
+                // }
 
         }
 
@@ -145,21 +148,24 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 log();
 
-                // shooterTuner.update();
-                wristTuner.update();
-                positionUpdater.update();
-                // rpmUpdater.update();
+                // upperShooterTuner.update();
+                // lowerShooterTuner.update();
+                rpmUpdater.update();
+                setPosition(120.0);
+                //positionUpdater.update();
 
-                Constants.ShooterConstants.kUpperShooterController.setReference(upperRPM,
+                Constants.ShooterConstants.kUpperShooterController.setReference(rpmUpdater.get(),
                                 CANSparkMax.ControlType.kVelocity);
-                Constants.ShooterConstants.kLowerShooterController.setReference(lowerRPM,
+                Constants.ShooterConstants.kLowerShooterController.setReference(rpmUpdater.get(),
                                 CANSparkMax.ControlType.kVelocity);
-                Constants.ShooterConstants.kWristController.setReference(positionUpdater.get(),
+                Constants.ShooterConstants.kWristController.setReference(this.position,//positionUpdater.get(),
                                 CANSparkMax.ControlType.kPosition);
         }
 
         public void log() {
                 SmartDashboard.putBoolean("Wrist at Position", atPosition());
+                SmartDashboard.putNumber("Wrist Position Going To", position);
+                SmartDashboard.putNumber("Wrist Get Position:", getPosition());
                 SmartDashboard.putNumber("Upper Shooter Speed",
                                 Constants.ShooterConstants.kUpperShooterMotor.getEncoder().getVelocity());
                 SmartDashboard.putNumber("Lower Shooter Speed",

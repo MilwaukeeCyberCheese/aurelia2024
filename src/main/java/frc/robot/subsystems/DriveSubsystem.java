@@ -181,19 +181,19 @@ public class DriveSubsystem extends SubsystemBase {
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
         Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
 
-    //correction for rotational slew
-    if (!Robot.inAuto) {
-      if (!turningCorrect) {
-        currentAngle = Constants.Sensors.gyro.getAngle();
-      }
+    // //correction for rotational slew
+    // if (!Robot.inAuto) {
+    //   if (!turningCorrect) {
+    //     currentAngle = Constants.Sensors.gyro.getAngle();
+    //   }
 
-      if (adjusted.omegaRadiansPerSecond < 0.05) {
-        turningCorrect = true;
-        adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Constants.Sensors.gyro.getAngle(), currentAngle);
-      } else {
-        turningCorrect = false;
-      }
-    }
+    //   if (adjusted.omegaRadiansPerSecond < 0.05) {
+    //     turningCorrect = true;
+    //     adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Constants.Sensors.gyro.getAngle(), currentAngle);
+    //   } else {
+    //     turningCorrect = false;
+    //   }
+    // }
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
