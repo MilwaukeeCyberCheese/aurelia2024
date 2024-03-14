@@ -10,6 +10,7 @@
 - A Button: set shooter to 0
 - X Button: intake to load position
 - B Button: intake to stowed position
+- POV Pressed: shoot!
 
 # Left Joystick
 

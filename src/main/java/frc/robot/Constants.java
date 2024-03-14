@@ -227,7 +227,7 @@ public final class Constants {
                                 0.05, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI / 3.0, 0.0, 0.0);
+                                Math.PI / 5.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -356,10 +356,10 @@ public final class Constants {
                 public static final double kShooterConversionFactor = 1.0;
 
                 public static final PIDConstants kUpperShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
-                                0.00021); // TODO:
+                                0.000185);
                 public static final PIDConstants kLowerShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
-                                0.00021); // TODO:
-                public static final double kShooterTolerance = 10;
+                                0.000185);
+                public static final double kShooterTolerance = 100;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 15;

@@ -165,8 +165,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  private double currentAngle;
-  private boolean turningCorrect = false;
+  // private double currentAngle;
+  // private boolean turningCorrect = false;
 
   /**
    * Method to drive the robot relative to itself without limiters, etc.
@@ -178,21 +178,21 @@ public class DriveSubsystem extends SubsystemBase {
     // correct for pathplanner necessitated rotation
     ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
         chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
-        Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 270.0));
+        Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 90.0));
 
     // //correction for rotational slew
     // if (!Robot.inAuto) {
-    if (!turningCorrect) {
-      currentAngle = Math.toRadians(Constants.Sensors.gyro.getAngle());
-    }
+    // if (!turningCorrect) {
+    //   currentAngle = Math.toRadians(Constants.Sensors.gyro.getAngle());
+    // }
 
-    if (adjusted.omegaRadiansPerSecond < 0.05) {
-      turningCorrect = true;
-      adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()),
-          currentAngle);
-    } else {
-      turningCorrect = false;
-    }
+    // if (Math.abs(adjusted.omegaRadiansPerSecond) < 0.01) {
+    //   turningCorrect = true;
+    //   adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()),
+    //       currentAngle);
+    // } else {
+    //   turningCorrect = false;
+    // }
     // }
 
     ChassisSpeeds.discretize(adjusted, 20.0 / 1000.0);
@@ -312,6 +312,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
+    // currentAngle = 0;
     Constants.Sensors.gyro.reset();
   }
 

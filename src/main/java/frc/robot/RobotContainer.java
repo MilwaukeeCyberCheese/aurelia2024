@@ -14,6 +14,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.SnapToAndAlignWithRange;
 import frc.robot.commands.WheelsX;
@@ -98,7 +99,7 @@ public class RobotContainer {
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
                                 m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                () -> !m_buttons.getTopSwitch(),
+                                () -> !m_rightJoystick.getTriggerActive(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
 
@@ -258,6 +259,8 @@ public class RobotContainer {
                                                 () -> 5, () -> 270/*
                                                                    * TODO:may need 90, and may need to invert joystick
                                                                    */, m_rightJoystick::getX));
+
+                new Trigger(m_operatorController::getPOVPressed).whileTrue(new Shoot(() -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
         }
 
         public Command getAutonomousCommand() {

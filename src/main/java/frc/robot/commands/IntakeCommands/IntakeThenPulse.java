@@ -31,14 +31,13 @@ public class IntakeThenPulse extends SequentialCommandGroup {
                                 new IntakeCommand(intakeSubsystem, finished),
                                 Commands.parallel(
                                                 new SetIntakePosition(
-                                                                () -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                                 intakeSubsystem),
                                                 new SetLiftPosition(() -> 0.0, liftSubsystem),
                                                 new SetWristAngle(
                                                                 () -> Constants.ShooterConstants.kIntakeSafeAngle,
                                                                 shooterSubsystem)),
-                                new SetIntakePosition(() -> Constants.IntakeConstants.kIntakeLoadPosition,
-                                                intakeSubsystem),
+                                
                                 new SetWristAngle(() -> Constants.ShooterConstants.kShootAngle, shooterSubsystem),
                                 new Pulse(intakeSubsystem), new Pulse(intakeSubsystem), new Pulse(intakeSubsystem));
         }

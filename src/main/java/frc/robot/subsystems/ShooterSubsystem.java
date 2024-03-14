@@ -6,17 +6,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.CustomUtils;
-import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
 
 public class ShooterSubsystem extends SubsystemBase {
         private double upperRPM = 0.0;
         private double lowerRPM = 0.0;
         private double position = 90.0;
         //private DashboardUpdater<Double> positionUpdater;
-        private LivePIDTuner upperShooterTuner;
-        private LivePIDTuner lowerShooterTuner;
-        private DashboardUpdater<Double> rpmUpdater;
+        // private LivePIDTuner upperShooterTuner;
+        // private LivePIDTuner lowerShooterTuner;
+        // private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
                 Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
@@ -67,17 +65,17 @@ public class ShooterSubsystem extends SubsystemBase {
                                 Constants.ShooterConstants.kWristMaxOutput);
 
                 // live PID tuner
-                upperShooterTuner = new LivePIDTuner("Upper Shooter Tuner",
-                Constants.ShooterConstants.kUpperShooterController,
-                Constants.ShooterConstants.kUpperShooterPIDConstants);
-                lowerShooterTuner = new LivePIDTuner("Lower Shooter Tuner",
-                Constants.ShooterConstants.kLowerShooterController,
-                Constants.ShooterConstants.kLowerShooterPIDConstants);
+                // upperShooterTuner = new LivePIDTuner("Upper Shooter Tuner",
+                // Constants.ShooterConstants.kUpperShooterController,
+                // Constants.ShooterConstants.kUpperShooterPIDConstants);
+                // lowerShooterTuner = new LivePIDTuner("Lower Shooter Tuner",
+                // Constants.ShooterConstants.kLowerShooterController,
+                // Constants.ShooterConstants.kLowerShooterPIDConstants);
                 // wristTuner = new LivePIDTuner("Wrist Tuner",
                 //                 Constants.ShooterConstants.kWristController,
                 //                 Constants.ShooterConstants.kWristPIDConstants);
                 //positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater", 90.0);
-                rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
+                // rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
         /**
@@ -150,13 +148,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 // upperShooterTuner.update();
                 // lowerShooterTuner.update();
-                rpmUpdater.update();
-                setPosition(120.0);
+                // rpmUpdater.update();
+                // setPosition(120.0);
                 //positionUpdater.update();
 
-                Constants.ShooterConstants.kUpperShooterController.setReference(rpmUpdater.get(),
+                Constants.ShooterConstants.kUpperShooterController.setReference(upperRPM,
                                 CANSparkMax.ControlType.kVelocity);
-                Constants.ShooterConstants.kLowerShooterController.setReference(rpmUpdater.get(),
+                Constants.ShooterConstants.kLowerShooterController.setReference(lowerRPM,
                                 CANSparkMax.ControlType.kVelocity);
                 Constants.ShooterConstants.kWristController.setReference(this.position,//positionUpdater.get(),
                                 CANSparkMax.ControlType.kPosition);
