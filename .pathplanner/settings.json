@@ -5,12 +5,14 @@
   "pathFolders": [
     "Left",
     "Middle",
+    "Tests",
     "Right"
   ],
   "autoFolders": [
-    "RightAutos",
     "LeftAutos",
-    "MiddleAutos"
+    "MiddleAutos",
+    "Test",
+    "RightAutos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

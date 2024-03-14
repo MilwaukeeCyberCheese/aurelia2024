@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.3,
-      "y": 2.0
+      "x": 1.1,
+      "y": 2
     },
     "rotation": 0
   },
@@ -14,12 +14,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test"
+            "pathName": "RightForwardABit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
           }
         }
       ]
     }
   },
-  "folder": "Test",
+  "folder": "RightAutos",
   "choreoAuto": false
 }

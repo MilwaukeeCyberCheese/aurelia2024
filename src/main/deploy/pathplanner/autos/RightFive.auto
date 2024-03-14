@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.1,
-      "y": 2.0
+      "y": 2
     },
     "rotation": 0
   },
@@ -39,30 +39,6 @@
           "type": "path",
           "data": {
             "pathName": "RightBackFromFive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootFromRight"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightGetFromMiddleFour"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FollowAndIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightBackFromFour"
           }
         },
         {
