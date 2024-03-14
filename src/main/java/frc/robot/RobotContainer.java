@@ -97,7 +97,7 @@ public class RobotContainer {
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
                                 () -> -1.0 * m_rightJoystick.getX(),
                                 () -> -1.0 * m_rightJoystick.getY(), m_leftJoystick::getX,
-                                () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
+                                () -> !m_buttons.getTopSwitch(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
 
@@ -238,7 +238,7 @@ public class RobotContainer {
                                 .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
 
                 // pulse intake to center note
-                new Trigger(m_operatorController::getRightStickPressed).onTrue(new Pulse(m_intakeSubsystem));
+                new Trigger(m_operatorController::getYButton).onTrue(new Pulse(m_intakeSubsystem));
 
                 // orient to speaker
                 new Trigger(() -> m_rightJoystick.getPovState() == 180)
