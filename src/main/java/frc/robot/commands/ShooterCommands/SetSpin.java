@@ -2,7 +2,9 @@ package frc.robot.commands.ShooterCommands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class SetSpin extends Command {
@@ -23,6 +25,7 @@ public class SetSpin extends Command {
 
     @Override
     public void execute() {
+        SmartDashboard.putNumber("SetSpeedExecute", m_rpm.getAsDouble());
         m_shooterSubsystem.setRPM(m_rpm.getAsDouble());
     }
 

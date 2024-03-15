@@ -16,7 +16,8 @@ public class LoadAmp extends SequentialCommandGroup {
                 () -> Constants.ShooterConstants.kLoadRPM, () -> Constants.ShooterConstants.kLoadRPM,
                 shooterSubsystem),
                 Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kHandoffSpeed, intakeSubsystem),
-                        new WaitCommandMilli(Constants.IntakeConstants.kHandoffTime), Commands.parallel(
-                                new SetIntakeSpeed(() -> 0.0, intakeSubsystem), new SetSpin(() -> 0.0, shooterSubsystem))));
+                        new WaitCommandMilli(Constants.IntakeConstants.kHandoffTime)), Commands.parallel(
+                                new SetIntakeSpeed(() -> 0.0, intakeSubsystem),
+                                new SetSpin(() -> 0.0, shooterSubsystem)));
     }
 }

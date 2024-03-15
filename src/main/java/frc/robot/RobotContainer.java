@@ -14,6 +14,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
+import frc.robot.commands.LoadAmp;
+import frc.robot.commands.ScoreAmp;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.WheelsX;
@@ -83,15 +85,16 @@ public class RobotContainer {
                                 new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
                                                 m_liftSubsystem,
                                                 m_shooterSubsystem));
-                // NamedCommands.registerCommand("ShootFromRight",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
-                // NamedCommands.registerCommand("ShootFromLeft",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
-                // NamedCommands.registerCommand("ShootFromMiddle",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
+                NamedCommands.registerCommand("ShootFromRight",
+                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                m_liftSubsystem));
+                NamedCommands.registerCommand("Pulse", new Pulse(m_intakeSubsystem));
+                NamedCommands.registerCommand("ShootFromLeft",
+                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                m_liftSubsystem));
+                NamedCommands.registerCommand("ShootFromMiddle",
+                new Shoot(() -> 4000, () -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem,
+                m_liftSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -273,14 +276,14 @@ public class RobotContainer {
                                 .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_rightJoystick::getTriggerActive)
-                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
+                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 85,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 90)
-                                .onTrue(new SetSpin(() -> 300, m_shooterSubsystem));
-                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new SetSpin(() -> -2500, m_shooterSubsystem));
+                                .onTrue(new LoadAmp(m_shooterSubsystem, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera, m_liftSubsystem, m_shooterSubsystem));
                 new Trigger( () -> m_operatorController.getPovState() == 270).onTrue(new SetWristAngle(() -> 90, m_shooterSubsystem));
-                new Trigger(m_operatorController::getRightStickPressed).onTrue(new SetSpin(() -> 2500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed).onTrue(new ScoreAmp(m_shooterSubsystem, m_liftSubsystem, m_intakeSubsystem));
         }
 
         public Command getAutonomousCommand() {

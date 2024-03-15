@@ -27,7 +27,7 @@ public class ScoreAmp extends SequentialCommandGroup {
                 new SetWristAngle(() -> Constants.ShooterConstants.kLiftSafeAngle, shooterSubsystem),
                 new SetLiftPosition(() -> Constants.LiftConstants.kAmpPosition, liftSubsystem),
                 new SetWristAngle(() -> Constants.ShooterConstants.kAmpAngle, shooterSubsystem),
-                Commands.parallel(new SetSpin(() -> Constants.ShooterConstants.kAmpRPM, shooterSubsystem),
+                Commands.race(new SetSpin(() -> Constants.ShooterConstants.kAmpRPM, shooterSubsystem),
                         new WaitCommandMilli(Constants.ShooterConstants.kAmpWaitTime)),
                 new SetSpinAndAngle(() -> Constants.ShooterConstants.kLiftSafeAngle, () -> 0, () -> 0, shooterSubsystem),
                 new SetLiftPosition(() -> Constants.LiftConstants.kLoadPosition, liftSubsystem),

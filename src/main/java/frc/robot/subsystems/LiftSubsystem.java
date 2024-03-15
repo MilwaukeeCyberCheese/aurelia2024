@@ -55,7 +55,7 @@ public class LiftSubsystem extends SubsystemBase {
             this.position = position;
         } else if (getPosition() > Constants.LiftConstants.kClearOfObstructions) {
             this.position = position;
-        } else if (RobotContainer.m_intakeSubsystem.getPosition() < 160
+        } else if (RobotContainer.m_intakeSubsystem.getPosition() < 170
         // && RobotContainer.m_shooterSubsystem.getPosition() == 90
         ) {
             this.position = position;

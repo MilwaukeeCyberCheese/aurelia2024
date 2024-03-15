@@ -78,10 +78,10 @@ public class IntakeSubsystem extends SubsystemBase {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
 
-                if (position < 160) {
+                if (position < 160 || position > 200) {
                         this.position = position;
-                } else if (Math.abs(
-                                RobotContainer.m_liftSubsystem.getPosition()) < Constants.LiftConstants.kLiftTolerance
+                } else if (
+                                RobotContainer.m_liftSubsystem.getPosition() == Constants.LiftConstants.kLoadPosition
                                 && RobotContainer.m_shooterSubsystem.getPosition() > 115) {
                         this.position = position;
                 }
@@ -106,5 +106,6 @@ public class IntakeSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Intake Angle",
                                 Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
+                SmartDashboard.putBoolean("Intake at Position", atPosition());
         }
 }

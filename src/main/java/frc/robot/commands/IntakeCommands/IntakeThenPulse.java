@@ -22,7 +22,7 @@ public class IntakeThenPulse extends SequentialCommandGroup {
         public IntakeThenPulse(IntakeSubsystem intakeSubsystem, LiftSubsystem liftSubsystem,
                         ShooterSubsystem shooterSubsystem, BooleanSupplier finished) {
                 addCommands(
-                                Commands.parallel(new SetLiftPosition(() -> 0.0, liftSubsystem),
+                                Commands.parallel(new SetLiftPosition(() -> Constants.LiftConstants.kLoadPosition, liftSubsystem),
                                                 new SetWristAngle(
                                                                 () -> Constants.ShooterConstants.kIntakeSafeAngle,
                                                                 shooterSubsystem)),
@@ -33,7 +33,8 @@ public class IntakeThenPulse extends SequentialCommandGroup {
                                                 new SetIntakePosition(
                                                                 () -> Constants.IntakeConstants.kIntakeLoadPosition,
                                                                 intakeSubsystem),
-                                                new SetLiftPosition(() -> 0.0, liftSubsystem),
+                                                new SetLiftPosition(() -> Constants.LiftConstants.kLoadPosition,
+                                                                liftSubsystem),
                                                 new SetWristAngle(
                                                                 () -> Constants.ShooterConstants.kIntakeSafeAngle,
                                                                 shooterSubsystem)),

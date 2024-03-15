@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -97,10 +99,11 @@ public class ShooterSubsystem extends SubsystemBase {
          * @return whether the shooters are at the commanded RPM
          */
         public boolean atRPM() {
+                double fudgeFactor = (RobotController.getBatteryVoltage() < 12.5) ? RobotController.getBatteryVoltage() / 13.0 : 1.0;
                 return Math.abs(Constants.ShooterConstants.kUpperShooterEncoder.getVelocity()
-                                - upperRPM) < Constants.ShooterConstants.kShooterTolerance
+                                - upperRPM) < Constants.ShooterConstants.kShooterTolerance / fudgeFactor
                                 && Math.abs(Constants.ShooterConstants.kLowerShooterEncoder.getVelocity()
-                                                - lowerRPM) < Constants.ShooterConstants.kShooterTolerance;
+                                                - lowerRPM) < Constants.ShooterConstants.kShooterTolerance / fudgeFactor;
         }
 
         /**

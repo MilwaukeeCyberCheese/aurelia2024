@@ -50,6 +50,7 @@ public class SnapToAndAlign extends Command {
 
         m_thetaController.reset();
         m_thetaController.setSetpoint(Math.toRadians(m_angle.getAsDouble()));
+        m_thetaController.enableContinuousInput(0, Math.PI * 2);
     }
 
     @Override

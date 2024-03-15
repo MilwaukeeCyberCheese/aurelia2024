@@ -8,36 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7838753909028355,
-        "y": 6.005983000290085
+        "x": 2.3,
+        "y": 5.5
       },
       "isLocked": false,
       "linkedName": "MiddleShooting"
     },
     {
       "anchor": {
-        "x": 5.27750929808186,
-        "y": 4.449169875032314
+        "x": 2.5,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 4.526003137579336,
-        "y": 5.02034993241455
-      },
-      "nextControl": {
-        "x": 5.882379722584084,
-        "y": 3.9894398795456856
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.976096254634241,
-        "y": 4.096604624951758
-      },
-      "prevControl": {
-        "x": 7.389021370717548,
-        "y": 4.086674713305031
+        "x": 1.5,
+        "y": 5.5
       },
       "nextControl": null,
       "isLocked": false,

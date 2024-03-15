@@ -227,7 +227,7 @@ public final class Constants {
                                 0.005, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI / 5.0, 0.0, 0.0);
+                                Math.PI / 3.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -266,6 +266,8 @@ public final class Constants {
                                 put("LeftABOne", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleThreeAndC", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAB", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleShootOnly", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftShootOnly", new Pose2d(1.11, 7.15, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }
@@ -381,7 +383,7 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // angles
-                public static final double kIntakeSafeAngle = 90.0;
+                public static final double kIntakeSafeAngle = 130.0;
                 public static final double kShootAngle = 110.0;
                 public static final double kLiftSafeAngle = 50.0;
                 public static final double kAmpAngle = 160.0; // TODO: confirm that
@@ -389,10 +391,10 @@ public final class Constants {
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
-                public static final double kAmpWaitTime = 400;
+                public static final double kAmpWaitTime = 1500;
 
                 public static final double kMaxRPM = MotorConstants.kNeoFreeSpeedRpm * kShooterConversionFactor;
-                public static final double kAmpRPM = 2500;// TODO: find amp RPM
+                public static final double kAmpRPM = 5000;// TODO: find amp RPM
                 public static final double kLoadRPM = 300;// TODO: find load RPM
 
                 public static final double kRedNoteDetectionThreshold = 200; // TODO: determine threshold
@@ -420,7 +422,7 @@ public final class Constants {
                 public static final double kIntakePivotMaxOuput = 0.3;
                 public static final PIDConstants kPIDConstants = new PIDConstants(0.007, 0.0, 0.002, 0.000);
                 public static final double kIntakePositionConversionFactor = 360;
-                public static final double kTolerance = 2;
+                public static final double kTolerance = 3;
 
                 // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
@@ -468,7 +470,7 @@ public final class Constants {
                 public static final double kLiftTolerance = 0.3;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0.0, 11 };
+                public static final double[] kLiftLimits = { 0.0, 11.2 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;
@@ -478,7 +480,7 @@ public final class Constants {
 
                 // TODO: find positions
                 public static final double kLoadPosition = 0.3;
-                public static final double kAmpPosition = 10.8;
+                public static final double kAmpPosition = 11.2;
         }
 
         public class ClimberConstants {
