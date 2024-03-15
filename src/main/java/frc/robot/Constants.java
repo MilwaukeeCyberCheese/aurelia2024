@@ -464,7 +464,7 @@ public final class Constants {
                 public static final double kLiftTolerance = 0.3;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0.0, 11 };
+                public static final double[] kLiftLimits = { 0.0, 10.5 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;

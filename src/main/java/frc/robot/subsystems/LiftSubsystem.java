@@ -46,15 +46,17 @@ public class LiftSubsystem extends SubsystemBase {
      * 
      * @param position (inches)
      */
-    public void setPosition(double position) {
+    public void setPosition(double position, boolean override) {
 
         position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
                 Constants.LiftConstants.kLiftLimits[1]);
-
-        if (getPosition() > Constants.LiftConstants.kClearOfObstructions) {
+        if (override) {
+            this.position = position;
+        } else if (getPosition() > Constants.LiftConstants.kClearOfObstructions) {
             this.position = position;
         } else if (RobotContainer.m_intakeSubsystem.getPosition() < 160
-                && RobotContainer.m_shooterSubsystem.getPosition() == 90) {
+        // && RobotContainer.m_shooterSubsystem.getPosition() == 90
+        ) {
             this.position = position;
         }
 
