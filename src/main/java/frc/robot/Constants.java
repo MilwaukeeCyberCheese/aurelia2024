@@ -67,7 +67,7 @@ public final class Constants {
 
         public static final class DriveConstants {
                 // Rate limits on or off
-                public static final BooleanSupplier kRateLimitsEnabled = () -> true;
+                public static final BooleanSupplier kRateLimitsEnabled = () -> false;
 
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
@@ -112,6 +112,8 @@ public final class Constants {
                 public static final int kBackRightTurningCanId = 4;
 
                 public static final boolean kGyroReversed = true;
+
+                public static final double kTurningSpeedModifier = 0.8;
 
                 // starting pose of the robot
                 public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
@@ -183,7 +185,7 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kDrivingMotorIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax.IdleMode kTurningMotorIdleMode = CANSparkMax.IdleMode.kBrake;
 
-                public static final int kDrivingMotorCurrentLimit = 50; // amps
+                public static final int kDrivingMotorCurrentLimit = 40; // amps
                 public static final int kTurningMotorCurrentLimit = 20; // amps
 
                 // Create MAXSwerveModules
@@ -261,11 +263,11 @@ public final class Constants {
                                 put("MiddleGetThreeAndTwo", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleShootOnly", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleThreeAndC", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFive", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightFive", new Pose2d(0.23, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFiveFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightShootOnly", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightShootOnly", new Pose2d(0.28, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
@@ -298,7 +300,7 @@ public final class Constants {
                         public static final double kCameraHeight = Units.inchesToMeters(11); // TODO: find this, very
                                                                                              // important
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
-                                        new Rotation3d(0, 50, 0));
+                                        new Rotation3d(0, 45, 0));
 
                 }
 
@@ -498,7 +500,7 @@ public final class Constants {
                                 CANSparkMax.MotorType.kBrushless);
                 public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
 
-                public static final double kSlowSpeed = 0.4;
+                public static final double kSlowSpeed = 0.7;
                 public static final double kFastSpeed = 1.0;
 
                 public static final double kUpperLimit = 300;

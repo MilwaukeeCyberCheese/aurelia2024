@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1,
+      "x": 0.28,
       "y": 2
     },
     "rotation": 0
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightForwardABit"
+                  "pathName": "RightToShoot"
                 }
               },
               {

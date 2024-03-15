@@ -86,15 +86,17 @@ public class RobotContainer {
                                                 m_liftSubsystem,
                                                 m_shooterSubsystem));
                 NamedCommands.registerCommand("ShootFromRight",
-                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
-                m_liftSubsystem));
+                                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
                 NamedCommands.registerCommand("Pulse", new Pulse(m_intakeSubsystem));
                 NamedCommands.registerCommand("ShootFromLeft",
-                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
-                m_liftSubsystem));
+                                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
                 NamedCommands.registerCommand("ShootFromMiddle",
-                new Shoot(() -> 4000, () -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem,
-                m_liftSubsystem));
+                                new Shoot(() -> 4000, () -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
+                NamedCommands.registerCommand("IntakeThenPulse", new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
+                                                m_shooterSubsystem, m_operatorController::getLeftBumper));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -109,7 +111,8 @@ public class RobotContainer {
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
-                                new ManualLift(m_operatorController::getYLeft, m_operatorController::getLeftStickPressed, m_liftSubsystem));
+                                new ManualLift(m_operatorController::getYLeft,
+                                                m_operatorController::getLeftStickPressed, m_liftSubsystem));
 
                 // default command for shooter
                 m_shooterSubsystem.setDefaultCommand(
@@ -240,8 +243,9 @@ public class RobotContainer {
                 }
                 // follow and intake note: this is a test
                 // new Trigger(m_operatorController::getLeftStickPressed)
-                //                 .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
-                //                                 m_liftSubsystem, m_shooterSubsystem));
+                // .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem,
+                // m_intakeCamera,
+                // m_liftSubsystem, m_shooterSubsystem));
 
                 // zero absolute encoder lift
                 new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
@@ -269,21 +273,24 @@ public class RobotContainer {
                                                                    */, m_rightJoystick::getX));
 
                 new Trigger(() -> m_operatorController.getPovState() == 180)
-                                .whileTrue(new Shoot(() -> 5500, () -> 5500, () -> 110,
+                                .whileTrue(new Shoot(() -> 5500, () -> 5500, () -> 90,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 0)
                                 .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_rightJoystick::getTriggerActive)
-                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 85,
+                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 90)
                                 .onTrue(new LoadAmp(m_shooterSubsystem, m_intakeSubsystem));
-                new Trigger(m_operatorController::getLeftStickPressed).onTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera, m_liftSubsystem, m_shooterSubsystem));
-                new Trigger( () -> m_operatorController.getPovState() == 270).onTrue(new SetWristAngle(() -> 90, m_shooterSubsystem));
-                new Trigger(m_operatorController::getRightStickPressed).onTrue(new ScoreAmp(m_shooterSubsystem, m_liftSubsystem, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(
+                                new SetWristAngle(() -> Constants.ShooterConstants.kLiftSafeAngle, m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPovState() == 270).onTrue(
+                                new SetSpin(() -> 5500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed).onTrue(
+                                new SetWristAngle(() -> Constants.ShooterConstants.kAmpAngle, m_shooterSubsystem));
         }
 
         public Command getAutonomousCommand() {

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,6 +50,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    // port forwarding for photonvision
+    PortForwarder.add(5800, "photonvision.local", 5800);
+
     // suppress joystick warnings
     DriverStation.silenceJoystickConnectionWarning(true);
   }
@@ -84,6 +88,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     allianceColor = DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red));
+    RobotContainer.m_liftSubsystem.run(() -> RobotContainer.m_liftSubsystem.zero());
   }
 
   /**
@@ -98,11 +103,11 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // reset the pose of the robot to the starting pose of the autonomous command
-    System.out.println(m_autonomousCommand.getName() + "da name");
+    System.out.println(m_autonomousCommand.getName() + " da name");
     Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
     RobotContainer.m_driveSubsystem
         .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
-            : new Pose2d(0, 0, new Rotation2d(0))); //TOOD: make sure that flipping pose works
+            : new Pose2d(0, 0, new Rotation2d(0))); // TOOD: make sure that flipping pose works
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null && initialPose != null) {
