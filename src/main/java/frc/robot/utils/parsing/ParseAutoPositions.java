@@ -12,7 +12,7 @@ public class ParseAutoPositions {
     public static void main(String args[]) {
         List<String> notFound = new LinkedList<>();
         // YMMV, change the path
-        Path start = Paths.get("/home/sam/gitClones/aurelia2024/src/main/deploy/pathplanner/autos");
+        Path start = Paths.get("C:\\Users\\event\\code\\aurelia2024\\src\\main\\deploy\\pathplanner\\autos");
         // this is the first line of the hashmap path
         System.out.print(
                 "public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {{");
