@@ -86,7 +86,7 @@ public class SnapToAndAlignWithRange extends Command {
         // snap to theta using gyro
         thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()));
         System.out.println("Range: " + yOutput + "Translation: " + xOutput);
-        m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, yOutput, thetaOutput));
+        m_driveSubsystem.driveLimited(new ChassisSpeeds(-1 * xOutput, yOutput, thetaOutput));
 
     }
 

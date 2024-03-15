@@ -224,7 +224,7 @@ public final class Constants {
 
                 // TODO: this will need to be tuned
                 public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                0.05, 0.0, 0.0);
+                                0.005, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
                                 Math.PI / 5.0, 0.0, 0.0);

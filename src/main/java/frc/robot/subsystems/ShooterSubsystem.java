@@ -11,10 +11,6 @@ public class ShooterSubsystem extends SubsystemBase {
         private double upperRPM = 0.0;
         private double lowerRPM = 0.0;
         private double position = 90.0;
-        // private DashboardUpdater<Double> positionUpdater;
-        // private LivePIDTuner upperShooterTuner;
-        // private LivePIDTuner lowerShooterTuner;
-        // private DashboardUpdater<Double> rpmUpdater;
 
         public ShooterSubsystem() {
                 Constants.ShooterConstants.kWristMotor.restoreFactoryDefaults();
@@ -63,20 +59,6 @@ public class ShooterSubsystem extends SubsystemBase {
                 Constants.ShooterConstants.kWristController.setOutputRange(
                                 Constants.ShooterConstants.kWristMaxOutput * -1.0,
                                 Constants.ShooterConstants.kWristMaxOutput);
-
-                // live PID tuner
-                // upperShooterTuner = new LivePIDTuner("Upper Shooter Tuner",
-                // Constants.ShooterConstants.kUpperShooterController,
-                // Constants.ShooterConstants.kUpperShooterPIDConstants);
-                // lowerShooterTuner = new LivePIDTuner("Lower Shooter Tuner",
-                // Constants.ShooterConstants.kLowerShooterController,
-                // Constants.ShooterConstants.kLowerShooterPIDConstants);
-                // wristTuner = new LivePIDTuner("Wrist Tuner",
-                // Constants.ShooterConstants.kWristController,
-                // Constants.ShooterConstants.kWristPIDConstants);
-                // positionUpdater = new DashboardUpdater<Double>("Wrist Position Updater",
-                // 90.0);
-                // rpmUpdater = new DashboardUpdater<Double>("RPM Updater", 0.0);
         }
 
         /**
@@ -85,7 +67,6 @@ public class ShooterSubsystem extends SubsystemBase {
          * @param rpm
          */
         public void setRPM(double rpm) {
-                rpm = MathUtil.clamp(rpm, -Constants.ShooterConstants.kMaxRPM, Constants.ShooterConstants.kMaxRPM);
                 setUpperRPM(rpm);
                 setLowerRPM(rpm);
         }
@@ -96,20 +77,18 @@ public class ShooterSubsystem extends SubsystemBase {
          * @param rpm
          */
         public void setRPM(double upperRPM, double lowerRPM) {
-                upperRPM = MathUtil.clamp(upperRPM, -Constants.ShooterConstants.kMaxRPM,
-                                Constants.ShooterConstants.kMaxRPM);
-                lowerRPM = MathUtil.clamp(lowerRPM, -Constants.ShooterConstants.kMaxRPM,
-                                Constants.ShooterConstants.kMaxRPM);
-
                 setUpperRPM(upperRPM);
                 setLowerRPM(lowerRPM);
         }
 
         public void setUpperRPM(double rpm) {
+                rpm = MathUtil.clamp(rpm, -Constants.ShooterConstants.kMaxRPM, Constants.ShooterConstants.kMaxRPM);
+
                 this.upperRPM = rpm;
         }
 
         public void setLowerRPM(double rpm) {
+                rpm = MathUtil.clamp(rpm, -Constants.ShooterConstants.kMaxRPM, Constants.ShooterConstants.kMaxRPM);
                 this.lowerRPM = rpm;
         }
 

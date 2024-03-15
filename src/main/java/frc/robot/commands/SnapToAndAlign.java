@@ -63,12 +63,12 @@ public class SnapToAndAlign extends Command {
         // check if target is present
         if (target != null) {
             // set theta based on yaw
-            xOutput = m_xController.calculate(Math.toRadians(target.getYaw() * -1.0));
+            xOutput = m_xController.calculate(target.getYaw());
 
         }
 
         thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getYaw()));
-
+        System.out.println("Translation: " + xOutput + "Rotation: " + thetaOutput);
         m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, m_ySpeed.getAsDouble(), thetaOutput));
 
     }

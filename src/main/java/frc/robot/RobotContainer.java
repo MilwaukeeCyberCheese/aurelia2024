@@ -16,15 +16,14 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SnapToAndAlign;
-import frc.robot.commands.SnapToAndAlignWithRange;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
 import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
 import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLift;
+import frc.robot.commands.ShooterCommands.ManualWristAngle;
 import frc.robot.commands.ShooterCommands.SetSpin;
-import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -107,6 +106,10 @@ public class RobotContainer {
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
                                 new ManualLift(m_operatorController::getYLeft, m_liftSubsystem));
+
+                // default command for shooter
+                m_shooterSubsystem.setDefaultCommand(
+                                new ManualWristAngle(m_operatorController::getYRight, m_shooterSubsystem));
 
                 // default command for climber
                 m_climberSubsystem
@@ -245,8 +248,8 @@ public class RobotContainer {
 
                 // orient to speaker
                 new Trigger(() -> m_rightJoystick.getPovState() == 180)
-                                .whileTrue(new SnapToAndAlignWithRange(m_driveSubsystem, m_shooterCamera,
-                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, () -> 0.5));
+                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, m_rightJoystick::getY));
 
                 // orient to amp blue
                 new Trigger(() -> m_rightJoystick.getPovState() == 270)
@@ -262,7 +265,7 @@ public class RobotContainer {
                                                                    */, m_rightJoystick::getX));
 
                 new Trigger(() -> m_operatorController.getPovState() == 180)
-                                .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 120,
+                                .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 110,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 0)
@@ -271,6 +274,9 @@ public class RobotContainer {
                 new Trigger(m_rightJoystick::getTriggerActive)
                                 .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+
+                new Trigger(() -> m_operatorController.getPovState() == 90)
+                                .onTrue(new SetSpin(() -> 5500, m_shooterSubsystem));
         }
 
         public Command getAutonomousCommand() {
