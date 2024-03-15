@@ -27,7 +27,7 @@ public class Shoot extends SequentialCommandGroup {
                         ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
                 addCommands(new SetSpinAndAngle(angle, upperRPM, lowerRPM, shooterSubsystem),
-                                Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kLoadSpeed,
+                                Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kOuttakeSpeed,
                                                 intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
                                 new SetSpin(() -> 0, shooterSubsystem));

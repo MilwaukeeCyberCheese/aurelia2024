@@ -381,18 +381,19 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // angles
-                public static final double kIntakeSafeAngle = 140.0;
+                public static final double kIntakeSafeAngle = 90.0;
                 public static final double kShootAngle = 110.0;
-                public static final double kLiftSafeAngle = 80.0;
-                public static final double kAmpAngle = 60.0; // TODO: confirm that
+                public static final double kLiftSafeAngle = 50.0;
+                public static final double kAmpAngle = 160.0; // TODO: confirm that
+                public static final double kHandoffAngle = 100.0;
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
                 public static final double kAmpWaitTime = 400;
 
                 public static final double kMaxRPM = MotorConstants.kNeoFreeSpeedRpm * kShooterConversionFactor;
-                public static final double kAmpRPM = 500;// TODO: find amp RPM
-                public static final double kLoadRPM = 20;// TODO: find load RPM
+                public static final double kAmpRPM = 2500;// TODO: find amp RPM
+                public static final double kLoadRPM = 300;// TODO: find load RPM
 
                 public static final double kRedNoteDetectionThreshold = 200; // TODO: determine threshold
 
@@ -432,7 +433,8 @@ public final class Constants {
 
                 // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.7;
-                public static final double kLoadSpeed = -1.0;
+                public static final double kOuttakeSpeed = -1.0;
+                public static final double kHandoffSpeed = -0.7;
                 public static final double kAmpSpeed = -0.6;
 
                 // TODO: determine range
@@ -440,6 +442,8 @@ public final class Constants {
 
                 public static final double kPulseSpeed = 0.4;
                 public static final double kPulseTime = 80;
+
+                public static final double kHandoffTime = 200;
         }
 
         public static final class LiftConstants {

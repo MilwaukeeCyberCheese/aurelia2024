@@ -15,10 +15,12 @@ public class SetSpinAndAngle extends Command {
      * Set angle of the shooter
      * 
      * @param angle            angle to set the shooter to
-     * @param RPM              RPM to set the shooter to
+     * @param upperRPM         RPM to set the upper shooter to
+     * @param lowerRPM         RPM to set the lower shooter to
      * @param shooterSubsystem
      */
-    public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier upperRPM, DoubleSupplier lowerRPM, ShooterSubsystem shooterSubsystem) {
+    public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier upperRPM, DoubleSupplier lowerRPM,
+            ShooterSubsystem shooterSubsystem) {
         m_angle = angle;
         m_upperRPM = upperRPM;
         m_lowerRPM = lowerRPM;

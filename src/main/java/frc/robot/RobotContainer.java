@@ -163,7 +163,7 @@ public class RobotContainer {
                 {
                         // set intake speeds
                         new Trigger(m_operatorController::getLeftTriggerActive)
-                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kLoadSpeed,
+                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kOuttakeSpeed,
                                                         m_intakeSubsystem));
                         new Trigger(m_operatorController::getRightTriggerActive)
                                         .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,
