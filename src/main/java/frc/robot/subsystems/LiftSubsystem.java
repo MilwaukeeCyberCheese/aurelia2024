@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
 
 public class LiftSubsystem extends SubsystemBase {
-    public double position;
+    public double position = 0.3;
 
     public LiftSubsystem() {
         Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
@@ -28,11 +28,12 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftMotor.getEncoder()
                 .setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactorOnboard);
 
-        Constants.LiftConstants.kLiftMotor.getEncoder()
-                .setPosition((Constants.LiftConstants.kLiftEncoder.getPosition() < 2.5)
-                        ? Constants.LiftConstants.kLiftEncoder.getPosition()
-                        : Constants.LiftConstants.kLiftConversionFactor * -1.0
-                                + Constants.LiftConstants.kLiftEncoder.getPosition());
+        zero();
+        // Constants.LiftConstants.kLiftMotor.getEncoder()
+        //         .setPosition((Constants.LiftConstants.kLiftEncoder.getPosition() < 2.5)
+        //                 ? Constants.LiftConstants.kLiftEncoder.getPosition()
+        //                 : Constants.LiftConstants.kLiftConversionFactor * -1.0
+        //                         + Constants.LiftConstants.kLiftEncoder.getPosition());
     }
 
     public void periodic() {
@@ -76,10 +77,10 @@ public class LiftSubsystem extends SubsystemBase {
      */
     public void zero() {
         Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(0);
-        double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
-                + Constants.LiftConstants.kLiftEncoder.getPosition();
-        position = 0.0;
-        Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
+        // double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
+        //         + Constants.LiftConstants.kLiftEncoder.getPosition();
+        // position = 0.0;
+        // Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
 
     }
 

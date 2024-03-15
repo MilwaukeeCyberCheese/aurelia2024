@@ -464,7 +464,7 @@ public final class Constants {
                 public static final double kLiftTolerance = 0.3;
 
                 // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0.0, 10.5 };
+                public static final double[] kLiftLimits = { 0.0, 11 };
 
                 // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;
@@ -473,8 +473,8 @@ public final class Constants {
                 public static final double kManualModifier = 8.0 / 100.0;
 
                 // TODO: find positions
-                public static final double kLoadPosition = 0;
-                public static final double kAmpPosition = 0;
+                public static final double kLoadPosition = 0.3;
+                public static final double kAmpPosition = 10.8;
         }
 
         public class ClimberConstants {
