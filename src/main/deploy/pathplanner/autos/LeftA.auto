@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.23,
-      "y": 2.0
+      "x": 1.6,
+      "y": 7.4
     },
     "rotation": 0
   },
@@ -14,23 +14,23 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightToShoot"
+            "pathName": "LeftBackToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromRight"
+            "name": "ShootFromLeft"
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightGetFromMiddleFive"
+                  "pathName": "LeftGetA"
                 }
               },
               {
@@ -45,18 +45,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightBackFromFive"
+            "pathName": "LeftBackToShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromRight"
+            "name": "ShootFromLeft"
           }
         }
       ]
     }
   },
-  "folder": "RightAutos",
+  "folder": "LeftAutos",
   "choreoAuto": false
 }

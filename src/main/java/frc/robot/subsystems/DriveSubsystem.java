@@ -195,7 +195,7 @@ public class DriveSubsystem extends SubsystemBase {
     // }
     // }
 
-    // ChassisSpeeds.discretize(adjusted, 20.0 / 1000.0);
+    ChassisSpeeds.discretize(adjusted, 20.0 / 1000.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics

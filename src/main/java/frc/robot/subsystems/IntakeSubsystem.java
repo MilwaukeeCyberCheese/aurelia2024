@@ -82,7 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
                         this.position = position;
                 } else if (
                                 RobotContainer.m_liftSubsystem.getPosition() == Constants.LiftConstants.kLoadPosition
-                                && RobotContainer.m_shooterSubsystem.getPosition() > 115) {
+                                && RobotContainer.m_shooterSubsystem.getPosition() >= 90) {
                         this.position = position;
                 }
         }

@@ -252,9 +252,11 @@ public final class Constants {
 
                 public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
                         {
+                                put("LeftA", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAB", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftABOne", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftABTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOne", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftBOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftShootOnly", new Pose2d(1.11, 7.15, new Rotation2d(Math.toRadians(0.0))));
@@ -267,6 +269,7 @@ public final class Constants {
                                 put("RightFiveFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFourThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightShootAndBack", new Pose2d(0.28, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightShootOnly", new Pose2d(0.28, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
@@ -389,7 +392,7 @@ public final class Constants {
                 public static final double kShootAngle = 110.0;
                 public static final double kLiftSafeAngle = 50.0;
                 public static final double kAmpAngle = 160.0; // TODO: confirm that
-                public static final double kHandoffAngle = 100.0;
+                public static final double kHandoffAngle = 95.0;
 
                 // TODO: find wait time
                 public static final double kShotWaitTime = 400;
@@ -421,7 +424,7 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kIntakePositionController = kIntakePivotMotor.getPIDController();
                 public static final boolean kIntakePositionEncoderInverted = true;
-                public static final double kIntakePivotMaxOuput = 0.3;
+                public static final double kIntakePivotMaxOuput = 0.4;
                 public static final PIDConstants kPIDConstants = new PIDConstants(0.007, 0.0, 0.002, 0.000);
                 public static final double kIntakePositionConversionFactor = 360;
                 public static final double kTolerance = 3;
@@ -447,7 +450,7 @@ public final class Constants {
                 public static final double kPulseSpeed = 0.4;
                 public static final double kPulseTime = 80;
 
-                public static final double kHandoffTime = 200;
+                public static final double kHandoffTime = 300;
         }
 
         public static final class LiftConstants {

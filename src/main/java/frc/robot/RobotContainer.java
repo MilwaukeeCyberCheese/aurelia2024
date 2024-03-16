@@ -17,6 +17,7 @@ import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.LoadAmp;
 import frc.robot.commands.ScoreAmp;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootWhenSpinning;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
@@ -26,6 +27,7 @@ import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLift;
 import frc.robot.commands.ShooterCommands.ManualWristAngle;
 import frc.robot.commands.ShooterCommands.SetSpin;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -96,7 +98,7 @@ public class RobotContainer {
                                 new Shoot(() -> 4000, () -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem,
                                                 m_liftSubsystem));
                 NamedCommands.registerCommand("IntakeThenPulse", new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
-                                                m_shooterSubsystem, m_operatorController::getLeftBumper));
+                                m_shooterSubsystem, m_operatorController::getLeftBumper));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -212,33 +214,33 @@ public class RobotContainer {
 
                         // button eight controls both down
                         new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
-                                        .run(() -> m_climberSubsystem.setSpeeds(-Constants.ClimberConstants.kSlowSpeed,
-                                                        false)));
+                                        .run(() -> m_climberSubsystem.setSpeeds(-Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
                         // button nine controls both up
                         new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed,
-                                                        false)));
+                                                        m_leftJoystick.getButtonThree())));
 
                         // button six moves left up
                         new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem.setLeftSpeed(
-                                                        Constants.ClimberConstants.kSlowSpeed,
+                                                        Constants.ClimberConstants.kFastSpeed,
                                                         m_leftJoystick.getButtonThree())));
                         // button seven moves left down
                         new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem.setLeftSpeed(
-                                                        -Constants.ClimberConstants.kSlowSpeed,
+                                                        -Constants.ClimberConstants.kFastSpeed,
                                                         m_leftJoystick.getButtonThree())));
 
                         // button ten moves right up
                         new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem.setRightSpeed(
-                                                        -Constants.ClimberConstants.kSlowSpeed,
+                                                        -Constants.ClimberConstants.kFastSpeed,
                                                         m_leftJoystick.getButtonThree())));
                         // button eleven moves right down
                         new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem
-                                                        .setRightSpeed(Constants.ClimberConstants.kSlowSpeed,
+                                                        .setRightSpeed(Constants.ClimberConstants.kFastSpeed,
                                                                         m_leftJoystick.getButtonThree())));
                 }
                 // follow and intake note: this is a test
@@ -280,8 +282,10 @@ public class RobotContainer {
                                 .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_rightJoystick::getTriggerActive)
-                                .onTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
-                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                                .onTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
+
+                new Trigger(m_rightJoystick::getTriggerActive).onFalse(
+                                new ShootWhenSpinning(m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 90)
                                 .onTrue(new LoadAmp(m_shooterSubsystem, m_intakeSubsystem));
@@ -291,6 +295,8 @@ public class RobotContainer {
                                 new SetSpin(() -> 5500, m_shooterSubsystem));
                 new Trigger(m_operatorController::getRightStickPressed).onTrue(
                                 new SetWristAngle(() -> Constants.ShooterConstants.kAmpAngle, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBackButton).onTrue(new SetWristAngle(
+                                () -> Constants.ShooterConstants.kIntakeSafeAngle, m_shooterSubsystem));
         }
 
         public Command getAutonomousCommand() {
