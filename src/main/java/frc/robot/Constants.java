@@ -148,7 +148,7 @@ public final class Constants {
 
                 // Calculations required for driving motor conversion factors and feed forward
                 public static final double kDrivingMotorFreeSpeedRps = MotorConstants.kVortexFreeSpeedRpm / 60;
-                public static final double kWheelDiameterMeters = 0.0762;
+                public static final double kWheelDiameterMeters = Units.inchesToMeters(3.025);
                 public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
                 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
                 // teeth on the bevel pinion
@@ -487,7 +487,7 @@ public final class Constants {
 
         public class ClimberConstants {
                 public static final int kLeftCanId = 9;
-                public static final boolean kLeftInverted = true;
+                public static final boolean kLeftInverted = false;
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);

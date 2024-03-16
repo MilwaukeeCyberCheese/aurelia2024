@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4259747224202015,
-        "y": 6.892576626808033
+        "x": 2.7076091812668635,
+        "y": 1.2999028565817468
       },
       "isLocked": false,
       "linkedName": "RightShooting"
@@ -20,8 +20,8 @@
         "y": 4.1
       },
       "prevControl": {
-        "x": 7.380232963033685,
-        "y": 3.9582627524741496
+        "x": 6.548763568283198,
+        "y": 5.000527205048704
       },
       "nextControl": null,
       "isLocked": false,

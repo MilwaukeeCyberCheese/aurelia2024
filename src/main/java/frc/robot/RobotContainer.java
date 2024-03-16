@@ -233,12 +233,12 @@ public class RobotContainer {
                         // button ten moves right up
                         new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem.setRightSpeed(
-                                                        Constants.ClimberConstants.kSlowSpeed,
+                                                        -Constants.ClimberConstants.kSlowSpeed,
                                                         m_leftJoystick.getButtonThree())));
                         // button eleven moves right down
                         new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
                                         .run(() -> m_climberSubsystem
-                                                        .setRightSpeed(-Constants.ClimberConstants.kSlowSpeed,
+                                                        .setRightSpeed(Constants.ClimberConstants.kSlowSpeed,
                                                                         m_leftJoystick.getButtonThree())));
                 }
                 // follow and intake note: this is a test
