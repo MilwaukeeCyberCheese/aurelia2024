@@ -1,12 +1,9 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
-import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.commands.ShooterCommands.SetSpin;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;

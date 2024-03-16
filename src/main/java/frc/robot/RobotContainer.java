@@ -15,10 +15,10 @@ import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
 import frc.robot.commands.LoadAmp;
-import frc.robot.commands.ScoreAmp;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootWhenSpinning;
 import frc.robot.commands.SnapToAndAlign;
+import frc.robot.commands.TuckItIn;
 import frc.robot.commands.WheelsX;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
@@ -259,20 +259,21 @@ public class RobotContainer {
                 // orient to speaker
                 new Trigger(() -> m_rightJoystick.getPovState() == 180)
                                 .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
-                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, m_rightJoystick::getY));
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, m_rightJoystick::getX,
+                                                m_rightJoystick::getY));
 
                 // orient to amp blue
-                new Trigger(() -> m_rightJoystick.getPovState() == 270)
-                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
-                                                () -> 6, () -> 90/*
-                                                                  * TODO:may need 270, and may need to invert joystick
-                                                                  */, m_rightJoystick::getX));
+                // new Trigger(() -> m_rightJoystick.getPovState() == 270)
+                // .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                // () -> 6, () -> 90/*
+                // * TODO:may need 270, and may need to invert joystick
+                // */, m_rightJoystick::getX));
                 // orient to amp red
-                new Trigger(() -> m_rightJoystick.getPovState() == 90)
-                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
-                                                () -> 5, () -> 270/*
-                                                                   * TODO:may need 90, and may need to invert joystick
-                                                                   */, m_rightJoystick::getX));
+                // new Trigger(() -> m_rightJoystick.getPovState() == 90)
+                // .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                // () -> 5, () -> 270/*
+                // * TODO:may need 90, and may need to invert joystick
+                // */, m_rightJoystick::getX));
 
                 new Trigger(() -> m_operatorController.getPovState() == 180)
                                 .whileTrue(new Shoot(() -> 5500, () -> 5500, () -> 90,
@@ -297,6 +298,10 @@ public class RobotContainer {
                                 new SetWristAngle(() -> Constants.ShooterConstants.kAmpAngle, m_shooterSubsystem));
                 new Trigger(m_operatorController::getBackButton).onTrue(new SetWristAngle(
                                 () -> Constants.ShooterConstants.kIntakeSafeAngle, m_shooterSubsystem));
+
+                // tuck everything in for safety
+                new Trigger(m_leftJoystick::getButtonTwo).and(m_leftJoystick::getButtonThree)
+                                .onTrue(new TuckItIn(m_liftSubsystem, m_shooterSubsystem, m_intakeSubsystem));
         }
 
         public Command getAutonomousCommand() {
