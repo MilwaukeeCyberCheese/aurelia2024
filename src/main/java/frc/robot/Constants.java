@@ -229,7 +229,7 @@ public final class Constants {
                                 0.005, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI / 3.0, 0.0, 0.0);
+                                Math.PI / 4.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -257,6 +257,7 @@ public final class Constants {
                                 put("LeftABOne", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftABTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAOne", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOneII", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftATwo", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftBOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));

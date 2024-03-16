@@ -69,6 +69,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
         }
 
+        public double getSpeed() {
+                return speed;
+        }
+
         /**
          * Set the position of the intake
          * 

@@ -14,15 +14,18 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
+import frc.robot.commands.IntakeUntilDone;
 import frc.robot.commands.LoadAmp;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootWhenSpinning;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.TuckItIn;
 import frc.robot.commands.WheelsX;
+import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
 import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
+import frc.robot.commands.IntakeCommands.UpAndPulse;
 import frc.robot.commands.IntakeCommands.Pulse;
 import frc.robot.commands.LiftCommands.ManualLift;
 import frc.robot.commands.ShooterCommands.ManualWristAngle;
@@ -99,6 +102,10 @@ public class RobotContainer {
                                                 m_liftSubsystem));
                 NamedCommands.registerCommand("IntakeThenPulse", new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
                                 m_shooterSubsystem, m_operatorController::getLeftBumper));
+                NamedCommands.registerCommand("IntakeUntilDone",
+                                new IntakeUntilDone(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem));
+                NamedCommands.registerCommand("UpAndPulse",
+                                new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -190,8 +197,8 @@ public class RobotContainer {
 
                 // intake and pulse
                 new Trigger(m_operatorController::getRightBumper)
-                                .whileTrue(new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
-                                                m_shooterSubsystem, m_operatorController::getLeftBumper));
+                                .whileTrue(new IntakeUntilDone(m_intakeSubsystem, m_liftSubsystem,
+                                                m_shooterSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
                                 .whileTrue(new DriveAndOrientToNote(m_driveSubsystem, m_intakeCamera,
@@ -302,6 +309,11 @@ public class RobotContainer {
                 // tuck everything in for safety
                 new Trigger(m_leftJoystick::getButtonTwo).and(m_leftJoystick::getButtonThree)
                                 .onTrue(new TuckItIn(m_liftSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+                new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
+                                .and(() -> m_intakeSubsystem.getPosition() < 50)
+                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem)
+                                                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).andThen());
+
         }
 
         public Command getAutonomousCommand() {

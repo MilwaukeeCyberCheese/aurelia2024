@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "LeftBackToShoot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pulse"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,16 +49,29 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeThenPulse"
+                  "name": "IntakeUntilDone"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "LeftBackFromA"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackFromA"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
           }
         },
         {
@@ -67,16 +93,29 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeThenPulse"
+                  "name": "IntakeUntilDone"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "LeftBackFromTwo"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackFromTwo"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
           }
         },
         {
