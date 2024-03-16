@@ -8,43 +8,54 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7838753909028355,
-        "y": 6.005983000290085
+        "x": 2.86777070144508,
+        "y": 5.5
       },
       "isLocked": false,
       "linkedName": "MiddleShooting"
     },
     {
       "anchor": {
-        "x": 5.27750929808186,
-        "y": 4.449169875032314
+        "x": 4.909246451873787,
+        "y": 4.2978770123018135
       },
       "prevControl": {
-        "x": 4.526003137579336,
-        "y": 5.02034993241455
+        "x": 4.721873067141283,
+        "y": 5.305008955239023
       },
       "nextControl": {
-        "x": 5.882379722584084,
-        "y": 3.9894398795456856
+        "x": 5.048210721535292,
+        "y": 3.5509440628712228
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.976096254634241,
-        "y": 4.096604624951758
+        "x": 8.223413194329954,
+        "y": 4.11050362756931
       },
       "prevControl": {
-        "x": 7.389021370717548,
-        "y": 4.086674713305031
+        "x": 7.636338310413261,
+        "y": 4.100573715922583
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7,
+      "rotationDegrees": -90.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.4,
+      "rotationDegrees": 0.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

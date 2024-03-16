@@ -30,9 +30,34 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MiddleC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeThenPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "MiddleBack"
+            "pathName": "MiddleBackFromC"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromMiddle"
           }
         }
       ]

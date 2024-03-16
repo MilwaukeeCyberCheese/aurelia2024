@@ -258,12 +258,17 @@ public final class Constants {
                                 put("LeftABTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAOne", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftAOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftATwo", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftBOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftShootOnly", new Pose2d(1.11, 7.15, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleB", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBCThree", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBThree", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThree", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThreeAndFour", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThreeAndTwo", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
-                                put("MiddleShootOnly", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleThreeAndC", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFive", new Pose2d(0.23, 2.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("RightFiveFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
