@@ -1,0 +1,62 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.23,
+      "y": 2.0
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightGetFromMiddleFive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeThenPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightBackFromFive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "RightAutos",
+  "choreoAuto": false
+}

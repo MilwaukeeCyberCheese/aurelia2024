@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.11,
-      "y": 1.99
+      "x": 1.1,
+      "y": 2
     },
     "rotation": 0
   },
@@ -18,15 +18,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "RightGetFromMiddleFive"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightBackToShoot"
+            "name": "ShootFromRight"
           }
         },
         {
@@ -36,9 +30,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "RightBackToShoot"
+            "pathName": "RightBackFromFour"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
           }
         }
       ]

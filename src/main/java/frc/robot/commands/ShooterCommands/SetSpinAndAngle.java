@@ -8,18 +8,22 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SetSpinAndAngle extends Command {
     public final ShooterSubsystem m_shooterSubsystem;
     public final DoubleSupplier m_angle;
-    public final DoubleSupplier m_rpm;
+    public final DoubleSupplier m_upperRPM;
+    public final DoubleSupplier m_lowerRPM;
 
     /**
      * Set angle of the shooter
      * 
      * @param angle            angle to set the shooter to
-     * @param RPM              RPM to set the shooter to
+     * @param upperRPM         RPM to set the upper shooter to
+     * @param lowerRPM         RPM to set the lower shooter to
      * @param shooterSubsystem
      */
-    public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier RPM, ShooterSubsystem shooterSubsystem) {
+    public SetSpinAndAngle(DoubleSupplier angle, DoubleSupplier upperRPM, DoubleSupplier lowerRPM,
+            ShooterSubsystem shooterSubsystem) {
         m_angle = angle;
-        m_rpm = RPM;
+        m_upperRPM = upperRPM;
+        m_lowerRPM = lowerRPM;
         m_shooterSubsystem = shooterSubsystem;
         addRequirements(m_shooterSubsystem);
     }
@@ -27,7 +31,7 @@ public class SetSpinAndAngle extends Command {
     @Override
     public void execute() {
         m_shooterSubsystem.setPosition(m_angle.getAsDouble());
-        m_shooterSubsystem.setRPM(m_rpm.getAsDouble());
+        m_shooterSubsystem.setRPM(m_upperRPM.getAsDouble(), m_lowerRPM.getAsDouble());
     }
 
     @Override

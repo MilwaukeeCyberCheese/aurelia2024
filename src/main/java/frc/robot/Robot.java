@@ -8,11 +8,13 @@ import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.IntakeCommands.UpAndPulse;
 import frc.robot.utils.Transpose;
 
 /**
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
    * True if red, false if blue
    */
   public static boolean allianceColor;
+  public static boolean inAuto;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -47,6 +50,9 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // port forwarding for photonvision
+    PortForwarder.add(5800, "photonvision.local", 5800);
 
     // suppress joystick warnings
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -73,6 +79,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     SmartDashboard.putData(CommandScheduler.getInstance());
+    SmartDashboard.putBoolean("SHOOT!", RobotContainer.m_shooterSubsystem.atRPM() && RobotContainer.m_intakeSubsystem.getSpeed() < 0.05);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -83,6 +90,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     allianceColor = DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red));
+    RobotContainer.m_liftSubsystem.run(() -> RobotContainer.m_liftSubsystem.zero());
   }
 
   /**
@@ -91,15 +99,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    inAuto = true;
+
     RobotContainer.m_driveSubsystem.runOnce(() -> RobotContainer.m_driveSubsystem.zeroHeading());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // reset the pose of the robot to the starting pose of the autonomous command
-    System.out.println(m_autonomousCommand.getName() + "da name");
+    System.out.println(m_autonomousCommand.getName() + " da name");
     Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
     RobotContainer.m_driveSubsystem
         .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
-            : new Pose2d(0, 0, new Rotation2d(0))); //TOOD: make sure that flipping pose works
+            : new Pose2d(0, 0, new Rotation2d(0))); // TOOD: make sure that flipping pose works
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null && initialPose != null) {
@@ -115,6 +125,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    inAuto = false;
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -136,6 +148,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    inAuto = false;
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }

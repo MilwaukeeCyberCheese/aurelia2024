@@ -41,11 +41,11 @@ public class DriveCommand extends Command {
         if (slow.getAsBoolean()) {
             m_xSpeed = () -> xSpeed.getAsDouble() * Constants.DriveConstants.kSlowModifier;
             m_ySpeed = () -> ySpeed.getAsDouble() * Constants.DriveConstants.kSlowModifier;
-            m_rotSpeed = () -> rotSpeed.getAsDouble() * Constants.DriveConstants.kSlowModifier;
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * Constants.DriveConstants.kSlowModifier * Constants.DriveConstants.kTurningSpeedModifier;
         } else {
             m_xSpeed = () -> xSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
             m_ySpeed = () -> ySpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
-            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0);
+            m_rotSpeed = () -> rotSpeed.getAsDouble() * MathUtil.clamp(throttle.getAsDouble(), 0.1, 1.0) * Constants.DriveConstants.kTurningSpeedModifier;
         }
 
         m_fieldRelative = fieldRelative;

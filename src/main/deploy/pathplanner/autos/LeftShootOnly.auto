@@ -1,0 +1,56 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.11,
+      "y": 7.15
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftForwardABit"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Back From LeftForwardABit"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "LeftAutos",
+  "choreoAuto": false
+}

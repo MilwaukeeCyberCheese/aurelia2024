@@ -18,6 +18,7 @@ public class SnapToAndAlign extends Command {
     private final IntSupplier m_id;
     private final DoubleSupplier m_angle;
     private final DoubleSupplier m_ySpeed;
+    private final DoubleSupplier m_xSpeed;
     private PIDController m_xController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
             Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
     private PIDController m_thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
@@ -34,12 +35,13 @@ public class SnapToAndAlign extends Command {
      * @param speed           speed to move forwards and backwards (robot relative)
      */
     public SnapToAndAlign(DriveSubsystem driveSubsystem, ShooterCameraSubsystem cameraSubsystem, IntSupplier id,
-            DoubleSupplier angle, DoubleSupplier speed) {
+            DoubleSupplier angle, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         m_driveSubsystem = driveSubsystem;
         m_cameraSubsytem = cameraSubsystem;
         m_id = id;
         m_angle = angle;
-        m_ySpeed = speed;
+        m_xSpeed = ySpeed;
+        m_ySpeed = ySpeed;
         addRequirements(m_cameraSubsytem, m_driveSubsystem);
     }
 
@@ -50,6 +52,7 @@ public class SnapToAndAlign extends Command {
 
         m_thetaController.reset();
         m_thetaController.setSetpoint(Math.toRadians(m_angle.getAsDouble()));
+        m_thetaController.enableContinuousInput(0, Math.PI * 2);
     }
 
     @Override
@@ -63,12 +66,14 @@ public class SnapToAndAlign extends Command {
         // check if target is present
         if (target != null) {
             // set theta based on yaw
-            xOutput = m_xController.calculate(Math.toRadians(target.getYaw() * -1.0));
+            xOutput = m_xController.calculate(target.getYaw());
 
+        } else{
+            xOutput = m_xSpeed.getAsDouble();
         }
 
         thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getYaw()));
-
+        System.out.println("Translation: " + xOutput + "Rotation: " + thetaOutput);
         m_driveSubsystem.driveLimited(new ChassisSpeeds(xOutput, m_ySpeed.getAsDouble(), thetaOutput));
 
     }

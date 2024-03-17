@@ -57,6 +57,7 @@ public class SnapToAndAlignWithRange extends Command {
 
         m_thetaController.reset();
         m_thetaController.setSetpoint(Math.toRadians(m_angle.getAsDouble()));
+        m_thetaController.enableContinuousInput(0, Math.PI * 2);
     }
 
     @Override
@@ -78,15 +79,15 @@ public class SnapToAndAlignWithRange extends Command {
                     Constants.VisionConstants.ShooterCamera.kCameraHeight,
                     Constants.VisionConstants.TagPositions.kTagPositions.get(m_id.getAsInt()).getZ(),
                     Constants.VisionConstants.ShooterCamera.kRobotToCam.getRotation().getY(),
-                    Units.degreesToRadians(target.getPitch()));
+                    Units.degreesToRadians(Math.toRadians(target.getPitch())));
 
             yOutput = m_yController.calculate(range);
         }
 
-        //snap to theta using gyro
+        // snap to theta using gyro
         thetaOutput = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()));
         System.out.println("Range: " + yOutput + "Translation: " + xOutput);
-        m_driveSubsystem.driveLimited(new ChassisSpeeds(-1 * yOutput, xOutput, thetaOutput));
+        m_driveSubsystem.driveLimited(new ChassisSpeeds(-1 * xOutput, yOutput, thetaOutput));
 
     }
 

@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.util.PPLibTelemetry;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,31 +19,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class DriveSubsystem extends SubsystemBase {
-
-  // vision PIDs
-  private PIDController thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
-      Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
-
-  private PIDController xController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
-      Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
-
-  private PIDController yController = new PIDController(Constants.AutoConstants.kTranslationPIDConstants.kP,
-      Constants.AutoConstants.kTranslationPIDConstants.kI, Constants.AutoConstants.kTranslationPIDConstants.kD);
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
   private double m_currentTranslationMag = 0.0;
-
+  private PIDController m_thetaController = new PIDController(Constants.AutoConstants.kThetaPIDConstants.kP,
+      Constants.AutoConstants.kThetaPIDConstants.kI, Constants.AutoConstants.kThetaPIDConstants.kD);
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(Constants.DriveConstants.kMagnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    Constants.Sensors.gyro.setAngleAdjustment(90.0);
+    Constants.Sensors.gyro.setAngleAdjustment(0.0);
 
   }
 
@@ -69,14 +60,15 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    // return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
-    //     Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
-    //     Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation().rotateBy(
-    //         ((Constants.DriveConstants.kGyroReversed) ? new Rotation2d(Math.PI) : new Rotation2d())));
-    return new
-    Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
-    Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
-    Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
+    // return new
+    // Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
+    // Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
+    // Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation().rotateBy(
+    // ((Constants.DriveConstants.kGyroReversed) ? new Rotation2d(Math.PI) : new
+    // Rotation2d())));
+    return new Pose2d(Constants.DriveConstants.m_odometry.getEstimatedPosition().getX(),
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getY(),
+        Constants.DriveConstants.m_odometry.getEstimatedPosition().getRotation());
   }
 
   /**
@@ -165,22 +157,16 @@ public class DriveSubsystem extends SubsystemBase {
     rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
         * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
-    // Convert the commanded speeds into the correct units for the drivetrain
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                Rotation2d
-                    .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    drive(fieldRelative
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+            Rotation2d
+                .fromDegrees(Constants.Sensors.gyro.getAngle() * (Constants.DriveConstants.kGyroReversed ? -1 : 1)))
+        : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
   }
+
+  // private double currentAngle;
+  // private boolean turningCorrect = false;
 
   /**
    * Method to drive the robot relative to itself without limiters, etc.
@@ -189,13 +175,31 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(ChassisSpeeds chassisSpeeds) {
 
-    // double temp = -1.0 * chassisSpeeds.vxMetersPerSecond;
-    // chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vyMetersPerSecond;
-    // chassisSpeeds.vyMetersPerSecond = temp;
+    // correct for pathplanner necessitated rotation
+    ChassisSpeeds adjusted = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
+        chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond,
+        Rotation2d.fromDegrees((Robot.inAuto) ? 0.0 : 90.0));
+
+    // //correction for rotational slew
+    // if (!Robot.inAuto) {
+    // if (!turningCorrect) {
+    //   currentAngle = Math.toRadians(Constants.Sensors.gyro.getAngle());
+    // }
+
+    // if (Math.abs(adjusted.omegaRadiansPerSecond) < 0.01) {
+    //   turningCorrect = true;
+    //   adjusted.omegaRadiansPerSecond = m_thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()),
+    //       currentAngle);
+    // } else {
+    //   turningCorrect = false;
+    // }
+    // }
+
+    ChassisSpeeds.discretize(adjusted, 20.0 / 1000.0);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     var swerveModuleStates = Constants.DriveConstants.kDriveKinematics
-        .toSwerveModuleStates(chassisSpeeds);
+        .toSwerveModuleStates(adjusted);
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
 
@@ -268,15 +272,8 @@ public class DriveSubsystem extends SubsystemBase {
     rotDelivered = m_currentRotation * Constants.DriveConstants.kMaxAngularSpeed
         * ((Constants.DriveConstants.kRotInverted) ? -1.0 : 1.0);
 
-    // Convert the commanded speeds into the correct units for the drivetrain
-    var swerveModuleStates = Constants.DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, Constants.DriveConstants.kMaxSpeedMetersPerSecond);
-    Constants.ModuleConstants.m_backLeft.setDesiredState(swerveModuleStates[0]);
-    Constants.ModuleConstants.m_frontLeft.setDesiredState(swerveModuleStates[1]);
-    Constants.ModuleConstants.m_backRight.setDesiredState(swerveModuleStates[2]);
-    Constants.ModuleConstants.m_frontRight.setDesiredState(swerveModuleStates[3]);
+    drive(new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+
   }
 
   /**
@@ -315,18 +312,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
+    // currentAngle = 0;
     Constants.Sensors.gyro.reset();
   }
 
   public void log() {
     PPLibTelemetry.setCurrentPose(getPose());
 
-    SwerveModuleState[] states = getModuleStates();
     SmartDashboard.putNumber("Gyro", Constants.Sensors.gyro.getAngle());
-    // SmartDashboard.putNumber("FrontLeft", states[0].angle.getDegrees());
-    // SmartDashboard.putNumber("FrontRight", states[1].angle.getDegrees());
-    // SmartDashboard.putNumber("BackLeft", states[2].angle.getDegrees());
-    // SmartDashboard.putNumber("BackRight", states[3].angle.getDegrees());
   }
 
   /**

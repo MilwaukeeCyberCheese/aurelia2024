@@ -1,0 +1,132 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.6,
+      "y": 7.4
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftGetA"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackFromA"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftGoToTwo"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftBackFromTwo"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "LeftAutos",
+  "choreoAuto": false
+}

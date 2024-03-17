@@ -23,7 +23,7 @@ public class SetLiftPosition extends Command {
 
     @Override
     public void execute(){
-        m_liftSubsystem.setPosition(m_position.getAsDouble());
+        m_liftSubsystem.setPosition(m_position.getAsDouble(), false);
     }
 
     @Override

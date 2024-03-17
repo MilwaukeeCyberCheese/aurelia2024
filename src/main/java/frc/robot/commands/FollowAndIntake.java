@@ -24,6 +24,6 @@ public class FollowAndIntake extends SequentialCommandGroup {
             ShooterSubsystem shooterSubsystem) {
         addCommands(
                 Commands.race(new FollowNote(driveSubsystem, intakeCameraSubsystem, () -> -1.0),
-                        new IntakeThenPulse(intakeSubsystem, liftSubsystem, shooterSubsystem)));
+                        new IntakeThenPulse(intakeSubsystem, liftSubsystem, shooterSubsystem, () -> false)));
     }
 }

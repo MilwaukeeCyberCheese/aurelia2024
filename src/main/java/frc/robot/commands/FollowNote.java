@@ -60,7 +60,7 @@ public class FollowNote extends Command {
             target = m_cameraSubsytem.getTarget();
             if (target != null) {
                 // set theta based on yaw
-                goalYaw = Math.toRadians(-1 * target.getYaw() + Constants.Sensors.gyro.getAngle());
+                goalYaw = Math.toRadians(target.getYaw() + Constants.Sensors.gyro.getAngle());
                 range = PhotonUtils.calculateDistanceToTargetMeters(
                         Constants.VisionConstants.IntakeCamera.kCameraHeight,
                         Constants.VisionConstants.Note.kHeight,
@@ -75,11 +75,12 @@ public class FollowNote extends Command {
             thetaOutput = thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()), goalYaw);
 
             // set y based on range
+            double time = range / Constants.DriveConstants.kMaxSpeedMetersPerSecond / 2;
             yOutput = yController.calculate(range);
         }
         SmartDashboard.putNumber("Range to Note", yOutput);
 
-        m_driveSubsystem.drive(new ChassisSpeeds(-2 * yOutput, 0.0, thetaOutput));
+        m_driveSubsystem.drive(new ChassisSpeeds(0.0, -1 * yOutput, thetaOutput));
 
     }
 

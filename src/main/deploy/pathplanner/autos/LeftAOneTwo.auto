@@ -1,0 +1,97 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3,
+      "y": 7.0
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftForwardABit"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftGoToOne"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackFromOne"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftGoToTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackFromTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "LeftAutos",
+  "choreoAuto": false
+}

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.33,
-      "y": 5.53
+      "x": 1.1,
+      "y": 4.1
     },
     "rotation": 0
   },
@@ -12,18 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "ShootFromMiddle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FollowAndIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "MiddleBackToShoot"
@@ -38,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleGetNote"
+            "pathName": "MiddleGoToThree"
           }
         },
         {
@@ -50,13 +38,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleBackToShoot"
+            "pathName": "MiddleBackFromThree"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootFromMiddle"
+            "name": "ShootFromRight"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleGoToTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackFromTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
           }
         }
       ]
