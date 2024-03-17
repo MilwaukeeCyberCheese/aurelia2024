@@ -81,7 +81,7 @@ public class DriveAndOrientToNote extends Command {
 
         m_driveSubsystem.drive(m_xSpeed.getAsDouble(), m_ySpeed.getAsDouble(), thetaOutput,
                 m_fieldRelative.getAsBoolean(),
-                m_rateLimit.getAsBoolean()); //TODO: may need to be inverted
+                m_rateLimit.getAsBoolean());
         counter++;
 
     }

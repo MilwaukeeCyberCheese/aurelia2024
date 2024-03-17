@@ -19,7 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
         public IntakeSubsystem() {
                 // reset sparkmax
                 Constants.IntakeConstants.kIntakePivotMotor.restoreFactoryDefaults();
-                // TODO: determine whether to invert the intake motor
+                
                 Constants.IntakeConstants.kIntakePivotMotor.setInverted(Constants.IntakeConstants.kIntakePivotInverted);
                 Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
                 Constants.IntakeConstants.kIntakeMotor.setControlFramePeriodMs(0);

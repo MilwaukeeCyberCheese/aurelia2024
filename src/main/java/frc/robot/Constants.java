@@ -57,7 +57,7 @@ public final class Constants {
                  */
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
-                // TODO: Limit switch for intake
+                // Limit switch for intake
                 public static final DigitalInput intakeLimitSwitch = new DigitalInput(0);
 
                 // public static final ColorSensorV3 shooterColorSensor = new
@@ -306,8 +306,7 @@ public final class Constants {
 
                 public static final class ShooterCamera {
                         public static final PhotonCamera kCamera = new PhotonCamera("ShooterCamera");
-                        public static final double kCameraHeight = Units.inchesToMeters(11); // TODO: find this, very
-                                                                                             // important
+                        public static final double kCameraHeight = Units.inchesToMeters(11);
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
                                         new Rotation3d(0, 45, 0));
 
@@ -385,30 +384,27 @@ public final class Constants {
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
                 public static final double kWristConversionFactor = 360.0;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.0, 0.0); // TODO:
-                                                                                                              // retune
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.0, 0.0);
                 public static final double kWristMaxOutput = 0.15;
-                public static final double kWristTolerance = 3.0; // TODO: find tolerance
+                public static final double kWristTolerance = 3.0;
 
-                public static final double[] kWristLimits = { 50.0, 170.0 }; // TODO: set limits
+                public static final double[] kWristLimits = { 50.0, 170.0 };
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
                 // angles
                 public static final double kIntakeSafeAngle = 130.0;
                 public static final double kShootAngle = 110.0;
                 public static final double kLiftSafeAngle = 50.0;
-                public static final double kAmpAngle = 160.0; // TODO: confirm that
+                public static final double kAmpAngle = 160.0;
                 public static final double kHandoffAngle = 95.0;
 
-                // TODO: find wait time
+               
                 public static final double kShotWaitTime = 400;
-                public static final double kAmpWaitTime = 1500;
+                public static final double kAmpWaitTime = 1500; // TODO: find wait time
 
                 public static final double kMaxRPM = MotorConstants.kNeoFreeSpeedRpm * kShooterConversionFactor;
-                public static final double kAmpRPM = 5000;// TODO: find amp RPM
-                public static final double kLoadRPM = 300;// TODO: find load RPM
-
-                public static final double kRedNoteDetectionThreshold = 200; // TODO: determine threshold
+                public static final double kAmpRPM = 5000;
+                public static final double kLoadRPM = 300;
 
                 public static final double kManualModifier = 1.0 / 3.0;
         }
@@ -435,23 +431,22 @@ public final class Constants {
                 public static final double kIntakePositionConversionFactor = 360;
                 public static final double kTolerance = 3;
 
-                // TODO: determine positions
+            
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
                 public static final double kIntakeAmpPosition = 130;
                 public static final double kIntakeOutPosition = 20;
 
-                // TODO: determine limits
+                
                 public static final double[] kIntakePositionLimits = { 9, 220 };
 
-                // TODO: determine speeds
+        
                 public static final double kIntakeSpeed = 0.7;
                 public static final double kOuttakeSpeed = -1.0;
                 public static final double kHandoffSpeed = -0.7;
                 public static final double kAmpSpeed = -0.6;
 
-                // TODO: determine range
-                public static final double kDeployRange = 2;
+              
 
                 public static final double kPulseSpeed = 0.4;
                 public static final double kPulseTime = 80;
@@ -471,25 +466,24 @@ public final class Constants {
                 public static final boolean kInverted = false;
 
                 // conversion factor in inches
-                // TODO: probably done, check math
+                // TODO: conversion is incorrect, but we're running with it
                 public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (27.0 / 24.0) /
                 /* circumference of gear */(Math.PI * 1.757) * 16;
 
                 public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
 
-                // TODO: find tolerance
                 public static final double kLiftTolerance = 0.3;
 
-                // TODO: set lift limits
+         
                 public static final double[] kLiftLimits = { 0.0, 11.2 };
 
-                // TODO: find clear of obstructions value
+            
                 public static final double kClearOfObstructions = 3;
 
-                // TODO: find manual modifier
+            
                 public static final double kManualModifier = 8.0 / 100.0;
 
-                // TODO: find positions
+           
                 public static final double kLoadPosition = 0.3;
                 public static final double kAmpPosition = 11.2;
         }

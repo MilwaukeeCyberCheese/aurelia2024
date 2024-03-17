@@ -218,8 +218,6 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered;
     double rotDelivered;
 
-    // TODO: may need to invert some speeds
-
     double ySpeed = chassisSpeeds.vyMetersPerSecond;
     double xSpeed = chassisSpeeds.vxMetersPerSecond;
     double rot = chassisSpeeds.omegaRadiansPerSecond;

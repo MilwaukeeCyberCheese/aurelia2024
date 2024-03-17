@@ -59,7 +59,7 @@ public class SnapToAndAlign extends Command {
     public void execute() {
         double xOutput = 0;
         double thetaOutput = 0;
-        // TODO: like everything here needs a revamp, maybe use PPLib?
+        
 
         PhotonTrackedTarget target = m_cameraSubsytem.getAprilTag(m_id.getAsInt());
 

@@ -65,7 +65,7 @@ public class SnapToAndAlignWithRange extends Command {
         double xOutput = 0;
         double yOutput = 0;
         double thetaOutput = 0;
-        // TODO: like everything here needs a revamp, maybe use PPLib?
+        // TODO: figure out how range works and make it accurate
 
         PhotonTrackedTarget target = m_cameraSubsytem.getAprilTag(m_id.getAsInt());
 

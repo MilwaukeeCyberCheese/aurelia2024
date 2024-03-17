@@ -110,13 +110,13 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 // set default command for drive
-                // TODO: inversion may be needed
+               
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
                                 m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
                                 () -> !m_buttons.getTopSwitch(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
-                                m_rightJoystick::getThrottle)); // TODO: determine what inversion is needed
+                                m_rightJoystick::getThrottle));
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
