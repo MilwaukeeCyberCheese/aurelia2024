@@ -294,6 +294,8 @@ public class RobotContainer {
                                 .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_rightJoystick::getTriggerActive)
+                                .and(() -> CommandScheduler.getInstance().requiring(
+                                                m_shooterSubsystem) == m_shooterSubsystem.getDefaultCommand())
                                 .whileTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
 
                 new Trigger(m_rightJoystick::getTriggerActive).onFalse(
