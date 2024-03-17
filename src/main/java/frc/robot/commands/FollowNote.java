@@ -75,7 +75,7 @@ public class FollowNote extends Command {
             thetaOutput = thetaController.calculate(Math.toRadians(Constants.Sensors.gyro.getAngle()), goalYaw);
 
             // set y based on range
-            double time = range / Constants.DriveConstants.kMaxSpeedMetersPerSecond / 2;
+         
             yOutput = yController.calculate(range);
         }
         SmartDashboard.putNumber("Range to Note", yOutput);
