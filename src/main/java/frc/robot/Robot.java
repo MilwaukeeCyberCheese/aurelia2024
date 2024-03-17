@@ -11,10 +11,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCommands.UpAndPulse;
 import frc.robot.utils.Transpose;
 
 /**
@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  public final static SendableChooser<Boolean> m_autoSpin = new SendableChooser<>();
 
   /**
    * True if red, false if blue
@@ -54,8 +56,13 @@ public class Robot extends TimedRobot {
     // port forwarding for photonvision
     PortForwarder.add(5800, "photonvision.local", 5800);
 
+    SmartDashboard.putBoolean("SHOOT!", false);
+
     // suppress joystick warnings
     DriverStation.silenceJoystickConnectionWarning(true);
+    m_autoSpin.setDefaultOption("Pre-Spin", true);
+    m_autoSpin.addOption("Don't Pre-Spin", false);
+    SmartDashboard.putData("Auto Spin", m_autoSpin);
   }
 
   /**
