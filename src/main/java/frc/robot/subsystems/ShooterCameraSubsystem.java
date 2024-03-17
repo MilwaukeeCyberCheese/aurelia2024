@@ -36,7 +36,7 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      * 
      * @param mode
      */
-    public static void setDriverMode(boolean mode) {
+    public void setDriverMode(boolean mode) {
         Constants.VisionConstants.ShooterCamera.kCamera.setDriverMode(mode);
     }
 

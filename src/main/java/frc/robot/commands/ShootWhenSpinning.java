@@ -31,7 +31,7 @@ public class ShootWhenSpinning extends SequentialCommandGroup {
                                 new SetSpin(() -> 0, shooterSubsystem), new Command() {
                                         @Override
                                         public void execute() {
-                                                SmartDashboard.putBoolean("Shoot", false);
+                                                SmartDashboard.putBoolean("Shoot!", false);
                                         }
                                 });
         }

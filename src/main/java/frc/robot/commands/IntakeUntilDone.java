@@ -6,6 +6,7 @@ import frc.robot.Constants;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
 import frc.robot.commands.LiftCommands.SetLiftPosition;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -25,8 +26,8 @@ public class IntakeUntilDone extends SequentialCommandGroup {
                                 Commands.parallel(
                                                 new SetLiftPosition(() -> Constants.LiftConstants.kLoadPosition,
                                                                 liftSubsystem),
-                                                new SetWristAngle(
-                                                                () -> Constants.ShooterConstants.kIntakeSafeAngle,
+                                                new SetSpinAndAngle(
+                                                                () -> Constants.ShooterConstants.kIntakeSafeAngle, () -> 0, () -> 0,
                                                                 shooterSubsystem),
                                                 new SetIntakePosition(
                                                                 () -> Constants.IntakeConstants.kIntakeOutPosition,

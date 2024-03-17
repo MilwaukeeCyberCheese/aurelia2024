@@ -97,6 +97,9 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     allianceColor = DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red));
     RobotContainer.m_liftSubsystem.run(() -> RobotContainer.m_liftSubsystem.zero());
+
+    // RobotContainer.m_intakeCamera.setDriverMode(true);
+    // RobotContainer.m_shooterCamera.setDriverMode(true);
   }
 
   /**

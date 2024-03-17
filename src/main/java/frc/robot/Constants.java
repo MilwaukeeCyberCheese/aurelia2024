@@ -262,23 +262,18 @@ public final class Constants {
                                 put("LeftATwo", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftBOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
                                 put("LeftShootOnly", new Pose2d(1.11, 7.15, new Rotation2d(Math.toRadians(0.0))));
-                                put("MiddleB", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleABC", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleB", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleBC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
-                                put("MiddleBCThree", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBCThree", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleBThree", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThree", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThreeAndFour", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleGetThreeAndTwo", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
                                 put("MiddleThreeAndC", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFive", new Pose2d(0.23, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFiveFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFour", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightFourThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightShootAndBack", new Pose2d(0.28, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightShootOnly", new Pose2d(0.28, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("RightThree", new Pose2d(1.1, 2.0, new Rotation2d(Math.toRadians(0.0))));
-                                put("TestAuto", new Pose2d(0.3, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightCFive", new Pose2d(0.32, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightOut", new Pose2d(0.32, 2.0, new Rotation2d(Math.toRadians(0.0))));
                         }
                 };
         }
@@ -398,7 +393,6 @@ public final class Constants {
                 public static final double kAmpAngle = 160.0;
                 public static final double kHandoffAngle = 95.0;
 
-               
                 public static final double kShotWaitTime = 400;
                 public static final double kAmpWaitTime = 1500; // TODO: find wait time
 
@@ -431,22 +425,17 @@ public final class Constants {
                 public static final double kIntakePositionConversionFactor = 360;
                 public static final double kTolerance = 3;
 
-            
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
                 public static final double kIntakeAmpPosition = 130;
                 public static final double kIntakeOutPosition = 20;
 
-                
                 public static final double[] kIntakePositionLimits = { 9, 220 };
 
-        
                 public static final double kIntakeSpeed = 0.7;
                 public static final double kOuttakeSpeed = -1.0;
                 public static final double kHandoffSpeed = -0.7;
                 public static final double kAmpSpeed = -0.6;
-
-              
 
                 public static final double kPulseSpeed = 0.4;
                 public static final double kPulseTime = 80;
@@ -474,16 +463,12 @@ public final class Constants {
 
                 public static final double kLiftTolerance = 0.3;
 
-         
                 public static final double[] kLiftLimits = { 0.0, 11.2 };
 
-            
                 public static final double kClearOfObstructions = 3;
 
-            
                 public static final double kManualModifier = 8.0 / 100.0;
 
-           
                 public static final double kLoadPosition = 0.3;
                 public static final double kAmpPosition = 11.2;
         }

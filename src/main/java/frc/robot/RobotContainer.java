@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.BooleanBoxTimer;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
@@ -43,6 +44,8 @@ import frc.robot.utils.FilteredButton;
 import frc.robot.utils.FilteredController;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -62,8 +65,8 @@ public class RobotContainer {
         public final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         public final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
         private final static ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-        private final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
-        private final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
+        public final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
+        public final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
 
         // initialize the controllers
         // the one on the left
@@ -84,6 +87,7 @@ public class RobotContainer {
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+                // set photonvision cameras to active
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("FollowAndIntake",
@@ -110,11 +114,11 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 // set default command for drive
-               
+
                 m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
                                 m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                () -> !m_buttons.getTopSwitch(),
+                                () -> !m_rightJoystick.getButtonTwo(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
@@ -290,10 +294,11 @@ public class RobotContainer {
                                 .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
                                                 m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
                 new Trigger(m_rightJoystick::getTriggerActive)
-                                .onTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
+                                .whileTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
 
-                new Trigger(m_rightJoystick::getTriggerActive).debounce(0.5, DebounceType.kBoth).onFalse(
-                                new ShootWhenSpinning(m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(m_rightJoystick::getTriggerActive).onFalse(
+                                new ShootWhenSpinning(m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem)
+                                                .onlyIf(() -> m_shooterSubsystem.getAverageRPM() > 3000));
 
                 new Trigger(() -> m_operatorController.getPovState() == 90)
                                 .onTrue(new LoadAmp(m_shooterSubsystem, m_intakeSubsystem));
@@ -309,11 +314,18 @@ public class RobotContainer {
                 // tuck everything in for safety
                 new Trigger(m_leftJoystick::getButtonTwo).and(m_leftJoystick::getButtonThree)
                                 .onTrue(new TuckItIn(m_liftSubsystem, m_shooterSubsystem, m_intakeSubsystem));
-                                
+
                 new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
                                 .and(() -> m_intakeSubsystem.getPosition() < 50)
-                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem, () -> 2000)
+                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem,
+                                                () -> 2000)
                                                 .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
+                new Trigger(m_operatorController::getLeftBumper).onTrue(new Command() {
+                        @Override
+                        public void initialize() {
+                                CommandScheduler.getInstance().cancelAll();
+                        }
+                });
 
         }
 
