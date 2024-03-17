@@ -312,7 +312,7 @@ public class RobotContainer {
                 new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
                                 .and(() -> m_intakeSubsystem.getPosition() < 50)
                                 .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem)
-                                                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming).andThen());
+                                                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
 
         }
 

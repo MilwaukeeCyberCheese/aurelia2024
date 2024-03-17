@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.LiftCommands.SetLiftPosition;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
 import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -32,6 +33,7 @@ public class UpAndPulse extends SequentialCommandGroup {
                                                                 shooterSubsystem)),
 
                                 new SetWristAngle(() -> Constants.ShooterConstants.kShootAngle, shooterSubsystem),
-                                new Pulse(intakeSubsystem));
+                                new Pulse(intakeSubsystem),
+                                new SetSpinAndAngle(() -> 70, () -> 2000, () -> 2000, shooterSubsystem));
         }
 }
