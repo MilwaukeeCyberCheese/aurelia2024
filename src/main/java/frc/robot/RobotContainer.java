@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +22,6 @@ import frc.robot.commands.ShootWhenSpinning;
 import frc.robot.commands.SnapToAndAlign;
 import frc.robot.commands.TuckItIn;
 import frc.robot.commands.WheelsX;
-import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.IntakeThenPulse;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
 import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
@@ -292,7 +292,7 @@ public class RobotContainer {
                 new Trigger(m_rightJoystick::getTriggerActive)
                                 .onTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
 
-                new Trigger(m_rightJoystick::getTriggerActive).onFalse(
+                new Trigger(m_rightJoystick::getTriggerActive).debounce(0.5, DebounceType.kBoth).onFalse(
                                 new ShootWhenSpinning(m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
 
                 new Trigger(() -> m_operatorController.getPovState() == 90)
@@ -309,6 +309,7 @@ public class RobotContainer {
                 // tuck everything in for safety
                 new Trigger(m_leftJoystick::getButtonTwo).and(m_leftJoystick::getButtonThree)
                                 .onTrue(new TuckItIn(m_liftSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+                                
                 new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
                                 .and(() -> m_intakeSubsystem.getPosition() < 50)
                                 .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem)
