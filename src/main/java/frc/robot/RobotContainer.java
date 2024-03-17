@@ -105,7 +105,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("IntakeUntilDone",
                                 new IntakeUntilDone(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem));
                 NamedCommands.registerCommand("UpAndPulse",
-                                new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem));
+                                new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem, () -> 4000));
                 // Configure the button bindings
                 configureButtonBindings();
 
@@ -312,7 +312,7 @@ public class RobotContainer {
                                 
                 new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
                                 .and(() -> m_intakeSubsystem.getPosition() < 50)
-                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem)
+                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem, () -> 2000)
                                                 .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
 
         }

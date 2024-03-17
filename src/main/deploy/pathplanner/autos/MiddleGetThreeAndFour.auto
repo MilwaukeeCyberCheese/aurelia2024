@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightGetFromMiddleFour"
+            "pathName": "RightGetFour"
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "MiddleAutos",
+  "folder": null,
   "choreoAuto": false
 }

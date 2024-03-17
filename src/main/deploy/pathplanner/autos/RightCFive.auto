@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.6,
-      "y": 7.4
+      "x": 0.32,
+      "y": 2
     },
     "rotation": 0
   },
@@ -18,7 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftBackToShoot"
+                  "pathName": "RightToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
                 }
               }
             ]
@@ -27,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
+            "name": "ShootFromRight"
           }
         },
         {
@@ -43,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftGetA"
+                  "pathName": "RightGetC"
                 }
               }
             ]
@@ -54,15 +60,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "LeftBackFromA"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "UpAndPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightBackFromC"
                 }
               }
             ]
@@ -71,11 +77,11 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
+            "name": "ShootFromRight"
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -87,7 +93,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftGoToOne"
+                  "pathName": "RightGetFive"
                 }
               }
             ]
@@ -98,15 +104,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "LeftBackFromOne"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "UpAndPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightBackFromFive"
                 }
               }
             ]
@@ -115,7 +121,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootFromLeft"
+            "name": "ShootFromRight"
           }
         }
       ]

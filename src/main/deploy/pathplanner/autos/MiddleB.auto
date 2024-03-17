@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
+      "x": 1.25,
       "y": 5.5
     },
     "rotation": 0
@@ -30,19 +30,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "MiddleB"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeThenPulse"
                 }
               }
             ]
@@ -53,10 +53,16 @@
           "data": {
             "pathName": "MiddleBackFromB"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": []
+          }
         }
       ]
     }
   },
-  "folder": "MiddleAutos",
+  "folder": null,
   "choreoAuto": false
 }

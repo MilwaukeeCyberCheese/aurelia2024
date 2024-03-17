@@ -10,6 +10,7 @@ import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import java.util.function.DoubleSupplier;
 
 public class UpAndPulse extends SequentialCommandGroup {
         /**
@@ -18,9 +19,10 @@ public class UpAndPulse extends SequentialCommandGroup {
          * @param intakeSubsystem
          * @param liftSubsystem
          * @param shooterSubsystem
+         * @param spinUpSpeed
          */
         public UpAndPulse(IntakeSubsystem intakeSubsystem, LiftSubsystem liftSubsystem,
-                        ShooterSubsystem shooterSubsystem) {
+                        ShooterSubsystem shooterSubsystem, DoubleSupplier spinUpSpeed) {
                 addCommands(
 
                                 Commands.parallel(
@@ -35,6 +37,6 @@ public class UpAndPulse extends SequentialCommandGroup {
 
                                 new SetWristAngle(() -> Constants.ShooterConstants.kShootAngle, shooterSubsystem),
                                 new Pulse(intakeSubsystem),
-                                new SetSpinAndAngle(() -> 70, () -> 2000, () -> 2000, shooterSubsystem).onlyIf(Robot.m_autoSpin::getSelected));
+                                new SetSpinAndAngle(() -> 70, spinUpSpeed, spinUpSpeed, shooterSubsystem).onlyIf(() -> Robot.m_autoSpin.getSelected() || Robot.inAuto));
         }
 }

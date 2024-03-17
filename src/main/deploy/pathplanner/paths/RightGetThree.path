@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.0,
-        "y": 4.25
+        "y": 4.3
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.3076091812668635,
-        "y": 1.5499028565817468
+        "y": 1.5999028565817466
       },
       "isLocked": false,
       "linkedName": "RightShooting"

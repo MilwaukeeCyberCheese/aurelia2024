@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
+      "x": 1.25,
       "y": 5.5
     },
     "rotation": 0
@@ -14,44 +14,45 @@
         {
           "type": "named",
           "data": {
-            "name": "Pulse"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ShootFromMiddle"
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "MiddleB"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeThenPulse"
-                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "MiddleBackFromB"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MiddleBackFromB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
           }
         },
         {
@@ -61,34 +62,22 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "MiddleC"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeThenPulse"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleBackFromC"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootFromMiddle"
           }
         },
         {
@@ -96,24 +85,18 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "MiddleGoToThree"
+                  "name": "UpAndPulse"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "IntakeThenPulse"
+                  "pathName": "MiddleBackFromC"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleBackFromThree"
           }
         },
         {
@@ -121,10 +104,48 @@
           "data": {
             "name": "ShootFromMiddle"
           }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeThenPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MiddleGoToThree"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "MiddleBackFromThree"
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
-  "folder": "MiddleAutos",
+  "folder": null,
   "choreoAuto": false
 }

@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightGetFromMiddleThree"
+            "pathName": "RightGetThree"
           }
         },
         {
@@ -68,6 +68,6 @@
       ]
     }
   },
-  "folder": "MiddleAutos",
+  "folder": null,
   "choreoAuto": false
 }
