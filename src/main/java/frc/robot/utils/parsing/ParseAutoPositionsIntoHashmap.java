@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ParseAutoPositions {
+public class ParseAutoPositionsIntoHashmap {
 
     public static void main(String args[]) {
         List<String> notFound = new LinkedList<>();

@@ -4,18 +4,23 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.Transpose;
+import frc.robot.utils.parsing.ParseAutoStartIntoPose2d;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -112,15 +117,28 @@ public class Robot extends TimedRobot {
 
     // reset the pose of the robot to the starting pose of the autonomous command
     System.out.println(m_autonomousCommand.getName() + " da name");
-    Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
-    RobotContainer.m_driveSubsystem
-        .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
-            : new Pose2d(0, 0, new Rotation2d(0))); // TOOD: make sure that flipping pose works
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null && initialPose != null) {
-      m_autonomousCommand.schedule();
+    // get the path of the auto command being run
+    Path autoPath = Path.of(
+        Filesystem.getDeployDirectory().toString() + "/pathplanner/autos/" + m_autonomousCommand.getName() + ".auto");
+
+    // reset the pose based on the starting position in the auto file
+    try {
+      Pose2d initialPose = ParseAutoStartIntoPose2d.parseJson(autoPath);
+      RobotContainer.m_driveSubsystem
+          .resetOdometry((allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose);
+
+      // schedule the autonomous command
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+      }
+
+    } catch (IOException e) {
+      // if the inital pose doesn't exist, reset the pose to the origin
+      RobotContainer.m_driveSubsystem
+          .resetOdometry(new Pose2d(0, 0, new Rotation2d(0)));
     }
+
   }
 
   /** This function is called periodically during autonomous. */
