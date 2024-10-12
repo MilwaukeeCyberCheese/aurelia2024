@@ -7,7 +7,6 @@ import frc.robot.commands.IntakeCommands.IntakeCommand;
 import frc.robot.commands.IntakeCommands.SetIntakePosition;
 import frc.robot.commands.LiftCommands.SetLiftPosition;
 import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
-import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;

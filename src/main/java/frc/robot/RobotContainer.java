@@ -7,12 +7,10 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.BooleanBoxTimer;
 import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
@@ -45,7 +43,6 @@ import frc.robot.utils.FilteredController;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
