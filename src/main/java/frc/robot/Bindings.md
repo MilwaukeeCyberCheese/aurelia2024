@@ -32,6 +32,7 @@
 - Y Axis: robot y-axis control
 - Throttle: speed of driving
 - Button Two: slow mode for driving
+- Button Three: drive and intake note full auto
 - Button Five: zero gyro
 - Button Seven: set wheels to X
 - POV Hat Down: snap to speaker

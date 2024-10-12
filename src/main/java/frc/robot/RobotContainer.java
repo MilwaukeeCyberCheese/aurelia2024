@@ -270,6 +270,10 @@ public class RobotContainer {
                                                 () -> (Robot.allianceColor) ? 4 : 7, () -> 0, m_rightJoystick::getX,
                                                 m_rightJoystick::getY));
 
+                // follow note automatically
+                new Trigger(m_rightJoystick::getButtonThree).whileTrue(new FollowAndIntake(m_intakeSubsystem,
+                                m_driveSubsystem, m_intakeCamera, m_liftSubsystem, m_shooterSubsystem));
+
                 // orient to amp blue
                 // new Trigger(() -> m_rightJoystick.getPovState() == 270)
                 // .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
