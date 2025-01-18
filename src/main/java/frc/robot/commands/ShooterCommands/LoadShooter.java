@@ -11,26 +11,26 @@ import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class LoadShooter extends SequentialCommandGroup {
-        /**
-         * Command to load the note into the shooter from the intake
-         * 
-         * @param shooterSubsystem
-         * @param liftSubsystem
-         * @param intakeSubsystem
-         */
-        public LoadShooter(ShooterSubsystem shooterSubsystem, LiftSubsystem liftSubsystem,
-                        IntakeSubsystem intakeSubsystem) {
-                addCommands(
-                                Commands.parallel(
-                                                new LiftPositionCommand(() -> Constants.LiftConstants.kLoadPosition,
-                                                                liftSubsystem),
-                                                new IntakePositionCommand(
-                                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
-                                                                intakeSubsystem),
-                                                new SetWristAngleCommand(() -> Constants.ShooterConstants.kLoadAngle,
-                                                                shooterSubsystem)),
-                                Commands.race(
-                                                new LoadCommand(intakeSubsystem),
-                                                new LoadShooterCommand(shooterSubsystem)));
-        }
+    /**
+     * Command to load the note into the shooter from the intake
+     * 
+     * @param shooterSubsystem
+     * @param liftSubsystem
+     * @param intakeSubsystem
+     */
+    public LoadShooter(ShooterSubsystem shooterSubsystem, LiftSubsystem liftSubsystem,
+            IntakeSubsystem intakeSubsystem) {
+        addCommands(
+                Commands.parallel(
+                        new LiftPositionCommand(() -> Constants.LiftConstants.kLoadPosition,
+                                liftSubsystem),
+                        new IntakePositionCommand(
+                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                intakeSubsystem),
+                        new SetWristAngleCommand(() -> Constants.ShooterConstants.kLoadAngle,
+                                shooterSubsystem)),
+                Commands.race(
+                        new LoadCommand(intakeSubsystem),
+                        new LoadShooterCommand(shooterSubsystem)));
+    }
 }
