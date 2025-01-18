@@ -25,7 +25,7 @@ public class FilteredJoystick {
         return MathUtil.applyDeadband(joystick.getX(), deadzone);
     }
 
-     /**
+    /**
      * Returns the y-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
@@ -34,7 +34,7 @@ public class FilteredJoystick {
         return MathUtil.applyDeadband(joystick.getY(), deadzone) * -1;
     }
 
-     /**
+    /**
      * Returns the z-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
@@ -43,7 +43,7 @@ public class FilteredJoystick {
         return MathUtil.applyDeadband(joystick.getZ(), deadzone);
     }
 
-     /**
+    /**
      * Returns the throttle-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
@@ -52,7 +52,7 @@ public class FilteredJoystick {
         return ((MathUtil.applyDeadband(joystick.getThrottle(), deadzone) * -1) + 1) / 2;
     }
 
-     /**
+    /**
      * Returns the twist-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
@@ -61,48 +61,48 @@ public class FilteredJoystick {
         return MathUtil.applyDeadband(joystick.getTwist(), deadzone);
     }
 
-     /**
+    /**
      * Returns the x-value of the joystick
      * 
      */
     public double getX() {
-        return MathUtil.applyDeadband(joystick.getX(), Constants.OIConstants.kDriveDeadband);
+        return this.getX(Constants.OIConstants.kDriveDeadband);
     }
 
-     /**
+    /**
      * Returns the y-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
      */
     public double getY() {
-        return MathUtil.applyDeadband(joystick.getY(), Constants.OIConstants.kDriveDeadband) * -1;
+        return this.getY(Constants.OIConstants.kDriveDeadband);
     }
 
-     /**
+    /**
      * Returns the z-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
      */
     public double getZ() {
-        return MathUtil.applyDeadband(joystick.getZ(), Constants.OIConstants.kDriveDeadband);
+        return this.getZ(Constants.OIConstants.kDriveDeadband);
     }
 
-     /**
+    /**
      * Returns the throttle-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
      */
     public double getThrottle() {
-        return ((MathUtil.applyDeadband(joystick.getThrottle(), Constants.OIConstants.kDriveDeadband) * -1) + 1) / 2;
+        return this.getThrottle(Constants.OIConstants.kDriveDeadband);
     }
 
-     /**
+    /**
      * Returns the twist-value of the joystick
      * 
      * @param deadzone zone in which no value is returned
      */
     public double getTwist() {
-        return MathUtil.applyDeadband(joystick.getTwist(), 0.2);
+        return this.getTwist(0.2);
     }
 
     /**
@@ -124,8 +124,18 @@ public class FilteredJoystick {
     }
 
     /**
+     * Returns the state of the POV
+     * 
+     * @return the degree of the pov, -1 if not pressed
+     */
+    public int getPovState() {
+        return joystick.getPOV();
+    }
+
+    /**
      * Returns depending on which POVButton is pressed
      * 
+     * @deprecated
      * @return int
      */
     public int getPOVButton() {
@@ -176,7 +186,6 @@ public class FilteredJoystick {
         }
     }
 
-     
     public boolean getButtonTwo() {
         return joystick.getRawButton(2);
     }

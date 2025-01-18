@@ -2,20 +2,16 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
-import frc.robot.utils.DashboardUpdater;
 
 public class IntakeSubsystem extends SubsystemBase {
         private double speed = 0.0;
-        private double position = 15.0;
-        private DashboardUpdater<Double> positionUpdater;
-        private DashboardUpdater<Double> speedUpdater;
+        private double position = Constants.IntakeConstants.kIntakeLoadPosition;
 
         /**
          * Subsystem for controlling the intake
@@ -23,13 +19,17 @@ public class IntakeSubsystem extends SubsystemBase {
         public IntakeSubsystem() {
                 // reset sparkmax
                 Constants.IntakeConstants.kIntakePivotMotor.restoreFactoryDefaults();
-                // TODO: determine whether to invert the intake motor
+                
                 Constants.IntakeConstants.kIntakePivotMotor.setInverted(Constants.IntakeConstants.kIntakePivotInverted);
                 Constants.IntakeConstants.kIntakeMotor.setInverted(Constants.IntakeConstants.kIntakeInverted);
                 Constants.IntakeConstants.kIntakeMotor.setControlFramePeriodMs(0);
                 // set idle mode
                 Constants.IntakeConstants.kIntakePivotMotor.setIdleMode(Constants.IntakeConstants.kIntakePivotIdleMode);
                 Constants.IntakeConstants.kIntakeMotor.setIdleMode(Constants.IntakeConstants.kIntakeIdleMode);
+
+                // current limits
+                Constants.IntakeConstants.kIntakeMotor
+                                .setSmartCurrentLimit(Constants.IntakeConstants.kIntakeCurrentLimit);
 
                 // setup PID
                 CustomUtils.setSparkPID(Constants.IntakeConstants.kIntakePositionController,
@@ -48,21 +48,14 @@ public class IntakeSubsystem extends SubsystemBase {
                 Constants.IntakeConstants.kIntakePositionEncoder
                                 .setInverted(Constants.IntakeConstants.kIntakePositionEncoderInverted);
 
-                positionUpdater = new DashboardUpdater<Double>("Intake Position Updater", 15.0);
-                speedUpdater = new DashboardUpdater<Double>("Intake Speed Updater", 0.0);
-
         }
 
         public void periodic() {
                 log();
-                positionUpdater.update();
-                speedUpdater.update();
-                System.out.println(RobotContainer.m_shooterSubsystem.getPosition());
-                if (RobotContainer.m_shooterSubsystem.getPosition() > 115) {
-                        Constants.IntakeConstants.kIntakePositionController.setReference(position,
-                                        CANSparkMax.ControlType.kPosition);
-                        
-                }
+
+                Constants.IntakeConstants.kIntakePositionController.setReference(position,
+                                CANSparkMax.ControlType.kPosition);
+
                 Constants.IntakeConstants.kIntakeMotor.set(speed);
         }
 
@@ -76,6 +69,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
         }
 
+        public double getSpeed() {
+                return speed;
+        }
+
         /**
          * Set the position of the intake
          * 
@@ -84,16 +81,17 @@ public class IntakeSubsystem extends SubsystemBase {
         public void setPosition(double position) {
                 position = MathUtil.clamp(position, Constants.IntakeConstants.kIntakePositionLimits[0],
                                 Constants.IntakeConstants.kIntakePositionLimits[1]);
-                // if ((this.position < Constants.SafetyLimits.kIntakeUpperLift
-                // && position < Constants.SafetyLimits.kIntakeUpperLift) // TODO: add lift
-                // safety checks
-                // ) {
-                this.position = position;
-                // }
+
+                if (position < 160 || position > 200) {
+                        this.position = position;
+                } else if (
+                                RobotContainer.m_liftSubsystem.getPosition() == Constants.LiftConstants.kLoadPosition
+                                && RobotContainer.m_shooterSubsystem.getPosition() >= 90) {
+                        this.position = position;
+                }
         }
 
         /**
-         * 
          * @return whether the intake is at the set position
          */
         public boolean atPosition() {
@@ -112,15 +110,6 @@ public class IntakeSubsystem extends SubsystemBase {
         public void log() {
                 SmartDashboard.putNumber("Intake Angle",
                                 Constants.IntakeConstants.kIntakePositionEncoder.getPosition());
-                SmartDashboard.putNumber("Pivot Applied Output",
-                                Constants.IntakeConstants.kIntakePivotMotor.getAppliedOutput());
-                // SmartDashboard.putNumber("Intake P: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getP());
-                // SmartDashboard.putNumber("Intake I: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getI());
-                // SmartDashboard.putNumber("Intake D: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getD());
-                // SmartDashboard.putNumber("Intake FF: ",
-                // Constants.IntakeConstants.kIntakeAngleController.getFF());
+                SmartDashboard.putBoolean("Intake at Position", atPosition());
         }
 }

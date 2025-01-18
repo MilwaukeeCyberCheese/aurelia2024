@@ -1,6 +1,8 @@
 //TODO make this prettier
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +36,7 @@ public class ShooterCameraSubsystem extends SubsystemBase {
      * 
      * @param mode
      */
-    public static void setDriverMode(boolean mode) {
+    public void setDriverMode(boolean mode) {
         Constants.VisionConstants.ShooterCamera.kCamera.setDriverMode(mode);
     }
 
@@ -58,7 +60,7 @@ public class ShooterCameraSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         log();
-        updateOdometry();
+        // updateOdometry();
     }
 
     /**
@@ -78,4 +80,20 @@ public class ShooterCameraSubsystem extends SubsystemBase {
         }
     }
 
+    /**
+     * Get a specific april tag from the camera
+     * 
+     * @param id the id of the april tag
+     * @return a photon tracked target representing the requested april tag, or null if not found
+     */
+    public PhotonTrackedTarget getAprilTag(int id) {
+        var result = Constants.VisionConstants.ShooterCamera.kCamera.getLatestResult();
+        List<PhotonTrackedTarget> targets = result.getTargets();
+        for (PhotonTrackedTarget target : targets) {
+            if (target.getFiducialId() == id) {
+                return target;
+            }
+        }
+        return null;
+    }
 }

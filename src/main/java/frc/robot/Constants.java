@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import java.util.HashMap;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -21,6 +22,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -31,7 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.subsystems.MAXSwerveModule;
 
@@ -55,15 +57,17 @@ public final class Constants {
                  */
                 public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
-                // TODO: Limit switch for intake
+                // Limit switch for intake
+                public static final DigitalInput intakeLimitSwitch = new DigitalInput(0);
 
-                // public static final ColorSensorV3 shooterColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+                // public static final ColorSensorV3 shooterColorSensor = new
+                // ColorSensorV3(I2C.Port.kOnboard);
 
         }
 
         public static final class DriveConstants {
                 // Rate limits on or off
-                public static final BooleanSupplier kRateLimitsEnabled = () -> true;
+                public static final BooleanSupplier kRateLimitsEnabled = () -> false;
 
                 // Driving Parameters - Note that these are not the maximum capable speeds of
                 // the robot, rather the allowed maximum speeds
@@ -89,10 +93,10 @@ public final class Constants {
 
                 // Angular offsets of the modules relative to the chassis in radians
                 // ccw is positive
-                public static final double kFrontLeftChassisAngularOffset = Math.PI;
-                public static final double kFrontRightChassisAngularOffset = 3 * Math.PI / 2;
-                public static final double kBackLeftChassisAngularOffset = Math.PI / 2;
-                public static final double kBackRightChassisAngularOffset = 0;
+                public static final double kBackLeftChassisAngularOffset = Math.PI;
+                public static final double kFrontLeftChassisAngularOffset = 3 * Math.PI / 2;
+                public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+                public static final double kFrontRightChassisAngularOffset = 0;
 
                 public static final boolean kRotInverted = true;
 
@@ -107,7 +111,9 @@ public final class Constants {
                 public static final int kFrontRightTurningCanId = 2;
                 public static final int kBackRightTurningCanId = 4;
 
-                public static final boolean kGyroReversed = false;
+                public static final boolean kGyroReversed = true;
+
+                public static final double kTurningSpeedModifier = 0.8;
 
                 // starting pose of the robot
                 public static final Pose2d kStartingPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
@@ -119,10 +125,10 @@ public final class Constants {
                                                 Constants.Sensors.gyro.getAngle()
                                                                 * (Constants.DriveConstants.kGyroReversed ? -1 : 1)),
                                 new SwerveModulePosition[] {
-                                                ModuleConstants.m_frontLeft.getPosition(),
-                                                ModuleConstants.m_frontRight.getPosition(),
                                                 ModuleConstants.m_backLeft.getPosition(),
-                                                ModuleConstants.m_backRight.getPosition()
+                                                ModuleConstants.m_frontLeft.getPosition(),
+                                                ModuleConstants.m_backRight.getPosition(),
+                                                ModuleConstants.m_frontRight.getPosition()
                                 }, kStartingPose);
         }
 
@@ -142,7 +148,7 @@ public final class Constants {
 
                 // Calculations required for driving motor conversion factors and feed forward
                 public static final double kDrivingMotorFreeSpeedRps = MotorConstants.kVortexFreeSpeedRpm / 60;
-                public static final double kWheelDiameterMeters = 0.0762;
+                public static final double kWheelDiameterMeters = Units.inchesToMeters(3.025);
                 public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
                 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
                 // teeth on the bevel pinion
@@ -179,7 +185,7 @@ public final class Constants {
                 public static final CANSparkMax.IdleMode kDrivingMotorIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax.IdleMode kTurningMotorIdleMode = CANSparkMax.IdleMode.kBrake;
 
-                public static final int kDrivingMotorCurrentLimit = 50; // amps
+                public static final int kDrivingMotorCurrentLimit = 40; // amps
                 public static final int kTurningMotorCurrentLimit = 20; // amps
 
                 // Create MAXSwerveModules
@@ -213,17 +219,17 @@ public final class Constants {
         }
 
         public static final class AutoConstants {
-                public static final double kMaxSpeedMetersPerSecond = 3;
-                public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+                public static final double kMaxSpeedMetersPerSecond = 1.0;
+                public static final double kMaxAccelerationMetersPerSecondSquared = 1.0;
                 public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
                 public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
                 // TODO: this will need to be tuned
                 public static final com.pathplanner.lib.util.PIDConstants kTranslationPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                3.0, 1.0, 0.0);
+                                0.005, 0.0, 0.0);
 
                 public static final com.pathplanner.lib.util.PIDConstants kThetaPIDConstants = new com.pathplanner.lib.util.PIDConstants(
-                                Math.PI, 0.0, 0.0);
+                                Math.PI / 4.0, 0.0, 0.0);
 
                 // Constraint for the motion profiled robot angle controller
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
@@ -243,6 +249,33 @@ public final class Constants {
                                 new ReplanningConfig() // Default path replanning config. See the API
                 // for the options here
                 );
+
+                public static final HashMap<String, Pose2d> kStartingPositions = new HashMap<String, Pose2d>() {
+                        {
+                                put("LeftA", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAB", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftABOne", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftABTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOne", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOneII", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftAOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftATwo", new Pose2d(1.6, 7.4, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftBOneTwo", new Pose2d(1.3, 7.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("LeftShootOnly", new Pose2d(1.11, 7.15, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleABC", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleB", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBCThree", new Pose2d(1.25, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleBThree", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleC", new Pose2d(1.3, 5.5, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleGetThree", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleGetThreeAndFour", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleGetThreeAndTwo", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
+                                put("MiddleThreeAndC", new Pose2d(1.1, 4.1, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightCFive", new Pose2d(0.32, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                                put("RightOut", new Pose2d(0.32, 2.0, new Rotation2d(Math.toRadians(0.0))));
+                        }
+                };
         }
 
         public static final class MotorConstants {
@@ -268,9 +301,9 @@ public final class Constants {
 
                 public static final class ShooterCamera {
                         public static final PhotonCamera kCamera = new PhotonCamera("ShooterCamera");
-                        public static final double kCameraHeight = Units.inchesToMeters(14);
+                        public static final double kCameraHeight = Units.inchesToMeters(11);
                         public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
-                                        new Rotation3d(0, 0, 0));
+                                        new Rotation3d(0, 45, 0));
 
                 }
 
@@ -283,21 +316,57 @@ public final class Constants {
                                         ShooterCamera.kRobotToCam);
 
                 }
+
+                public static final class TagPositions {
+                        private static final Pose3d kTagFour = new Pose3d(Units.inchesToMeters(652.73),
+                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
+                                        new Rotation3d(0, 0, 180));
+                        private static final Pose3d kTagFive = new Pose3d(Units.inchesToMeters(578.77),
+                                        Units.inchesToMeters(323), Units.inchesToMeters(53.38),
+                                        new Rotation3d(0, 0, 270));
+                        private static final Pose3d kTagSix = new Pose3d(Units.inchesToMeters(72.5),
+                                        Units.inchesToMeters(323), Units.inchesToMeters(53.38),
+                                        new Rotation3d(0, 0, 270));
+                        private static final Pose3d kTagSeven = new Pose3d(Units.inchesToMeters(-1.5),
+                                        Units.inchesToMeters(218.42), Units.inchesToMeters(57.13),
+                                        new Rotation3d(0, 0, 0));
+
+                        public static final HashMap<Integer, Pose3d> kTagPositions = new HashMap<Integer, Pose3d>() {
+                                {
+                                        put(4, kTagFour);
+                                        put(5, kTagFive);
+                                        put(6, kTagSix);
+                                        put(7, kTagSeven);
+                                }
+                        };
+
+                }
         }
 
         public static final class ShooterConstants {
-                public static final int kShooterCanId = 14;
-                public static final boolean kShooterInverted = true;
-                public static final CANSparkMax kShooterMotor = new CANSparkMax(kShooterCanId,
+                public static final int kUpperShooterCanId = 14;
+                public static final boolean kUpperShooterInverted = true;
+                public static final CANSparkMax kUpperShooterMotor = new CANSparkMax(kUpperShooterCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                public static final RelativeEncoder kShooterEncoder = kShooterMotor.getEncoder();
-                public static final SparkPIDController kShooterController = kShooterMotor.getPIDController();
+                public static final int kUpperCurrentLimit = 40;
+                public static final RelativeEncoder kUpperShooterEncoder = kUpperShooterMotor.getEncoder();
+                public static final SparkPIDController kUpperShooterController = kUpperShooterMotor.getPIDController();
+
+                public static final int kLowerShooterCanId = 16;
+                public static final boolean kLowerShooterInverted = false;
+                public static final CANSparkMax kLowerShooterMotor = new CANSparkMax(kLowerShooterCanId,
+                                CANSparkMax.MotorType.kBrushless);
+                public static final int kLowerCurrentLimit = 40;
+                public static final RelativeEncoder kLowerShooterEncoder = kLowerShooterMotor.getEncoder();
+                public static final SparkPIDController kLowerShooterController = kLowerShooterMotor.getPIDController();
 
                 public static final double kShooterConversionFactor = 1.0;
 
-                public static final PIDConstants kShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0, 0.00021); // TODO:
-                                                                                                                      // retune
-                public static final double kShooterTolerance = 10;
+                public static final PIDConstants kUpperShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.000185);
+                public static final PIDConstants kLowerShooterPIDConstants = new PIDConstants(0.00, 0.000, 0.0,
+                                0.000185);
+                public static final double kShooterTolerance = 100;
                 public static final CANSparkMax.IdleMode kShooterIdleMode = CANSparkMax.IdleMode.kCoast;
 
                 public static final int kWristCanId = 15;
@@ -309,28 +378,29 @@ public final class Constants {
                 public static final boolean kWristEncoderInverted = false;
                 public static final SparkPIDController kWristController = kWristMotor.getPIDController();
 
-                public static final double kWristConversionFactor = 360;
-                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.003, 0.0, 0.0, 0.0); // TODO:
-                                                                                                              // retune
+                public static final double kWristConversionFactor = 360.0;
+                public static final PIDConstants kWristPIDConstants = new PIDConstants(0.015, 0.0, 0.0, 0.0);
                 public static final double kWristMaxOutput = 0.15;
-                public static final double kWristTolerance = 2; // TODO: find tolerance
+                public static final double kWristTolerance = 3.0;
 
-                public static final double[] kWristLimits = {15, 270 }; // TODO: set limits
+                public static final double[] kWristLimits = { 50.0, 170.0 };
                 public static final CANSparkMax.IdleMode kWristIdleMode = CANSparkMax.IdleMode.kBrake;
 
-                // TODO: find actual values
-                public static final double kStowAngle = 0;
-                public static final double kLoadAngle = 0;
-                public static final double kAmpAngle = 0;
+                // angles
+                public static final double kIntakeSafeAngle = 130.0;
+                public static final double kShootAngle = 110.0;
+                public static final double kLiftSafeAngle = 50.0;
+                public static final double kAmpAngle = 160.0;
+                public static final double kHandoffAngle = 95.0;
 
-                // TODO: find wait time
                 public static final double kShotWaitTime = 400;
+                public static final double kAmpWaitTime = 1500; // TODO: find wait time
 
                 public static final double kMaxRPM = MotorConstants.kNeoFreeSpeedRpm * kShooterConversionFactor;
-                public static final double kAmpRPM = 500;// TODO: find amp RPM
-                public static final double kLoadRPM = 20;// TODO: find load RPM
+                public static final double kAmpRPM = 5000;
+                public static final double kLoadRPM = 300;
 
-                public static final double kRedNoteDetectionThreshold = 200; // TODO: determine threshold
+                public static final double kManualModifier = 1.0 / 3.0;
         }
 
         public static final class IntakeConstants {
@@ -338,6 +408,7 @@ public final class Constants {
                 public static final boolean kIntakeInverted = false;
                 public static final CANSparkMax kIntakeMotor = new CANSparkMax(kIntakeCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final int kIntakeCurrentLimit = 80;
 
                 public static final int kIntakeAngleCanId = 11;
                 public static final boolean kIntakePivotInverted = false;
@@ -349,25 +420,27 @@ public final class Constants {
                                 .getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
                 public static final SparkPIDController kIntakePositionController = kIntakePivotMotor.getPIDController();
                 public static final boolean kIntakePositionEncoderInverted = true;
-                public static final double kIntakePivotMaxOuput = 0.3;
+                public static final double kIntakePivotMaxOuput = 0.4;
                 public static final PIDConstants kPIDConstants = new PIDConstants(0.007, 0.0, 0.002, 0.000);
                 public static final double kIntakePositionConversionFactor = 360;
-                public static final double kTolerance = 2;
+                public static final double kTolerance = 3;
 
-                // TODO: determine positions
                 public static final double kIntakeLoadPosition = 213;
                 public static final double kIntakeStowedPosition = 160;
-                public static final double kIntakeOutPosition = 18;
+                public static final double kIntakeAmpPosition = 130;
+                public static final double kIntakeOutPosition = 20;
 
-                // TODO: determine limits
                 public static final double[] kIntakePositionLimits = { 9, 220 };
 
-                // TODO: determine speeds
                 public static final double kIntakeSpeed = 0.7;
-                public static final double kLoadSpeed = -1.0;
+                public static final double kOuttakeSpeed = -1.0;
+                public static final double kHandoffSpeed = -0.7;
+                public static final double kAmpSpeed = -0.6;
 
-                // TODO: determine range
-                public static final double kDeployRange = 2;
+                public static final double kPulseSpeed = 0.4;
+                public static final double kPulseTime = 80;
+
+                public static final double kHandoffTime = 300;
         }
 
         public static final class LiftConstants {
@@ -382,52 +455,42 @@ public final class Constants {
                 public static final boolean kInverted = false;
 
                 // conversion factor in inches
-                // TODO: probably done, check math
-                public static final double kLiftConversionFactor =  /* motor shaft to low hex lift */ (27.0 / 24.0) /
+                // TODO: conversion is incorrect, but we're running with it
+                public static final double kLiftConversionFactor = /* motor shaft to low hex lift */ (27.0 / 24.0) /
                 /* circumference of gear */(Math.PI * 1.757) * 16;
 
-                public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 16;
+                public static final double kLiftConversionFactorOnboard = kLiftConversionFactor / 12;
 
-                // TODO: find tolerance
-                public static final double kTolerance = 0;
+                public static final double kLiftTolerance = 0.3;
 
-                // TODO: set lift limits
-                public static final double[] kLiftLimits = { 0, 11 };
+                public static final double[] kLiftLimits = { 0.0, 11.2 };
 
-                // TODO: find clear of obstructions value
                 public static final double kClearOfObstructions = 3;
 
-                // TODO: find manual modifier
-                public static final double kManualModifier = 1 / 100;
+                public static final double kManualModifier = 8.0 / 100.0;
 
-                // TODO: find positions
-                public static final double kLoadPosition = 0;
-                public static final double kShootPosition = 0;
-                public static final double kAmpPosition = 0;
+                public static final double kLoadPosition = 0.3;
+                public static final double kAmpPosition = 11.2;
         }
 
         public class ClimberConstants {
                 public static final int kLeftCanId = 9;
-                public static final boolean kLeftInverted = true; // TODO: find inverted
+                public static final boolean kLeftInverted = false;
                 public static final CANSparkMax.IdleMode kLeftIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kLeftMotor = new CANSparkMax(kLeftCanId,
                                 CANSparkMax.MotorType.kBrushless);
-                                
+                public static final RelativeEncoder kLeftEncoder = kLeftMotor.getEncoder();
+
                 public static final int kRightCanId = 10;
-                public static final boolean kRightInverted = false; // TODO: find inverted
+                public static final boolean kRightInverted = false;
                 public static final CANSparkMax.IdleMode kRightIdleMode = CANSparkMax.IdleMode.kBrake;
                 public static final CANSparkMax kRightMotor = new CANSparkMax(kRightCanId,
                                 CANSparkMax.MotorType.kBrushless);
+                public static final RelativeEncoder kRightEncoder = kRightMotor.getEncoder();
 
-                public static final double kSlowSpeed = 0.3;
-                public static final double kFastSpeed = 0.7;
-        }
+                public static final double kSlowSpeed = 0.7;
+                public static final double kFastSpeed = 1.0;
 
-        // the naming convention for these limits is the subsystem moving, whether the
-        // limit is at the top or bottom of the range, and what the limit is to protect
-        public class SafetyLimits {
-                // TODO: find the rest of the limits
-                public static final double kIntakeUpperLift = 180;
-                public static final double kWristLowerLift = 60;
+                public static final double kUpperLimit = 300;
         }
 }

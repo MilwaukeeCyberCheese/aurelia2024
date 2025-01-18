@@ -9,13 +9,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 
-/** 
-The filtered controller class automatically filters controllers, eliminating the need for excessive logic 
-*/
+/**
+ * The filtered controller class automatically filters controllers, eliminating
+ * the need for excessive logic
+ */
 public class FilteredController {
     private XboxController controller;
 
-//constructor
+    // constructor
     public FilteredController(int port) {
         this.controller = new XboxController(port);
     }
@@ -222,8 +223,18 @@ public class FilteredController {
     }
 
     /**
+     * Returns the state of the POV
+     * 
+     * @return the degree of the pov, -1 if not pressed
+     */
+    public int getPovState() {
+        return controller.getPOV();
+    }
+
+    /**
      * Returns depending on which POVButton is pressed
      * 
+     * @deprecated
      * @return int
      */
     public int getPOVButton() {

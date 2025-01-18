@@ -8,17 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utils.CustomUtils;
-import frc.robot.utils.DashboardUpdater;
-import frc.robot.utils.LivePIDTuner;
 
 public class LiftSubsystem extends SubsystemBase {
-    public double position;
-    private final LivePIDTuner tuner;
-    private final DashboardUpdater<Double> positionUpdater;
+    public double position = 0.3;
 
     public LiftSubsystem() {
         Constants.LiftConstants.kLiftMotor.restoreFactoryDefaults();
-        // TODO: determine whether to invert this or not
+
         Constants.LiftConstants.kLiftMotor.setInverted(Constants.LiftConstants.kInverted);
 
         // idle mode
@@ -31,18 +27,19 @@ public class LiftSubsystem extends SubsystemBase {
         Constants.LiftConstants.kLiftEncoder.setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactor);
         Constants.LiftConstants.kLiftMotor.getEncoder()
                 .setPositionConversionFactor(Constants.LiftConstants.kLiftConversionFactorOnboard);
-                Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(Constants.LiftConstants.kLiftEncoder.getPosition());
-        tuner = new LivePIDTuner("Lift Tuner", Constants.LiftConstants.kLiftController,
-                Constants.LiftConstants.kLiftPIDConstants);
-        positionUpdater = new DashboardUpdater<Double>("Lift Position Updater", 0.0);
+
+        zero();
+        // Constants.LiftConstants.kLiftMotor.getEncoder()
+        //         .setPosition((Constants.LiftConstants.kLiftEncoder.getPosition() < 2.5)
+        //                 ? Constants.LiftConstants.kLiftEncoder.getPosition()
+        //                 : Constants.LiftConstants.kLiftConversionFactor * -1.0
+        //                         + Constants.LiftConstants.kLiftEncoder.getPosition());
     }
 
     public void periodic() {
         log();
-        tuner.update();
-        positionUpdater.update();
-        
-        Constants.LiftConstants.kLiftController.setReference(positionUpdater.get(), CANSparkMax.ControlType.kPosition);
+
+        Constants.LiftConstants.kLiftController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
 
     /**
@@ -50,19 +47,19 @@ public class LiftSubsystem extends SubsystemBase {
      * 
      * @param position (inches)
      */
-    public void setPosition(double position) {
-        if ((RobotContainer.m_shooterSubsystem.getPosition() > Constants.SafetyLimits.kWristLowerLift &&
-                RobotContainer.m_intakeSubsystem.getPosition() < Constants.SafetyLimits.kIntakeUpperLift)
-                || (this.position > Constants.LiftConstants.kClearOfObstructions
-                        && Constants.LiftConstants.kClearOfObstructions > 3)/*
-                                                                             * TODO protect from the wrist hitting stuff
-                                                                             */) {}
+    public void setPosition(double position, boolean override) {
 
-            position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
-                    Constants.LiftConstants.kLiftLimits[1]);
+        position = MathUtil.clamp(position, Constants.LiftConstants.kLiftLimits[0],
+                Constants.LiftConstants.kLiftLimits[1]);
+        if (override) {
             this.position = position;
-
-        
+        } else if (getPosition() > Constants.LiftConstants.kClearOfObstructions) {
+            this.position = position;
+        } else if (RobotContainer.m_intakeSubsystem.getPosition() < 170
+        // && RobotContainer.m_shooterSubsystem.getPosition() == 90
+        ) {
+            this.position = position;
+        }
 
     }
 
@@ -75,12 +72,26 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     /**
+     * zero the lift
+     * 
+     */
+    public void zero() {
+        Constants.LiftConstants.kLiftMotor.getEncoder().setPosition(0);
+        // double newOffset = Constants.LiftConstants.kLiftEncoder.getZeroOffset()
+        //         + Constants.LiftConstants.kLiftEncoder.getPosition();
+        // position = 0.0;
+        // Constants.LiftConstants.kLiftEncoder.setZeroOffset(newOffset);
+
+    }
+
+    /**
      * 
      * @return whether the lift is at the commanded position
      */
     public boolean atPosition() {
         return Math.abs(
-                Constants.LiftConstants.kLiftEncoder.getPosition() - position) < Constants.LiftConstants.kTolerance;
+                Constants.LiftConstants.kLiftMotor.getEncoder().getPosition()
+                        - position) < Constants.LiftConstants.kLiftTolerance;
     }
 
     public void log() {

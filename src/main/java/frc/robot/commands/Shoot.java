@@ -5,36 +5,31 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.IntakeCommands.LoadCommand;
-import frc.robot.commands.IntakeCommands.IntakePositionCommand;
-import frc.robot.commands.LiftCommands.LiftPositionCommand;
-import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
-import frc.robot.commands.ShooterCommands.SpinAndAngle;
-import frc.robot.commands.ShooterCommands.SpinDownCommand;
-import frc.robot.commands.ShooterCommands.SpinUpCommand;
+import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
+import frc.robot.commands.ShooterCommands.SetSpin;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.WaitCommandMilli;
 
 public class Shoot extends SequentialCommandGroup {
-        public Shoot(DoubleSupplier rpm, DoubleSupplier shootAngle, IntakeSubsystem intakeSubsystem,
+        /**
+         * Command to shoot to the speaker
+         * 
+         * @param rpm
+         * @param angle
+         * @param intakeSubsystem
+         * @param shooterSubsystem
+         * @param liftSubsystem
+         */
+        public Shoot(DoubleSupplier upperRPM, DoubleSupplier lowerRPM, DoubleSupplier angle, IntakeSubsystem intakeSubsystem,
                         ShooterSubsystem shooterSubsystem,
                         LiftSubsystem liftSubsystem) {
-                addCommands( new SetWristAngleCommand(() -> 90, shooterSubsystem),
-                                
-                                                new LiftPositionCommand(() -> Constants.LiftConstants.kShootPosition,
-                                                                liftSubsystem),
-
-                                                new SetWristAngleCommand(() -> 120,
-                                                                shooterSubsystem),
-                                new IntakePositionCommand(
-                                                () -> Constants.IntakeConstants.kIntakeLoadPosition,
+                addCommands(Commands.race(new SetSpinAndAngle(angle, upperRPM, lowerRPM, shooterSubsystem), new WaitCommandMilli(1500)),
+                                Commands.race(new SetIntakeSpeed(() -> Constants.IntakeConstants.kOuttakeSpeed,
                                                 intakeSubsystem),
-                                new SpinAndAngle(shootAngle, rpm, shooterSubsystem),
-
-                                Commands.race(new LoadCommand(intakeSubsystem),
                                                 new WaitCommandMilli(Constants.ShooterConstants.kShotWaitTime)),
-                                new SpinAndAngle(() -> 120, () -> 0, shooterSubsystem));
+                                new SetSpin(() -> 0, shooterSubsystem));
         }
 }

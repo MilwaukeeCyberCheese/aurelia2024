@@ -1,0 +1,79 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.1,
+      "y": 4.1
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromMiddle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleGoToThree"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBackFromThree"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleGoToTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FollowAndIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackFromTwo"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

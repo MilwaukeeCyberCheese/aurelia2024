@@ -1,0 +1,93 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.6,
+      "y": 7.4
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftGetA"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeThenPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftGoToOne"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeThenPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftBackFromOne"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromLeft"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

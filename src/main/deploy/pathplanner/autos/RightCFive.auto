@@ -1,0 +1,132 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.32,
+      "y": 2
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightGetC"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightBackFromC"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeUntilDone"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightGetFive"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "UpAndPulse"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RightBackFromFive"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromRight"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

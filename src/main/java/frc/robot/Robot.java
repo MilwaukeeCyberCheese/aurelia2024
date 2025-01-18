@@ -4,11 +4,18 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.Transpose;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,10 +27,18 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  public final static SendableChooser<Boolean> m_autoSpin = new SendableChooser<>();
+
+  /**
+   * True if red, false if blue
+   */
+  public static boolean allianceColor;
+  public static boolean inAuto;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -32,14 +47,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    //suppress joystick warnings
+    // port forwarding for photonvision
+    PortForwarder.add(5800, "photonvision.local", 5800);
+
+    SmartDashboard.putBoolean("SHOOT!", false);
+
+    // suppress joystick warnings
     DriverStation.silenceJoystickConnectionWarning(true);
+    m_autoSpin.setDefaultOption("Pre-Spin", true);
+    m_autoSpin.addOption("Don't Pre-Spin", false);
+    SmartDashboard.putData("Auto Spin", m_autoSpin);
   }
 
   /**
@@ -72,6 +95,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    allianceColor = DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red));
+    RobotContainer.m_liftSubsystem.run(() -> RobotContainer.m_liftSubsystem.zero());
+
+    // RobotContainer.m_intakeCamera.setDriverMode(true);
+    // RobotContainer.m_shooterCamera.setDriverMode(true);
   }
 
   /**
@@ -80,10 +108,20 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    inAuto = true;
+
+    RobotContainer.m_driveSubsystem.runOnce(() -> RobotContainer.m_driveSubsystem.zeroHeading());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    // reset the pose of the robot to the starting pose of the autonomous command
+    System.out.println(m_autonomousCommand.getName() + " da name");
+    Pose2d initialPose = Constants.AutoConstants.kStartingPositions.get(m_autonomousCommand.getName());
+    RobotContainer.m_driveSubsystem
+        .resetOdometry((initialPose != null) ? (allianceColor) ? Transpose.transposeToRed(initialPose) : initialPose
+            : new Pose2d(0, 0, new Rotation2d(0))); // TOOD: make sure that flipping pose works
+
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null && initialPose != null) {
       m_autonomousCommand.schedule();
     }
   }
@@ -91,10 +129,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    SmartDashboard.putString("Current Pose Auto", RobotContainer.m_driveSubsystem.getPose().toString());
   }
 
   @Override
   public void teleopInit() {
+    inAuto = false;
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -102,15 +143,18 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putString("Current Pose Teleop", RobotContainer.m_driveSubsystem.getPose().toString());
   }
 
   @Override
   public void testInit() {
+    inAuto = false;
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }

@@ -4,28 +4,33 @@
 
 package frc.robot;
 
-import java.util.Optional;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveAndOrientToTarget;
+import frc.robot.commands.DriveAndOrientToNote;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowAndIntake;
-import frc.robot.commands.GyroReset;
+import frc.robot.commands.IntakeUntilDone;
+import frc.robot.commands.LoadAmp;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootWhenSpinning;
+import frc.robot.commands.SnapToAndAlign;
+import frc.robot.commands.TuckItIn;
 import frc.robot.commands.WheelsX;
-import frc.robot.commands.IntakeCommands.IntakeCommand;
-import frc.robot.commands.IntakeCommands.IntakePositionCommand;
-import frc.robot.commands.IntakeCommands.IntakeSpeedCommand;
-import frc.robot.commands.LiftCommands.ManualLiftCommand;
-import frc.robot.commands.ShooterCommands.SetWristAngleCommand;
-import frc.robot.commands.ShooterCommands.SpinDownCommand;
-import frc.robot.commands.ShooterCommands.SpinUpCommand;
+import frc.robot.commands.IntakeCommands.IntakeThenPulse;
+import frc.robot.commands.IntakeCommands.SetIntakePosition;
+import frc.robot.commands.IntakeCommands.SetIntakeSpeed;
+import frc.robot.commands.IntakeCommands.UpAndPulse;
+import frc.robot.commands.IntakeCommands.Pulse;
+import frc.robot.commands.LiftCommands.ManualLift;
+import frc.robot.commands.ShooterCommands.ManualWristAngle;
+import frc.robot.commands.ShooterCommands.SetSpin;
+import frc.robot.commands.ShooterCommands.SetSpinAndAngle;
+import frc.robot.commands.ShooterCommands.SetWristAngle;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeCameraSubsystem;
@@ -37,6 +42,7 @@ import frc.robot.utils.FilteredButton;
 import frc.robot.utils.FilteredController;
 import frc.robot.utils.FilteredJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -51,13 +57,13 @@ public class RobotContainer {
         private final SendableChooser<Command> autoChooser;
 
         // Initialize subsystems
-        private final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+        public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
         public final static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
         public final static ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         public final static LiftSubsystem m_liftSubsystem = new LiftSubsystem();
         private final static ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-        private final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
-        private final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
+        public final static ShooterCameraSubsystem m_shooterCamera = new ShooterCameraSubsystem();
+        public final static IntakeCameraSubsystem m_intakeCamera = new IntakeCameraSubsystem();
 
         // initialize the controllers
         // the one on the left
@@ -78,48 +84,71 @@ public class RobotContainer {
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+                // set photonvision cameras to active
 
                 // name commands for use in pathPlanner
                 NamedCommands.registerCommand("FollowAndIntake",
-                                new FollowAndIntake(m_intakeSubsystem, m_robotDrive, m_intakeCamera));
-                // NamedCommands.registerCommand("ShootFromRight",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
-                // NamedCommands.registerCommand("ShootFromLeft",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
-                // NamedCommands.registerCommand("ShootFromMiddle",
-                // new Shoot(null, null, m_intakeSubsystem, m_shooterSubsystem,
-                // m_liftSubsystem));
+                                new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem, m_intakeCamera,
+                                                m_liftSubsystem,
+                                                m_shooterSubsystem));
+                NamedCommands.registerCommand("ShootFromRight",
+                                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
+                NamedCommands.registerCommand("Pulse", new Pulse(m_intakeSubsystem));
+                NamedCommands.registerCommand("ShootFromLeft",
+                                new Shoot(() -> 4000, () -> 5500, () -> 80, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
+                NamedCommands.registerCommand("ShootFromMiddle",
+                                new Shoot(() -> 4000, () -> 5500, () -> 70, m_intakeSubsystem, m_shooterSubsystem,
+                                                m_liftSubsystem));
+                NamedCommands.registerCommand("IntakeThenPulse", new IntakeThenPulse(m_intakeSubsystem, m_liftSubsystem,
+                                m_shooterSubsystem, m_operatorController::getLeftBumper));
+                NamedCommands.registerCommand("IntakeUntilDone",
+                                new IntakeUntilDone(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem));
+                NamedCommands.registerCommand("UpAndPulse",
+                                new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem, () -> 4000));
                 // Configure the button bindings
                 configureButtonBindings();
 
                 // set default command for drive
-                // TODO: inversion may be needed
-                m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, m_rightJoystick::getX,
+
+                m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem,
+                                m_rightJoystick::getX,
                                 m_rightJoystick::getY, m_leftJoystick::getX,
-                                () -> (!m_rightJoystick.getTriggerActive() && !m_buttons.getTopSwitch()),
+                                () -> !m_rightJoystick.getButtonTwo(),
                                 Constants.DriveConstants.kRateLimitsEnabled, m_rightJoystick::getButtonTwo,
                                 m_rightJoystick::getThrottle));
 
                 // default command for lift
                 m_liftSubsystem.setDefaultCommand(
-                                new ManualLiftCommand(m_operatorController::getYLeft, m_liftSubsystem));
+                                new ManualLift(m_operatorController::getYLeft,
+                                                m_operatorController::getLeftStickPressed, m_liftSubsystem));
+
+                // default command for shooter
+                m_shooterSubsystem.setDefaultCommand(
+                                new ManualWristAngle(m_operatorController::getYRight, m_shooterSubsystem));
+
+                // default command for climber
+                m_climberSubsystem
+                                .setDefaultCommand(
+                                                m_climberSubsystem.run(() -> m_climberSubsystem.setSpeeds(0.0, false)));
                 // default command for intake
                 // m_intakeSubsystem.setDefaultCommand(new IntakePositionCommand(
                 // () -> Constants.IntakeConstants.kIntakeStowedPosition, m_intakeSubsystem));
 
                 // Configure the AutoBuilder last
                 AutoBuilder.configureHolonomic(
-                                m_robotDrive::getPose,
-                                m_robotDrive::resetOdometry,
-                                m_robotDrive::getRobotRelativeSpeeds,
-                                m_robotDrive::drive,
+                                m_driveSubsystem::getPose,
+                                m_driveSubsystem::resetOdometry,
+                                m_driveSubsystem::getRobotRelativeSpeeds,
+                                m_driveSubsystem::drive,
                                 Constants.AutoConstants.kPathFollowerConfig,
-                                () -> DriverStation.getAlliance().equals(Optional.of(DriverStation.Alliance.Red)),
-                                m_robotDrive);
+                                () -> Robot.allianceColor,
+                                m_driveSubsystem);
 
                 autoChooser = AutoBuilder.buildAutoChooser();
+
+                SmartDashboard.putString("Starting Pose", m_driveSubsystem.getPose().toString());
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -135,68 +164,172 @@ public class RobotContainer {
          * {@link JoystickButton}.
          */
         private void configureButtonBindings() {
-                // // top left button and x button on controller sets wheels to x
-                new Trigger(m_buttons::getOneA).or(
-                                m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_robotDrive));
 
-                // // top right button resets gyro or right button five
-                new Trigger(m_buttons::getOneC).or(m_rightJoystick::getButtonFive).onTrue(new GyroReset());
+                // button 7 on right joystick sets wheels to x
+                new Trigger(m_rightJoystick::getButtonSeven).whileTrue(new WheelsX(m_driveSubsystem));
 
-                // // run shooter at full speed
+                // zero gyro on right joystick button 5
+                new Trigger(m_rightJoystick::getButtonFive)
+                                .onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.zeroHeading()));
 
-                new Trigger(m_operatorController::getYButton).onTrue(new SpinUpCommand(() -> 5500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getBButton).onTrue(new SpinUpCommand(() -> -500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getXButton).onTrue(new SpinUpCommand(() -> 500, m_shooterSubsystem));
-                new Trigger(m_operatorController::getAButton).onTrue(new SpinDownCommand(m_shooterSubsystem));
+                // set shooter to 0
+                new Trigger(m_operatorController::getAButton).onTrue(new SetSpin(() -> 0.0, m_shooterSubsystem));
 
-                new Trigger(m_operatorController::getLeftTriggerActive)
-                                .whileTrue(new IntakeSpeedCommand(() -> -1.0, m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightTriggerActive)
-                                .whileTrue(new IntakeCommand(m_intakeSubsystem));
+                // intake controls
+                {
+                        // set intake speeds
+                        new Trigger(m_operatorController::getLeftTriggerActive)
+                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kOuttakeSpeed,
+                                                        m_intakeSubsystem));
+                        new Trigger(m_operatorController::getRightTriggerActive)
+                                        .whileTrue(new SetIntakeSpeed(() -> Constants.IntakeConstants.kIntakeSpeed,
+                                                        m_intakeSubsystem));
 
-                new Trigger(m_operatorController::getLeftBumper)
-                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeLoadPosition,
-                                                m_intakeSubsystem));
+                        // set intake positions
+                        new Trigger(m_operatorController::getXButton)
+                                        .onTrue(new SetIntakePosition(
+                                                        () -> Constants.IntakeConstants.kIntakeLoadPosition,
+                                                        m_intakeSubsystem));
+                        new Trigger(m_operatorController::getBButton)
+                                        .onTrue(new SetIntakePosition(
+                                                        () -> Constants.IntakeConstants.kIntakeStowedPosition,
+                                                        m_intakeSubsystem));
+                }
+
+                // intake and pulse
                 new Trigger(m_operatorController::getRightBumper)
-                                .whileTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeOutPosition,
-                                                m_intakeSubsystem));
-                new Trigger(m_operatorController::getRightStickPressed)
-                                .onTrue(new IntakePositionCommand(() -> Constants.IntakeConstants.kIntakeStowedPosition,
-                                                m_intakeSubsystem));
+                                .whileTrue(new IntakeUntilDone(m_intakeSubsystem, m_liftSubsystem,
+                                                m_shooterSubsystem));
 
                 new Trigger(m_leftJoystick::getTriggerActive)
-                                .whileTrue(new DriveAndOrientToTarget(m_robotDrive, m_intakeCamera, () -> 0,
+                                .whileTrue(new DriveAndOrientToNote(m_driveSubsystem, m_intakeCamera,
                                                 m_rightJoystick::getX,
-                                                m_rightJoystick::getY,
-                                                () -> (!m_rightJoystick.getTriggerActive()
-                                                                && !m_buttons.getTopSwitch()),
+                                                m_rightJoystick::getY, m_leftJoystick::getX,
+                                                () -> false,
                                                 Constants.DriveConstants.kRateLimitsEnabled,
                                                 m_rightJoystick::getButtonTwo,
                                                 m_rightJoystick::getThrottle));
 
-                new Trigger(() -> m_operatorController.getPOVButton() == 2)
-                                .onTrue(new SetWristAngleCommand(() -> 90, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 4)
-                                .onTrue(new SetWristAngleCommand(() -> 120, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 6)
-                                .onTrue(new SetWristAngleCommand(() -> 108, m_shooterSubsystem));
-                new Trigger(() -> m_operatorController.getPOVButton() == 8)
-                                .onTrue(new SetWristAngleCommand(() -> 30, m_shooterSubsystem));
+                // climber bindings (all on left joystick)
+                {
+                        // hold button three and press four to zero left
+                        new Trigger(m_leftJoystick::getButtonFour).and(m_leftJoystick::getButtonThree)
+                                        .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroLeft()));
 
-                new Trigger(m_operatorController::getRightTriggerActive)
-                                .onTrue(new Shoot(() -> 5500, () -> 108, m_intakeSubsystem, m_shooterSubsystem,
-                                                m_liftSubsystem));
+                        // hold button three and press five to zero right
+                        new Trigger(m_leftJoystick::getButtonFive).and(m_leftJoystick::getButtonThree)
+                                        .onTrue(m_climberSubsystem.run(() -> m_climberSubsystem.zeroRight()));
 
-                // climber bindings
-                new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kSlowSpeed)));
-                new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed)));
-                new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem.setLeftSpeed(Constants.ClimberConstants.kSlowSpeed)));
-                new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
-                                .runOnce(() -> m_climberSubsystem
-                                                .setRightSpeed(Constants.ClimberConstants.kSlowSpeed)));
+                        // button eight controls both down
+                        new Trigger(m_leftJoystick::getButtonEight).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setSpeeds(-Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+                        // button nine controls both up
+                        new Trigger(m_leftJoystick::getButtonNine).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setSpeeds(Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+
+                        // button six moves left up
+                        new Trigger(m_leftJoystick::getButtonSix).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setLeftSpeed(
+                                                        Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+                        // button seven moves left down
+                        new Trigger(m_leftJoystick::getButtonSeven).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setLeftSpeed(
+                                                        -Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+
+                        // button ten moves right up
+                        new Trigger(m_leftJoystick::getButtonTen).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem.setRightSpeed(
+                                                        -Constants.ClimberConstants.kFastSpeed,
+                                                        m_leftJoystick.getButtonThree())));
+                        // button eleven moves right down
+                        new Trigger(m_leftJoystick::getButtonEleven).whileTrue(m_climberSubsystem
+                                        .run(() -> m_climberSubsystem
+                                                        .setRightSpeed(Constants.ClimberConstants.kFastSpeed,
+                                                                        m_leftJoystick.getButtonThree())));
+                }
+                // follow and intake note: this is a test
+                // new Trigger(m_operatorController::getLeftStickPressed)
+                // .whileTrue(new FollowAndIntake(m_intakeSubsystem, m_driveSubsystem,
+                // m_intakeCamera,
+                // m_liftSubsystem, m_shooterSubsystem));
+
+                // zero absolute encoder lift
+                new Trigger(m_operatorController::getBackButton).and(m_operatorController::getStartButton)
+                                .onTrue(m_liftSubsystem.runOnce(() -> m_liftSubsystem.zero()));
+
+                // pulse intake to center note
+                new Trigger(m_operatorController::getYButton).onTrue(new Pulse(m_intakeSubsystem));
+
+                // orient to speaker
+                new Trigger(() -> m_rightJoystick.getPovState() == 180)
+                                .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                                                () -> (Robot.allianceColor) ? 4 : 7, () -> 0, m_rightJoystick::getX,
+                                                m_rightJoystick::getY));
+
+                // follow note automatically
+                new Trigger(m_rightJoystick::getButtonThree).whileTrue(new FollowAndIntake(m_intakeSubsystem,
+                                m_driveSubsystem, m_intakeCamera, m_liftSubsystem, m_shooterSubsystem));
+
+                // orient to amp blue
+                // new Trigger(() -> m_rightJoystick.getPovState() == 270)
+                // .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                // () -> 6, () -> 90/*
+                // * TODO:may need 270, and may need to invert joystick
+                // */, m_rightJoystick::getX));
+                // orient to amp red
+                // new Trigger(() -> m_rightJoystick.getPovState() == 90)
+                // .whileTrue(new SnapToAndAlign(m_driveSubsystem, m_shooterCamera,
+                // () -> 5, () -> 270/*
+                // * TODO:may need 90, and may need to invert joystick
+                // */, m_rightJoystick::getX));
+
+                new Trigger(() -> m_operatorController.getPovState() == 180)
+                                .whileTrue(new Shoot(() -> 5500, () -> 5500, () -> 90,
+                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+
+                new Trigger(() -> m_operatorController.getPovState() == 0)
+                                .whileTrue(new Shoot(() -> 4000, () -> 5500, () -> 70,
+                                                m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem));
+                new Trigger(m_rightJoystick::getTriggerActive)
+                                .and(() -> CommandScheduler.getInstance().requiring(
+                                                m_shooterSubsystem) == m_shooterSubsystem.getDefaultCommand())
+                                .whileTrue(new SetSpinAndAngle(() -> 70, () -> 4000, () -> 5500, m_shooterSubsystem));
+
+                new Trigger(m_rightJoystick::getTriggerActive).onFalse(
+                                new ShootWhenSpinning(m_intakeSubsystem, m_shooterSubsystem, m_liftSubsystem)
+                                                .onlyIf(() -> m_shooterSubsystem.getAverageRPM() > 3000));
+
+                new Trigger(() -> m_operatorController.getPovState() == 90)
+                                .onTrue(new LoadAmp(m_shooterSubsystem, m_intakeSubsystem));
+                new Trigger(m_operatorController::getLeftStickPressed).onTrue(
+                                new SetWristAngle(() -> Constants.ShooterConstants.kLiftSafeAngle, m_shooterSubsystem));
+                new Trigger(() -> m_operatorController.getPovState() == 270).onTrue(
+                                new SetSpin(() -> 5500, m_shooterSubsystem));
+                new Trigger(m_operatorController::getRightStickPressed).onTrue(
+                                new SetWristAngle(() -> Constants.ShooterConstants.kAmpAngle, m_shooterSubsystem));
+                new Trigger(m_operatorController::getBackButton).onTrue(new SetWristAngle(
+                                () -> Constants.ShooterConstants.kIntakeSafeAngle, m_shooterSubsystem));
+
+                // tuck everything in for safety
+                new Trigger(m_leftJoystick::getButtonTwo).and(m_leftJoystick::getButtonThree)
+                                .onTrue(new TuckItIn(m_liftSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+
+                new Trigger(() -> !Constants.Sensors.intakeLimitSwitch.get())
+                                .and(() -> m_intakeSubsystem.getPosition() < 50)
+                                .onTrue(new UpAndPulse(m_intakeSubsystem, m_liftSubsystem, m_shooterSubsystem,
+                                                () -> 2000)
+                                                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
+                new Trigger(m_operatorController::getLeftBumper).onTrue(new Command() {
+                        @Override
+                        public void initialize() {
+                                CommandScheduler.getInstance().cancelAll();
+                        }
+                });
+
         }
 
         public Command getAutonomousCommand() {
